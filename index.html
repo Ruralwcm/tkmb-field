@@ -139,14 +139,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.19</h2>
+  <h2>TKMB Field v1.20</h2>
   <div class="sub">Scan QH · Check-in · Tiếp nhận MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.19 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.20 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -272,7 +272,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
   <button style="float:right;background:none;border:none;color:var(--m);cursor:pointer;font-size:16px" onclick="clearQHRef()" title="Bỏ liên kết">✕</button>
  </div>
  <div class="card">
-  <h3>📋 Tiếp nhận Mặt Bằằng</h3>
+  <h3>📋 Tiếp nhận Mặt Bằng</h3>
   <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👥 GĐV → QLKV → Tỉnh → Huyện</div>
   <div class="gr gr2">
    <div class="fg"><label>GĐV *</label><select id="mbGDV" onchange="onGDVChange()"><option value="">-- Chọn GĐV --</option></select></div>
@@ -304,7 +304,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 
   <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">📋 Pháp lý · Hiện trạng · Bàn giao</div>
   <div class="gr gr3">
-   <div class="fg"><label>Pháp lý</label><select id="mbLegal"><option value="">-- Chọn --</option><option>Sổ đỏ chính chủ</option><option>Sổ đỏ đồng sởở hữu</option><option>Hợợp đồng ủy quyền</option><option>Giấy tờ khác</option><option>Đang chờ xác minh</option></select></div>
+   <div class="fg"><label>Pháp lý</label><select id="mbLegal"><option value="">-- Chọn --</option><option>Sổ đỏ chính chủ</option><option>Sổ đỏ đồng sở hữu</option><option>Hợp đồng ủy quyền</option><option>Giấy tờ khác</option><option>Đang chờ xác minh</option></select></div>
    <div class="fg"><label>Hiện trạng</label><select id="mbCondition"><option value="">-- Chọn --</option><option>Nhà trống</option><option>Đang kinh doanh</option><option>Đất trống</option><option>Đang xây dựng</option><option>Cần sửa chữa</option></select></div>
    <div class="fg"><label>TG bàn giao</label><input type="date" id="mbHandover"></div>
   </div>
@@ -317,7 +317,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    <div class="fg"><label>BCT - SĐT</label><input type="text" id="mbBCTPhone" placeholder="SĐT"></div>
   </div>
 
-  <button class="btn-s" onclick="submitTKMB()">📤 Gửi Mặt Bằằng → Chờ GĐV duyệt</button>
+  <button class="btn-s" onclick="submitTKMB()">📤 Gửi Mặt Bằng → Chờ GĐV duyệt</button>
  </div>
 </div>
 
@@ -420,7 +420,7 @@ function showApp(){
   document.getElementById('appWrap').style.display='flex';
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
-  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.19';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.20';
   // Duyet MB tab removed
   populateGDV();
 }
@@ -581,7 +581,7 @@ function loadDacthu(qh){
 async function saveCheckinOnly(){
   if(!scanSel||!checkinQHRef) return;
 
-  // v1.19: Read from evaluation form (Block 5) instead of prompt()
+  // v1.20: Read from evaluation form (Block 5) instead of prompt()
   const mbTieuChi=document.getElementById('ciMBTieuChi')?.value||'';
   const mbGhepCan=document.getElementById('ciMBGhepCan')?.value||'';
 
@@ -598,7 +598,7 @@ async function saveCheckinOnly(){
 
   const priceInfo=document.getElementById('ciPriceInfo')?.value||'';
 
-  // v1.19: Validate giá thuê format
+  // v1.20: Validate giá thuê format
   if(priceInfo.trim()&&!/^.+\s*-\s*MT:\s*\d+m\s*-\s*DT:\s*\d+m2\s*-\s*GT:\s*\d+tr$/i.test(priceInfo.trim())){
     toast('⚠️ Giá thuê sai định dạng! Mẫu: Tên - MT: Xm - DT: Xm2 - GT: Xtr','err');
     return;
@@ -815,7 +815,7 @@ function onQHBSHuyenChange(){
 }
 
 function toggleQHBSForm(){
-  // v1.19: Auto-generate QHBS point and open FULL check-in
+  // v1.20: Auto-generate QHBS point and open FULL check-in
   if(!scanGPS.lat){toast('⚠️ Đang chờ GPS...','err');return;}
 
   // Generate QHBS code
