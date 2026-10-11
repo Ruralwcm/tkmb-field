@@ -48,6 +48,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .gps-status{font-size:11px;color:var(--m);margin-top:8px}
 .gps-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#ccc;margin-right:4px}
 .gps-dot.ok{background:var(--s)}
+
 .qh-card{cursor:pointer;background:#fff;border-radius:8px;padding:10px 12px;margin-bottom:6px;border:1px solid #ede9fe;transition:transform .15s}
 .qh-card:active{transform:scale(.98)}
 .qh-code{font-weight:700;font-size:14px;color:var(--p)}
@@ -59,12 +60,32 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .no-result{text-align:center;padding:24px;color:var(--m)}
 .back-btn{background:none;border:none;color:var(--p);font-size:13px;font-weight:600;cursor:pointer;margin-bottom:10px}
 
+/* QHBS */
+.qhbs-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff;border:none;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(124,58,237,.3);transition:transform .15s;margin-top:12px}
+.qhbs-btn:active{transform:scale(.95)}
+.qhbs-generated{background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:10px 14px;margin-top:8px;text-align:center}
+.qhbs-generated .code{font-size:16px;font-weight:800;color:#15803d}
+.qhbs-generated .note{font-size:10px;color:#6b7280;margin-top:2px}
+
+/* CHECKIN BLOCKS */
+.block-label{display:inline-flex;align-items:center;gap:4px;background:var(--p);color:#fff;font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;margin-bottom:6px}
+.history-item{padding:6px 0;border-bottom:1px solid #f3f4f6;font-size:11px}
+.history-item:last-child{border:none}
+.history-date{color:var(--m);font-size:10px}
+.history-badge{display:inline-block;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;margin-left:4px}
+.history-badge.mb{background:#fef3c7;color:#92400e}
+.history-badge.nomb{background:#e0f2fe;color:#0369a1}
+.dacthu-box{background:#f9fafb;border-radius:6px;padding:8px 10px;margin-bottom:6px;font-size:11px}
+.dacthu-box .dt-title{font-weight:600;color:var(--p);margin-bottom:3px}
+.dacthu-empty{color:var(--m);font-style:italic;font-size:11px}
+
 /* FORM */
 .fg{margin-bottom:8px}
 .fg label{display:block;font-size:10px;font-weight:600;color:var(--m);text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
 .fg input,.fg select,.fg textarea{padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;width:100%;background:#fafafa}
 .fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--pl);background:#fff}
 .fg textarea{resize:vertical;min-height:60px}
+.fg input[readonly]{background:#f3f4f6;color:var(--m)}
 .gr{display:grid;gap:8px 12px}
 .gr2{grid-template-columns:1fr 1fr}
 .gr3{grid-template-columns:1fr 1fr 1fr}
@@ -72,20 +93,26 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 .btn-p{width:100%;padding:12px;background:var(--s);color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer}
 .btn-p:active{background:#15803d}
 .btn-s{width:100%;padding:11px;background:var(--p);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;margin-top:12px}
+.btn-o{width:100%;padding:11px;background:#fff;color:var(--p);border:1px solid var(--pl);border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
+.btn-w{width:100%;padding:11px;background:#fff;color:var(--m);border:1px solid var(--b);border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
 
 /* MAP */
 .map-box{background:linear-gradient(135deg,#eff6ff,#f0f9ff);border:2px dashed #93c5fd;border-radius:var(--r);padding:10px 14px;margin:8px 0;display:flex;align-items:center;gap:10px}
-.map-box .mi{font-size:24px;flex-shrink:0}
-.map-box .min{flex:1;min-width:0}
-.map-res{background:#fff;border-radius:8px;padding:8px 10px;text-align:center;flex:1}
-.map-res .qh-name{font-weight:700;color:var(--p);font-size:11px}
-.map-res .qh-dist{font-size:20px;font-weight:800;color:var(--s)}
 
-/* TIMELINE */
-.tl-item{position:relative;padding:0 0 12px 18px;border-left:2px solid #ede9fe;font-size:11px}
-.tl-item:last-child{border-left-color:transparent}
-.tl-item::before{content:'';position:absolute;left:-5px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--p)}
-.tl-date{color:#aaa;font-size:10px}
+/* DUYỆT */
+.mb-row{background:#fff;border:1px solid #f0edf5;border-radius:8px;padding:12px;margin-bottom:8px;cursor:pointer;transition:transform .15s}
+.mb-row:active{transform:scale(.98)}
+.mb-row .mb-id{font-weight:700;color:var(--p);font-size:14px}
+.mb-row .mb-addr{font-size:11px;color:var(--m);margin-top:2px}
+.mb-row .mb-meta{font-size:10px;color:var(--m);margin-top:4px}
+.mb-status{padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700;display:inline-block}
+.mb-status.pending{background:#fef3c7;color:#92400e}
+.mb-status.approved{background:#dcfce7;color:#15803d}
+.mb-status.rejected{background:#fee2e2;color:#991b1b}
+.duyet-actions{display:flex;gap:8px;margin-top:8px}
+.duyet-actions button{flex:1;padding:8px;border:none;border-radius:6px;font-size:12px;font-weight:700;cursor:pointer}
+.btn-approve{background:var(--s);color:#fff}
+.btn-reject{background:var(--d);color:#fff}
 
 /* TOAST */
 .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 16px;border-radius:16px;font-size:12px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none}
@@ -107,13 +134,13 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
  <div class="login-c">
   <div class="icon">🏗️</div>
   <h2>TKMB Field</h2>
-  <div class="sub">Scan QH & Tiếp nhận MB</div>
+  <div class="sub">Scan QH · Check-in · Tiếp nhận MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.0 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.2 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -125,12 +152,14 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 <div class="nav" id="appNav" style="display:none">
  <button class="active" data-tab="scan" onclick="switchTab('scan')">📍 Scan QH</button>
  <button data-tab="tkmb" onclick="switchTab('tkmb')">📋 Tiếp nhận MB</button>
+ <button data-tab="duyet" onclick="switchTab('duyet')" id="navDuyet" style="display:none">✅ Duyệt MB</button>
 </div>
 <div class="main" id="appMain" style="display:none">
 
-<!-- SCAN PAGE -->
+<!-- ═══ SCAN PAGE ═══ -->
 <div class="page active" id="pgScan">
- <div class="card" style="text-align:center">
+ <!-- Scan hero -->
+ <div class="card" style="text-align:center" id="scanHero">
   <h3>📍 Scan điểm Quy Hoạch</h3>
   <div class="scan-hero">
    <button class="scan-btn" id="scanBtn" onclick="doScan()"><span style="font-size:28px">📍</span><span>Scan QH</span></button>
@@ -138,76 +167,136 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
    <div style="font-size:9px;color:#aaa" id="gpsCoords"></div>
   </div>
   <div id="scanResults"></div>
- </div>
- <div id="scanDetail" style="display:none">
-  <button class="back-btn" onclick="closeScanDetail()">← Quay lại</button>
-  <div class="card" id="scanInfo"></div>
-  <div class="card">
-   <h3>📝 Ghi nhận khảo sát</h3>
-   <div class="gr gr2"><div class="fg"><label>Ngày KS</label><input type="date" id="fNgayKS"></div><div class="fg"><label>Giá thuê KV (tr/th)</label><input type="number" id="fGiaKV" placeholder="VD: 12"></div></div>
-   <div class="fg"><label>Địa chỉ nhà</label><input type="text" id="fDiaChi" placeholder="Số nhà, đường, phường/xã"></div>
-   <div class="gr gr2"><div class="fg"><label>Diện tích (m²)</label><input type="number" id="fDienTich" placeholder="VD: 120"></div><div class="fg"><label>Mặt tiền (m)</label><input type="number" id="fMatTien" placeholder="VD: 8"></div></div>
-   <div class="gr gr2"><div class="fg"><label>Giá thuê nhà (tr/th)</label><input type="number" id="fGiaThue" placeholder="VD: 15"></div><div class="fg"><label>Cơ hội ghép căn</label><select id="fGhepCan"><option value="">— Chọn —</option><option value="Có">✅ Có thể ghép</option><option value="Không">❌ Không</option><option value="Cần KS thêm">🔄 Cần KS thêm</option></select></div></div>
-   <div class="fg"><label>Ghi chú</label><textarea id="fGhiChu" rows="2" placeholder="Thông tin thêm..."></textarea></div>
-   <button class="btn-p" onclick="saveScanQH()">💾 Lưu khảo sát</button>
+  <div style="text-align:center;margin-top:4px">
+   <button class="qhbs-btn" id="qhbsBtn" onclick="toggleQHBSForm()">➕ Đềề xuấất điểểm Quy hoạạch</button>
+   <div id="qhbsGenerated" style="display:none"></div>
   </div>
+  <div id="qhbsFormWrap" style="display:none">
+   <div class="card" style="margin-top:8px;text-align:left">
+    <h3>📝 Đềề xuấất điểểm Quy hoạạch mớii</h3>
+    <div class="gr gr2">
+     <div class="fg"><label>Tỉỉnh/TP *</label><select id="qhbsTinh" onchange="onQHBSTinhChange()"><option value="">-- Chọọn Tỉỉnh/TP --</option></select></div>
+     <div class="fg"><label>Huyệện/Quậận *</label><select id="qhbsHuyen" onchange="onQHBSHuyenChange()"><option value="">-- Chọọn Huyệện/Quậận --</option></select></div>
+    </div>
+    <div class="fg"><label>Xã/Phườờng/Thịị trấấn *</label><input type="text" id="qhbsXa" placeholder="Tên xã/phường"></div>
+    <div class="gr gr2">
+     <div class="fg"><label>GĐV *</label><select id="qhbsGDV"><option value="">-- Chọọn GĐV --</option></select></div>
+     <div class="fg"><label>QLKV</label><input type="text" id="qhbsQLKV" placeholder="Tên QLKV"></div>
+    </div>
+    <div class="gr gr2">
+     <div class="fg"><label>Kinh độộ (Lng)</label><input type="text" id="qhbsLng" placeholder="Tự độộng từ GPS"></div>
+     <div class="fg"><label>Vĩĩ độộ (Lat)</label><input type="text" id="qhbsLat" placeholder="Tự độộng từ GPS"></div>
+    </div>
+    <div class="fg"><label>Ghi chú / Mô tảả vịị trí</label><textarea id="qhbsNote" rows="2" placeholder="VD: Gần chợ, ngã tư đông dân..."></textarea></div>
+    <div style="display:flex;gap:8px;margin-top:12px">
+     <button class="btn-p" onclick="submitQHBS()" style="flex:1">💾 Lưu điểểm QHBS</button>
+     <button style="flex:1;padding:12px;background:#e5e7eb;color:#374151;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer" onclick="toggleQHBSForm()">Hủy</button>
+    </div>
+   </div>
+  </div>
+ </div>
+
+ <!-- CHECKIN VIEW (shown after selecting a QH) -->
+ <div id="checkinView" style="display:none">
+  <button class="back-btn" onclick="closeCheckin()">← Quay lạii Scan</button>
+
+  <!-- Block 1: Auto-fill -->
   <div class="card">
-   <h3>📋 Lịch sử khảo sát</h3>
-   <div id="scanTimeline" style="text-align:center;color:var(--m);font-size:12px">Đang tải...</div>
+   <span class="block-label">1️⃣ Check-in</span>
+   <div class="gr gr2">
+    <div class="fg"><label>Mã QH</label><input type="text" id="ciQH" readonly></div>
+    <div class="fg"><label>Thờii gian</label><input type="text" id="ciTime" readonly></div>
+   </div>
+   <div class="gr gr2">
+    <div class="fg"><label>Ngườii check-in</label><input type="text" id="ciUser" readonly></div>
+    <div class="fg"><label>Tọa độộ GPS</label><input type="text" id="ciGPS" readonly></div>
+   </div>
+  </div>
+
+  <!-- Block 2: History -->
+  <div class="card">
+   <span class="block-label">2️⃣ Lịch sửử Check-in (3 lầần gầần nhấất)</span>
+   <div id="ciHistory"><div class="dacthu-empty">Đang tảii...</div></div>
+  </div>
+
+  <!-- Block 3: Đặc thù -->
+  <div class="card">
+   <span class="block-label">3️⃣ Đặặc thù điểểm QH</span>
+   <div id="ciDacthu"><div class="dacthu-empty">Đang tảii...</div></div>
+  </div>
+
+  <!-- Block 4 & 5: Actions -->
+  <div class="card">
+   <span class="block-label">4️⃣ MB tiềềm năng</span>
+   <div style="font-size:11px;color:var(--m);margin-bottom:10px">Nếếu có MB tiềềm năng tạii điểểm này → chuyểển sang tab Tiếếp nhậận MB</div>
+   <button class="btn-s" onclick="goToTKMB()">➕ Thêm MB → Sang tab Tiếếp nhậận</button>
+   <div style="text-align:center;margin:10px 0;font-size:11px;color:var(--m)">— hoặặc —</div>
+   <button class="btn-w" onclick="saveCheckinOnly()">✅ Không có MB — Lưu check-in</button>
   </div>
  </div>
 </div>
 
-<!-- TKMB PAGE -->
+<!-- ═══ TKMB PAGE ═══ -->
 <div class="page" id="pgTKMB">
+ <div id="tkmbQHRef" style="display:none;background:#ede9fe;padding:8px 12px;border-radius:6px;margin-bottom:10px;font-size:11px">
+  🔗 Từ check-in: <b id="tkmbQHLabel">—</b>
+  <button style="float:right;background:none;border:none;color:var(--m);cursor:pointer;font-size:16px" onclick="clearQHRef()" title="Bỏ liên kết">✕</button>
+ </div>
  <div class="card">
-  <h3>📋 Tiếp nhận Mặt Bằng</h3>
-  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👥 GĐV → QLKV → Tỉnh → Huyện</div>
+  <h3>📋 Tiếếp nhậận Mặặt Bằằng</h3>
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👥 GĐV → QLKV → Tỉỉnh → Huyệện</div>
   <div class="gr gr2">
-   <div class="fg"><label>GĐV *</label><select id="mbGDV" onchange="onGDVChange()"><option value="">-- Chọn GĐV --</option></select></div>
-   <div class="fg"><label>QLKV *</label><select id="mbQLKV" onchange="onQLKVChange()" disabled><option value="">-- Chọn QLKV --</option></select></div>
-   <div class="fg"><label>Tỉnh/TP *</label><select id="mbTinh" onchange="onTinhChange()" disabled><option value="">-- Chọn Tỉnh/TP --</option></select></div>
-   <div class="fg"><label>Huyện/Quận *</label><select id="mbHuyen" disabled><option value="">-- Chọn Huyện/Quận --</option></select></div>
+   <div class="fg"><label>GĐV *</label><select id="mbGDV" onchange="onGDVChange()"><option value="">-- Chọọn GĐV --</option></select></div>
+   <div class="fg"><label>QLKV *</label><select id="mbQLKV" onchange="onQLKVChange()" disabled><option value="">-- Chọọn QLKV --</option></select></div>
+   <div class="fg"><label>Tỉỉnh/TP *</label><select id="mbTinh" onchange="onTinhChange()" disabled><option value="">-- Chọọn Tỉỉnh/TP --</option></select></div>
+   <div class="fg"><label>Huyệện/Quậận *</label><select id="mbHuyen" disabled><option value="">-- Chọọn Huyệện/Quậận --</option></select></div>
   </div>
 
-  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">📍 Địa chỉ & Thông số</div>
-  <div class="fg"><label>Địa chỉ cụ thể *</label><input type="text" id="mbAddr" placeholder="VD: Thôn Dục Tú, xã Dục Tú, Đông Anh"></div>
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">📍 Địa chỉỉ & Thông sốố</div>
+  <div class="fg"><label>Địa chỉỉ cụụ thểể *</label><input type="text" id="mbAddr" placeholder="VD: Thôn Dục Tú, xã Dục Tú, Đông Anh"></div>
   <div class="gr gr6">
    <div class="fg"><label>DT (m²)</label><input type="text" inputmode="decimal" id="mbArea" placeholder="12.5"></div>
    <div class="fg"><label>MT (m)</label><input type="text" inputmode="decimal" id="mbFront" placeholder="6.5"></div>
    <div class="fg"><label>Giá (tr/th)</label><input type="text" inputmode="decimal" id="mbPrice" placeholder="15.5"></div>
-   <div class="fg"><label>Thanh toán</label><input type="text" id="mbPayment" placeholder="3 tháng/lần"></div>
-   <div class="fg"><label>Cọc (tr)</label><input type="text" inputmode="decimal" id="mbDeposit" placeholder="30"></div>
-   <div class="fg"><label>Thời hạn</label><input type="text" id="mbDuration" placeholder="5 năm"></div>
+   <div class="fg"><label>Thanh toán</label><input type="text" id="mbPayment" placeholder="3 tháng/lầần"></div>
+   <div class="fg"><label>Cọọc (tr)</label><input type="text" inputmode="decimal" id="mbDeposit" placeholder="30"></div>
+   <div class="fg"><label>Thờii hạạn</label><input type="text" id="mbDuration" placeholder="5 năm"></div>
   </div>
 
-  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">🗺 Định vị Map</div>
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">🗺 Định vịị Map</div>
   <div class="map-box">
-   <div class="mi">📍</div>
-   <div class="min"><div class="fg"><label>Link Google Maps hoặc Tọa độ (lat, lng)</label><input type="text" id="mbMapLink" placeholder="VD: 21.0179, 105.9650 hoặc maps link" oninput="onMapInput()"></div></div>
+   <div style="font-size:24px;flex-shrink:0">📍</div>
+   <div style="flex:1;min-width:0"><div class="fg"><label>Link Google Maps hoặặc Tọa độộ (lat, lng)</label><input type="text" id="mbMapLink" placeholder="VD: 21.0179, 105.9650" oninput="onMapInput()"></div></div>
   </div>
   <div id="mapResult" style="display:none"><div style="display:flex;gap:6px;margin-top:6px">
-   <div class="map-res"><div style="font-size:8px;color:var(--m)">📍 Điểm QH gần nhất</div><div class="qh-name" id="qhName">—</div><div style="font-size:9px;color:var(--m)" id="qhDetail"></div></div>
-   <div class="map-res"><div style="font-size:8px;color:var(--m)">📏 Khoảng cách</div><div class="qh-dist" id="qhDistance">—</div><div style="font-size:9px;color:var(--m)" id="qhDistLabel"></div></div>
-   <div class="map-res"><div style="font-size:8px;color:var(--m)">🎯 Đánh giá</div><div style="font-size:12px;font-weight:700" id="qhEval">—</div></div>
+   <div style="background:#fff;border-radius:8px;padding:8px 10px;text-align:center;flex:1"><div style="font-size:8px;color:var(--m)">📍 Điểểm QH gầần nhấất</div><div style="font-weight:700;color:var(--p);font-size:11px" id="qhName">—</div><div style="font-size:9px;color:var(--m)" id="qhDetail"></div></div>
+   <div style="background:#fff;border-radius:8px;padding:8px 10px;text-align:center;flex:1"><div style="font-size:8px;color:var(--m)">📏 Khoảảng cách</div><div style="font-size:20px;font-weight:800;color:var(--s)" id="qhDistance">—</div></div>
   </div></div>
 
-  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">📋 Pháp lý · Hiện trạng · Bàn giao</div>
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">📋 Pháp lý · Hiệện trạạng · Bàn giao</div>
   <div class="gr gr3">
-   <div class="fg"><label>Pháp lý</label><select id="mbLegal"><option value="">-- Chọn --</option><option>Sổ đỏ chính chủ</option><option>Sổ đỏ đồng sở hữu</option><option>Hợp đồng ủy quyền</option><option>Giấy tờ khác</option><option>Đang chờ xác minh</option></select></div>
-   <div class="fg"><label>Hiện trạng</label><select id="mbCondition"><option value="">-- Chọn --</option><option>Nhà trống</option><option>Đang kinh doanh</option><option>Đất trống</option><option>Đang xây dựng</option><option>Cần sửa chữa</option></select></div>
+   <div class="fg"><label>Pháp lý</label><select id="mbLegal"><option value="">-- Chọọn --</option><option>Sổ đỏỏ chính chủủ</option><option>Sổ đỏỏ đồồng sởở hữữu</option><option>Hợợp đồồng ủủy quyềền</option><option>Giấấy tờờ khác</option><option>Đang chờờ xác minh</option></select></div>
+   <div class="fg"><label>Hiệện trạạng</label><select id="mbCondition"><option value="">-- Chọọn --</option><option>Nhà trốống</option><option>Đang kinh doanh</option><option>Đấất trốống</option><option>Đang xây dựựng</option><option>Cầần sửửa chữữa</option></select></div>
    <div class="fg"><label>TG bàn giao</label><input type="text" id="mbHandover" placeholder="VD: 15/10"></div>
   </div>
 
-  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👤 Người GT & Chủ nhà</div>
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👤 Ngườii GT & Chủủ nhà</div>
   <div class="gr" style="grid-template-columns:1fr 1fr">
-   <div class="fg"><label>Người GT</label><input type="text" id="mbGTName" placeholder="Tên người GT"></div>
+   <div class="fg"><label>Ngườii GT</label><input type="text" id="mbGTName" placeholder="Tên ngườii GT"></div>
    <div class="fg"><label>MNV</label><input type="text" id="mbGTMNV" placeholder="Mã NV"></div>
-   <div class="fg"><label>BCT - Tên</label><input type="text" id="mbBCT" placeholder="Tên chủ nhà"></div>
+   <div class="fg"><label>BCT - Tên</label><input type="text" id="mbBCT" placeholder="Tên chủủ nhà"></div>
    <div class="fg"><label>BCT - SĐT</label><input type="text" id="mbBCTPhone" placeholder="SĐT"></div>
   </div>
 
-  <button class="btn-s" onclick="submitTKMB()">📤 Gửi Mặt Bằng → Chờ GĐV duyệt</button>
+  <button class="btn-s" onclick="submitTKMB()">📤 Gửửi Mặặt Bằằng → Chờờ GĐV duyệệt</button>
+ </div>
+</div>
+
+<!-- �══ DUYỆT PAGE �══ -->
+<div class="page" id="pgDuyet">
+ <div class="card">
+  <h3>✅ Duyệệt MB chờờ GĐV</h3>
+  <div id="duyetList"><div style="text-align:center;padding:24px;color:var(--m)"><div class="spin"></div><div style="font-size:11px;margin-top:8px">Đang tảii danh sách...</div></div></div>
  </div>
 </div>
 
@@ -218,6 +307,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
 
 <script>
 // ═══ CONFIG ═══
+const DB_SHEET = '1jac8uf8eeB57C-zZ85Lg_l-UwpPxOTPkcoQ2mywMZyw';
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbz-BBkWkq8ye9K-ua-QDWWw2fBbBIXFx4ivvc6ViiBUwIzPizJhD2YT0OQy2o_C1GUl/exec';
 const QH_URL = 'qh_points.json';
 const SCAN_R = 100;
@@ -246,13 +336,26 @@ const USERS = [
 // ═══ CASCADE ═══
 const CASCADE = {"Bùi Thị Thu Nhài":{"Bùi Thị Thu Nhài":{"TP. Hà Nội":["H. Hoài Đức","H. Đan Phượng"]},"Nguyễn Hữu Huân":{"TP. Hà Nội":["H. Đan Phượng"]},"Nguyễn Thị Hồng":{"TP. Hà Nội":["H. Ba Vì"]},"Nguyễn Thị Thu Hương":{"TP. Hà Nội":["H. Phúc Thọ"]},"Ngô Thị Quỳnh Anh":{"TP. Hà Nội":["H. Hoài Đức"]},"Phan Phúc Tân":{"TP. Hà Nội":["H. Ba Vì","H. Phúc Thọ"]},"Phạm Thị Nhâm":{"TP. Hà Nội":["H. Hoài Đức"]}},"Dương Tùng":{"Bùi Thị Thu Trang":{"TP. Hà Nội":["H. Ứng Hòa"]},"Dương Tùng":{"T. Hoà Bình":["H. Cao Phong","H. Lương Sơn","H. Mai Châu","H. Tân Lạc","TP. Hoà Bình"]},"Nguyễn Thị Dung":{"TP. Hà Nội":["H. Mỹ Đức"]},"Phạm Thị Bưởi":{"T. Hoà Bình":["H. Đà Bắc"]},"Vũ Thị Hương":{"T. Hoà Bình":["H. Lạc Thủy","H. Yên Thủy"]},"Đinh Thị Thu Hiền":{"T. Hoà Bình":["H. Lạc Sơn"]},"Đỗ Thanh Thủy":{"T. Sơn La":["H. Mộc Châu","H. Phù Yên","H. Vân Hồ"]}},"Hồ Nam":{"Bàn Văn Minh":{"T. Phú Thọ":["H. Hạ Hoà"]},"Cấn Văn Hoàn":{"T. Phú Thọ":["H. Thanh Ba"]},"Dương Đức Tài":{"T. Thái Nguyên":["H. Đồng Hỷ"]},"Hoàng Văn Huỳnh":{"T. Tuyên Quang":["H. Chiêm Hoá"]},"Lộc Thị Tươi":{"T. Tuyên Quang":["TP. Tuyên Quang"]},"Lương Văn Thửa":{"T. Thái Nguyên":["H. Phú Lương"]},"Lý Văn Sinh":{"T. Thái Nguyên":["H. Định Hoá"]},"Lê Thị Thu":{"T. Phú Thọ":["H. Thanh Thuỷ"]},"Ma Văn Toàn":{"T. Phú Thọ":["H. Thanh Sơn"]},"Nguyễn Ngọc Tâm":{"T. Phú Thọ":["H. Tam Nông","H. Thanh Sơn"]},"Nguyễn Trọng Hoàng":{"T. Bắc Kạn":["H. Ba Bể"]},"Nguyễn Văn Bình":{"T. Phú Thọ":["H. Yên Lập"]},"Nguyễn Đình Hậu":{"TP. Hà Nội":["H. Ba Vì"]},"Nông Minh Sơn":{"T. Tuyên Quang":["H. Na Hang"]},"Phùng Minh Hoàng":{"T. Tuyên Quang":["H. Sơn Dương"]},"Triệu Đức Thành":{"T. Bắc Kạn":["TP. Bắc Kạn"]},"Trần Trọng Hiếu":{"TP. Hà Nội":["H. Ba Vì"]},"Tạ Quốc Oanh":{"T. Phú Thọ":["H. Cẩm Khê"]},"Tạ Vân Anh":{"TP. Hà Nội":["H. Sơn Tây"]},"Vi Văn Đại":{"T. Phú Thọ":["H. Tân Sơn"]},"Đỗ Hải Võ":{"T. Thái Nguyên":["TP. Thái Nguyên"]}},"Lê Thị Hồng Thu":{"Lê Thị Hồng Thu":{"T. Hải Dương":["H. Nam Sách","TP. Chí Linh","TP. Hải Dương"]},"Nguyễn Thị Thu":{"T. Hải Dương":["H. Cẩm Giàng","H. Kim Thành"]},"Phạm Thị Hải":{"T. Hải Dương":["H. Thanh Hà","TP. Hải Dương"]},"Trần Thị Hoa":{"T. Hải Dương":["H. Kinh Môn"]},"Đào Thị Hường":{"T. Hải Dương":["H. Ninh Giang"]}},"Nguyễn Duy Đoàn":{"Chu Văn Anh":{"T. Hưng Yên":["H. Văn Giang"]},"Dương Thị Hòa":{"T. Hưng Yên":["H. Khoái Châu"]},"Lưu Văn Sơn":{"T. Hưng Yên":["H. Mỹ Hào","H. Văn Lâm"]},"Lê Văn Thao":{"T. Hưng Yên":["TP. Hưng Yên"]},"Nguyễn Văn Luyến":{"T. Hưng Yên":["H. Văn Giang"]},"Nguyễn Đức Lợi":{"T. Bắc Ninh":["H. Thuận Thành","TP. Bắc Ninh"]},"Phạm Văn Huân":{"T. Hưng Yên":["H. Phù Cừ"]}},"Nguyễn Mạnh Sơn":{"Bùi Thị Thanh":{"T. Hà Giang":["H. Quang Bình"]},"Hoàng Xuân Tưởng":{"T. Tuyên Quang":["H. Yên Sơn"]},"Lâm Văn Hà":{"T. Hà Giang":["H. Vị Xuyên","TP. Hà Giang"]},"Mã Ích Dương":{"T. Hà Giang":["H. Quản Bạ","H. Yên Minh"]},"Nông Minh Hòa":{"T. Hà Giang":["H. Bắc Mê","H. Đồng Văn"]},"Phạm Hữu Tài":{"T. Hà Giang":["H. Hoàng Su Phì"]},"Trần Đức Anh":{"T. Hà Giang":["H. Mèo Vạc"]},"Trần Đức Dũng":{"T. Hà Giang":["H. Xín Mần"]},"Đặng Thị Bích Nhi":{"T. Hà Giang":["TP. Hà Giang"]}},"Nguyễn Thị Thu":{"Bùi Ngọc Quỳnh Trang":{"TP. Hà Nội":["H. Mỹ Đức"]},"Mai Thanh Hải":{"T. Thanh Hóa":["H. Nga Sơn"]},"Nguyễn Ngọc Tú":{"T. Thanh Hóa":["H. Hà Trung"]},"Nguyễn Thị Hằng":{"T. Nam Định":["H. Trực Ninh","H. Vụ Bản"]},"Phan Thị Mai":{"T. Nam Định":["H. Hải Hậu","H. Nghĩa Hưng"]},"Phạm Xuân Hùng":{"T. Thanh Hóa":["H. Hậu Lộc"]},"Phạm Đình Kỳ":{"T. Ninh Bình":["H. Hoa Lư","H. Yên Mô"]},"Trần Văn Thao":{"T. Ninh Bình":["H. Kim Sơn","H. Yên Khánh"]},"Vũ Ngọc Toàn":{"T. Nam Định":["H. Ý Yên","TP. Nam Định"]}},"Phạm Minh Thu":{"Bùi Văn Chiến":{"TP. Hà Nội":["H. Mê Linh"]},"Hoàng Thị Thảo":{"T. Vĩnh Phúc":["H. Vĩnh Tường","H. Yên Lạc"]},"Lê Văn Trung":{"T. Vĩnh Phúc":["H. Tam Dương","TP. Vĩnh Yên"]},"Lê Đức Toàn":{"T. Vĩnh Phúc":["H. Bình Xuyên","H. Tam Đảo"]},"Nguyễn Đức Thành":{"T. Vĩnh Phúc":["H. Lập Thạch","H. Sông Lô"]},"Ngô Thị Hà":{"TP. Hà Nội":["H. Sóc Sơn"]},"Trần Thu Trà":{"TP. Hà Nội":["H. Đông Anh","H. Gia Lâm"]},"Trần Văn Bắc":{"TP. Hà Nội":["H. Mê Linh"]},"Đoàn Thị Hương Giang":{"TP. Hà Nội":["H. Đông Anh"]}},"Tạ Công Nhận":{"Hoàng Văn Cường":{"T. Bắc Giang":["H. Lục Ngạn","H. Sơn Động"]},"Hà Văn Nhân":{"T. Bắc Ninh":["H. Quế Võ"]},"Nông Thị Minh Sơn":{"T. Lạng Sơn":["H. Bắc Sơn"]},"Phùng Văn Thịnh":{"T. Bắc Giang":["H. Lạng Giang","H. Yên Dũng"]},"Phạm Bá Quang":{"T. Bắc Ninh":["H. Gia Bình","H. Lương Tài"]},"Thân Văn Tùng":{"T. Bắc Giang":["TP. Bắc Giang"]},"Trần Thị Hợp":{"T. Lạng Sơn":["H. Hữu Lũng"]},"Vi Hoài Nam":{"T. Lạng Sơn":["H. Lộc Bình"]},"Đào Xuân Hải":{"T. Bắc Giang":["H. Tân Yên","H. Yên Thế"]}},"Tạ Quốc Huy":{"Lê Thị Mây":{"T. Hải Dương":["H. Thanh Miện"]},"Nguyễn Quốc Minh":{"T. Bắc Ninh":["H. Tiên Du","H. Yên Phong","TP. Từ Sơn"]},"Phạm Hồng Hải":{"T. Bắc Ninh":["TP. Bắc Ninh"]},"Trần Mạnh Hùng":{"T. Bắc Ninh":["H. Thuận Thành"]},"Vũ Đình Thức":{"T. Hải Dương":["H. Bình Giang"]}},"Đặng Văn Dũng":{"Lương Văn Chỉnh":{"T. Hà Nam":["H. Kim Bảng","H. Thanh Liêm","TP. Phủ Lý"]},"Nguyễn Việt Hùng":{"T. Thái Bình":["H. Quỳnh Phụ","H. Thái Thụy"]},"Nguyễn Đức Hải":{"T. Hà Nam":["H. Bình Lục","H. Duy Tiên","H. Lý Nhân"]},"Phạm Văn Tuân":{"T. Thái Bình":["H. Kiến Xương","H. Tiền Hải"]},"Trịnh Thanh Bình":{"T. Ninh Bình":["H. Gia Viễn","H. Nho Quan","H. Yên Khánh","TP. Ninh Bình","TP. Tam Điệp"]},"Trần Thị Hương":{"T. Hà Nam":["H. Duy Tiên","TP. Phủ Lý"]},"Vũ Đức Vượng":{"T. Thái Bình":["H. Hưng Hà","H. Vũ Thư","TP. Thái Bình"]}}};
 
+const TINH_MA = {
+  'TP. Hà Nội':'HNI','T. Hải Phòng':'HPG','T. Hà Nam':'HNA','T. Ninh Bình':'NB',
+  'T. Nam Định':'NĐ','T. Thái Bình':'TB','T. Hải Dương':'HD','T. Hưng Yên':'HY',
+  'T. Bắc Ninh':'BN','T. Bắc Giang':'BG','T. Lạng Sơn':'LS','T. Thái Nguyên':'TN',
+  'T. Tuyên Quang':'TQ','T. Hà Giang':'HG','T. Phú Thọ':'PT','T. Vĩnh Phúc':'VP',
+  'T. Hoà Bình':'HB','T. Sơn La':'SL','T. Điện Biên':'ĐB','T. Lào Cai':'LC',
+  'T. Yên Bái':'YB','T. Bắc Kạn':'BK','T. Cao Bằng':'CB','T. Quảng Ninh':'QN',
+  'T. Thanh Hóa':'TH','T. Nghệ An':'NA','T. Hà Tĩnh':'HT'
+};
+
 // ═══ STATE ═══
 let currentUser = null;
 let qhPoints = [];
 let scanGPS = {lat:null,lng:null,watchId:null};
 let scanSel = null;
+let checkinQHRef = null; // QH being checked-in, used to link to TKMB
 let mbIDSeq = parseInt(localStorage.getItem('tkmb_field_mb_seq')||'0');
-let localMBs = JSON.parse(localStorage.getItem('tkmb_field_mbs')||'[]');
+let qhbsSeq = JSON.parse(localStorage.getItem('tkmb_field_qhbs_seq')||'{}');
+let qhbsLocal = JSON.parse(localStorage.getItem('tkmb_field_qhbs')||'[]');
+let checkinLocal = JSON.parse(localStorage.getItem('tkmb_field_checkins')||'[]');
 
 // ═══ INIT ═══
 (function init(){
@@ -289,6 +392,7 @@ function showApp(){
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
   document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+')';
+  if(['GĐV','GĐM'].includes(currentUser.rank)) document.getElementById('navDuyet').style.display='block';
   populateGDV();
 }
 
@@ -301,7 +405,6 @@ function doLogout(){
   document.getElementById('appMain').style.display='none';
   document.getElementById('loginCode').value='';
   document.getElementById('loginPass').value='';
-  document.getElementById('loginErr').textContent='';
 }
 
 // ═══ TABS ═══
@@ -309,7 +412,8 @@ function switchTab(t){
   document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelector('[data-tab="'+t+'"]').classList.add('active');
-  document.getElementById(t==='scan'?'pgScan':'pgTKMB').classList.add('active');
+  document.getElementById(t==='scan'?'pgScan':t==='tkmb'?'pgTKMB':'pgDuyet').classList.add('active');
+  if(t==='duyet') loadDuyetList();
 }
 
 // ═══ GPS SCAN ═══
@@ -322,9 +426,7 @@ function startScanGPS(){
       document.getElementById('gpsText').textContent='GPS OK (±'+Math.round(pos.coords.accuracy)+'m)';
       document.getElementById('gpsCoords').textContent=scanGPS.lat.toFixed(6)+', '+scanGPS.lng.toFixed(6);
     },
-    function(err){
-      document.getElementById('gpsText').textContent='GPS: '+(err.code===1?'Bị từ chối':err.code===2?'Không tín hiệu':'Lỗi');
-    },
+    function(err){document.getElementById('gpsText').textContent='GPS: '+(err.code===1?'Bị từ chối':err.code===2?'Không tín hiệu':'Lỗi');},
     {enableHighAccuracy:true,maximumAge:30000,timeout:15000}
   );
 }
@@ -357,78 +459,151 @@ function doScan(){
 
     if(nearby.length>0){
       document.getElementById('scanResults').innerHTML='<div style="font-weight:600;font-size:12px;color:var(--p);margin-bottom:6px">✅ '+nearby.length+' điểm QH trong '+SCAN_R+'m</div>'+
-        nearby.map(p=>'<div class="qh-card" onclick="openScanDetail(\''+p.qh+'\')"><div class="qh-code">'+p.qh+'</div><div class="qh-addr">📍 '+
+        nearby.map(p=>'<div class="qh-card" onclick="openCheckin(\''+p.qh+'\')"><div class="qh-code">'+p.qh+'</div><div class="qh-addr">📍 '+
           [p.x,p.h,p.t].filter(Boolean).join(', ')+'</div><div class="qh-tags"><span class="qh-tag near">📏 '+Math.round(p.dist)+'m</span><span class="qh-tag gdv">👤 '+(p.gdv||'')+'</span></div></div>').join('');
       if(navigator.vibrate)navigator.vibrate(200);
     }else{
-      document.getElementById('scanResults').innerHTML='<div class="no-result"><div style="font-size:48px;margin-bottom:8px">📭</div><div style="font-weight:600">Không có điểm QH trong '+SCAN_R+'m</div><div style="margin-top:4px;font-size:12px">Gần nhất: <b>'+nearest.qh+'</b> cách <b>'+Math.round(nd)+'m</b></div></div>';
+      document.getElementById('scanResults').innerHTML='<div class="no-result"><div style="font-size:48px;margin-bottom:8px">📭</div><div style="font-weight:600">Không có điểm QH trong '+SCAN_R+'m</div><div style="margin-top:4px;font-size:12px">Gần nhất: <b>'+nearest.qh+'</b> cách <b>'+Math.round(nd)+'m</b></div><button class="qhbs-btn" onclick="openCheckin(\''+nearest.qh+'\',true)" style="margin-top:10px">📍 Check-in '+nearest.qh+' ('+Math.round(nd)+'m)</button></div>';
     }
   },200);
 }
 
-function openScanDetail(qh){
-  scanSel=qhPoints.find(p=>p.qh===qh);if(!scanSel)return;
+// ═══ CHECKIN FLOW ═══
+function openCheckin(qh,forceDist){
+  scanSel=qhPoints.find(p=>p.qh===qh);
+  if(!scanSel) return;
+  
+  checkinQHRef = qh;
+  document.getElementById('scanHero').style.display='none';
   document.getElementById('scanResults').style.display='none';
-  document.getElementById('scanDetail').style.display='block';
-  document.getElementById('scanInfo').innerHTML='<h3 style="color:var(--p);margin-bottom:6px">'+scanSel.qh+'</h3>'+
-    '<div style="font-size:12px;color:var(--m)">📍 '+[scanSel.x,scanSel.h,scanSel.t].filter(Boolean).join(', ')+'</div>'+
-    '<div style="font-size:12px;color:var(--m);margin-top:2px">👤 GĐV: '+(scanSel.gdv||'—')+' · QLKV: '+(scanSel.qlkv||'—')+' · '+(scanSel.vung||'')+'</div>';
-  document.getElementById('fNgayKS').value=new Date().toISOString().split('T')[0];
-  ['fGiaKV','fDiaChi','fDienTich','fMatTien','fGiaThue','fGhiChu'].forEach(id=>document.getElementById(id).value='');
-  document.getElementById('fGhepCan').value='';
-  loadScanHistory(qh);
+  document.getElementById('checkinView').style.display='block';
+
+  // Block 1: Auto-fill
+  document.getElementById('ciQH').value = scanSel.qh;
+  document.getElementById('ciTime').value = new Date().toLocaleString('vi-VN');
+  document.getElementById('ciUser').value = currentUser?.name||'';
+  document.getElementById('ciGPS').value = scanGPS.lat?scanGPS.lat.toFixed(6)+', '+scanGPS.lng.toFixed(6):'—';
+
+  // Block 2 & 3: Load history
+  loadCheckinHistory(qh);
+  loadDacthu(qh);
 }
 
-function closeScanDetail(){
-  document.getElementById('scanDetail').style.display='none';
+function closeCheckin(){
+  document.getElementById('checkinView').style.display='none';
+  document.getElementById('scanHero').style.display='block';
   document.getElementById('scanResults').style.display='block';
-  scanSel=null;
+  checkinQHRef = null;
+  scanSel = null;
 }
 
-async function saveScanQH(){
-  if(!scanSel)return;
-  const d={
-    action:'saveSurvey',maQH:scanSel.qh,
-    ngayKS:document.getElementById('fNgayKS').value,
-    giaThueKV:document.getElementById('fGiaKV').value,
-    diaChiNha:document.getElementById('fDiaChi').value,
-    dienTich:document.getElementById('fDienTich').value,
-    matTien:document.getElementById('fMatTien').value,
-    giaThue:document.getElementById('fGiaThue').value,
-    coHoiGhepCan:document.getElementById('fGhepCan').value,
-    ghiChu:document.getElementById('fGhiChu').value,
-    lat:scanGPS.lat,lng:scanGPS.lng
+function loadCheckinHistory(qh){
+  const el = document.getElementById('ciHistory');
+  // Get from localStorage
+  const history = checkinLocal.filter(c=>c.qh===qh).slice(-3).reverse();
+  if(!history.length){
+    el.innerHTML = '<div class="dacthu-empty">Chưa có lần check-in nào tại điểm này</div>';
+    return;
+  }
+  el.innerHTML = history.map((h,i)=>{
+    const mbTag = h.hasMB ? '<span class="history-badge mb">Có MB</span>' : '<span class="history-badge nomb">Không MB</span>';
+    return '<div class="history-item"><b>#'+(history.length-i)+'</b> <span class="history-date">'+new Date(h.ts).toLocaleString('vi-VN')+'</span> '+mbTag+'<div style="font-size:10px;color:var(--m)">👤 '+(h.user||'—')+' · 📍 '+(h.lat||0).toFixed(5)+', '+(h.lng||0).toFixed(5)+'</div></div>';
+  }).join('');
+}
+
+function loadDacthu(qh){
+  const el = document.getElementById('ciDacthu');
+  const history = checkinLocal.filter(c=>c.qh===qh);
+  if(!history.length){el.innerHTML='<div class="dacthu-empty">Chưa có dữ liệu đặc thù — đây là lần check-in đầu tiên</div>';return;}
+
+  const lastWithMB = history.filter(c=>c.hasMB).slice(-3);
+  const lastPrices = history.filter(c=>c.priceKV).slice(-3);
+  const lastPriorityrity = history.filter(c=>c.priority).slice(-3);
+
+  let html = '';
+  if(lastWithMB.length){
+    html += '<div class="dacthu-box"><div class="dt-title">🏠 MB tiềm năng (các lần gần nhất)</div>';
+    lastWithMB.reverse().forEach(h=>{
+      html += '<div style="font-size:10px;margin:2px 0">📅 '+new Date(h.ts).toLocaleDateString('vi-VN')+' — '+(h.mbAddr||'Chưa rõ địa chỉ')+' · '+(h.mbArea||'?')+'m² · '+(h. mbPrice||'?')+' tr</div>';
+    });
+    htm l += '</div>';
+  }
+
+ if(lastPriorityrity.length){
+    html += '<div class="dacthu-box"><div class="dt-title">🎯 Hướng ưu tiên tìm MB</div>';
+    lastPriorityrity.reverse().forEach(h=>{
+      html += '<div style="font-size:10px;margin:2px 0">'+h.priority+' — '+(h.priorityNote||'')+'</div>';
+    });
+    html += '</div>';
+  }
+
+  if(lastPrices.length){
+    html += '<div class="dacthu-box"><div class="dt-title">💰 Giá thuê KV</div>';
+    lastPrices.reverse().forEach(h=>{
+      html += '<d iv style="font-size:10px;margin:2px 0">'+h.priceKV+' tr/th'+(h.priceRange?' · Biên độ: '+h.priceRange:'')+'</div>';
+    });
+    html += '</div>';
+  }
+
+  if(!html) html = '<div class="dacthu-empty">Chưa có dữ liệu đặc thù từ các lần check-in trước</div>';
+  el.innerHTML = html;
+}
+
+async function saveCheckinOnly(){
+  if(!scanSel||!checkinQHRef) return;
+
+  // Prompt for Block 3 & 5 info quick
+  const priority = prompt('🎯 Hướng ưu tiên tìm MB (Cao/TB/Thấp):','')||'';
+  const priorityNote = prompt('📝 Ghi chú hướng ưu tiên:','')||'';
+  const priceKV = prompt('💰 Giá thuê KV (tr/th):','')||'';
+  const priceRange = prompt('📊 Biên độ giá KV:','')||'';
+
+  const d = {
+    action:'saveCheckin',
+    qh: checkinQHRef,
+    ts: new Date().toISOString(),
+    user: currentUser?.name||'',
+    lat: scanGPS.lat||0, lng: scanGPS.lng||0,
+    hasMB: false,
+    priority, priorityNote,
+    priceKV, priceRange,
+    nguon: 'Scan'
   };
-  try{
-    const r=await fetch(GAS_URL,{method:'POST',body:JSON.stringify(d),headers:{'Content-Type':'text/plain'}});
-    const j=await r.json();
-    if(j.ok){toast('✅ Đã lưu!','ok');loadScanHistory(scanSel.qh);}
-    else toast('❌ '+(j.error||'Lỗi'),'err');
-  }catch(e){
-    toast('⚠️ Lưu tạm trên máy','err');
-    loadScanHistoryLocal(scanSel.qh);
+
+  // Save local
+  checkinLocal.push(d);
+  localStorage.setItem('tkmb_field_checkins',JSON.stringify(checkinLocal));
+
+  // Try GAS
+  try{await fetch(GAS_URL,{method:'POST',body:JSON.stringify(d),headers:{'Content-Type':'text/plain'}});}catch(e){}
+
+  toast('✅ Đã lưu check-in '+checkinQHRef,'ok');
+  if(navigator.vibrate)navigator.vibrate(100);
+  closeCheckin();
+}
+
+function goToTKMB(){
+  if(!scanSel||!checkinQHRef) return;
+  // Pre-fill TKMB form from QH
+  switchTab('tkmb');
+  document.getElementById('tkmbQHRef').style.display='block';
+  document.getElementById('tkmbQHLabel').textContent=checkinQHRef+' — '+[scanSel.x,scanSel.h,scanSel.t].filter(Boolean).join(', ');
+
+  // Auto-set GĐV if available
+  if(scanSel.gdv){
+    document.getElementById('mbGDV').value=scanSel.gdv;
+    onGDVChange();
+}
+  // Set coordinates
+  if(scanGPS.lat){
+    document.getElementById('mbMapLink').value=scanGPS.lat.toFixed(6)+', '+scanGPS.lng.toFixed(6);
+    onMapInput();
   }
 }
 
-async function loadScanHistory(qh){
-  try{
-    const r=await fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'getHistory',maQH:qh}),headers:{'Content-Type':'text/plain'}});
-    const j=await r.json();
-    renderTimeline(j.surveys||[]);
-  }catch(e){loadScanHistoryLocal(qh);}
-}
-
-function loadScanHistoryLocal(qh){renderTimeline([]);}
-
-function renderTimeline(surveys){
-  const el=document.getElementById('scanTimeline');
-  if(!surveys.length){el.innerHTML='<div style="text-align:center;padding:16px;color:#aaa">Chưa có lần khảo sát nào</div>';return;}
-  el.innerHTML=surveys.map((s,i)=>'<div class="tl-item">'+
-    '<div class="tl-date">📅 '+s.ngayKS+' · '+(s.nguoiKS||'')+'</div>'+
-    (s.diaChiNha?'<div style="margin-top:2px">🏠 '+s.diaChiNha+(s.dienTich?' · '+s.dienTich+'m²':'')+(s.matTien?' · MT '+s.matTien+'m':'')+'</div><div style="font-size:10px;color:#888">💲 '+(s.giaThue||'—')+' tr/th'+(s.giaThueKV?' · KV: '+s.giaThueKV:'')+'</div>':'')+
-    (s.coHoiGhepCan?'<div style="font-size:10px;color:#888">🔀 '+s.coHoiGhepCan+'</div>':'')+
-    (s.ghiChu?'<div style="font-size:10px;color:#666">📝 '+s.ghiChu+'</div>':'')+
-    '</div>').join('');
+function clearQHRef(){
+  checkinQHRef = null;
+  document.getElementById('tkmbQHRef').style.display='none';
 }
 
 // ═══ TKMB FORM ═══
@@ -476,15 +651,12 @@ function onMapInput(){
     if(m){lat=parseFloat(m[1]);lng=parseFloat(m[2]);}
   }
   if(!lat||!lng||!qhPoints.length){document.getElementById('mapResult').style.display='none';return;}
-  
+
   let nearest=null,nd=Infinity;
   for(const p of qhPoints){const d=haversine(lat,lng,p.lat,p.lng);if(d<nd){nd=d;nearest=p;}}
   document.getElementById('qhName').textContent=nearest.qh;
   document.getElementById('qhDetail').textContent=[nearest.x,nearest.h].filter(Boolean).join(', ');
   document.getElementById('qhDistance').textContent=Math.round(nd)+'m';
-  document.getElementById('qhDistLabel').textContent=nd<=SCAN_R?'✅ Trong phạm vi QH':nd<=500?'⚠️ Gần QH':'❌ Xa QH';
-  document.getElementById('qhDistance').style.color=nd<=SCAN_R?'var(--s)':nd<=500?'var(--w)':'var(--d)';
-  document.getElementById('qhEval').textContent=nd<=SCAN_R?'⭐ Rất tốt':nd<=200?'⭐⭐ Tốt':nd<=500?'👍 Khả thi':'🔍 Cần xem xét';
   document.getElementById('mapResult').style.display='block';
 }
 
@@ -493,10 +665,10 @@ async function submitTKMB(){
   const qlkv=document.getElementById('mbQLKV').value;
   const tinh=document.getElementById('mbTinh').value;
   if(!gdv||!qlkv||!tinh){toast('⚠️ Chọn GĐV, QLKV, Tỉnh/TP','err');return;}
-  
+
   mbIDSeq++;localStorage.setItem('tkmb_field_mb_seq',mbIDSeq);
   const mbId='MB-'+new Date().toISOString().split('T')[0].replace(/-/g,'')+'-'+String(mbIDSeq).padStart(3,'0');
-  
+
   const d={
     action:'submitMB',
     id:mbId,nguon:'TKMB',gdv,qlkv,tinh,
@@ -515,22 +687,119 @@ async function submitTKMB(){
     gtMNV:document.getElementById('mbGTMNV').value,
     bct:document.getElementById('mbBCT').value,
     bctPhone:document.getElementById('mbBCTPhone').value,
+    qhRef: checkinQHRef||'',
     submitter:currentUser?.name||'',
     ts:new Date().toISOString()
   };
-  
+
+  // Also save checkin if coming from QH
+  if(checkinQHRef){
+    checkinLocal.push({
+      qh:checkinQHRef,ts:new Date().toISOString(),user:currentUser?.name,
+      lat:scanGPS.lat||0,lng:scanGPS.lng||0,hasMB:true,
+      mbAddr:d.addr,mbArea:d.area,mbPrice:d.price,
+      nguon:'Scan'
+    });
+    localStorage.setItem('tkmb_field_checkins',JSON.stringify(checkinLocal));
+  }
+
   try{
     const r=await fetch(GAS_URL,{method:'POST',body:JSON.stringify(d),headers:{'Content-Type':'text/plain'}});
     const j=await r.json();
     if(j.ok){toast('✅ Đã gửi MB '+mbId+' → Chờ GĐV duyệt','ok');}
-    else{toast('⚠️ Lỗi server, đã lưu tạm','err');localMBs.push(d);localStorage.setItem('tkmb_field_mbs',JSON.stringify(localMBs));}
+    else{toast('⚠️ Lỗi server, đã lưu tạm','err');}
   }catch(e){
-    localMBs.push(d);localStorage.setItem('tkmb_field_mbs',JSON.stringify(localMBs));
-    toast('⚠️ Lưu tạm trên máy ('+localMBs.length+' MB chờ gửi)','err');
+    toast('⚠️ Lưu tạm trên máy','err');
+  }
+  clearQHRef();
+}
+
+// ═══ DUYỆT MB ═══
+async function loadDuyetList(){
+  const el=document.getElementById('duyetList');
+  // Filter MBs for current GĐV
+  const gdvName = currentUser?.gdv||currentUser?.name||'';
+  try{
+    const r=await fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'getPendingMBs',gdv:gdvName}),headers:{'Content-Type':'text/plain'}});
+    const j=await r.json();
+    if(!j.mbs||!j.mbs.length){el.innerHTML='<div style="text-align:center;padding:24px;color:var(--m)">✅ Không có MB nào chờ duyệt</div>';return;}
+    el.innerHTML=j.mbs.map(m=>'<div class="mb-row" onclick="toggleMBDetail(\''+m.id+'\')"><div class="mb-id">'+m.id+' <span class="mb-status pending">Chờ duyệt</span></div><div class="mb-addr">📍 '+(m.addr||'Chưa có địa chỉ')+'</div><div class="mb-meta">👤 QLKV: '+(m.qlkv||'—')+' · 💰 '+(m.price||'—')+' tr/th · 📐 '+(m.area||'—')+'m²</div><div class="duyet-actions" onclick="event.stopPropagation()"><button class="btn-approve" onclick="duyetMB(\''+m.id+'\',\'approved\')">✅ Duyệt</button><button class="btn-reject" onclick="duyetMB(\''+m.id+'\',\'rejected\')">❌ Từ chối</button></div></div>').join('');
+  }catch(e){
+    el.innerHTML='<div style="text-align:center;padding:24px;color:var(--m)">⚠️ Không thể tải danh sách. Vui lòng thử lại.</div>';
   }
 }
 
-// ═══ HELPERS ═══
+async function duyetMB(mbId,status){
+  try{
+    const r=await fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'duyetMB',id:mbId,status,nguoiDuyet:currentUser?.name,ts:new Date().toISOString()}),headers:{'Content-Type':'text/plain'}});
+    const j=await r.json();
+    if(j.ok){toast('✅ Đã '+(status==='approved'?'duyệt':'từ chối')+' '+mbId,'ok');loadDuyetList();}
+    else toast('❌ Lỗi duyệt','err');
+  }catch(e){toast('⚠️ Lỗi kết nối','err');}
+}
+
+// ═══ QHBS ═══
+function initQHBSTinh(){
+  const sel=document.getElementById('qhbsTinh');
+  const tinhs=new Set();
+  for(const gdv of Object.keys(CASCADE)) for(const qlkv of Object.keys(CASCADE[gdv])) for(const t of Object.keys(CASCADE[gdv][qlkv])) tinhs.add(t);
+  [...tinhs].sort().forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t+(TINH_MA[t]?' ('+TINH_MA[t]+')':'');sel.appendChild(o);});
+}
+
+function initQHBSGDV(){
+  const sel=document.getElementById('qhbsGDV');
+  Object.keys(CASCADE).sort().forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;sel.appendChild(o);});
+}
+
+function onQHBSTinhChange(){
+  const tinh=document.getElementById('qhbsTinh').value;
+  const hs=document.getElementById('qhbsHuyen');hs.innerHTML='<option value="">-- Chọn Huyện/Quận --</option>';
+  if(!tinh)return;
+  const huyens=new Set();
+  for(const gdv of Object.keys(CASCADE)) for(const qlkv of Object.keys(CASCADE[gdv])) if(CASCADE[gdv][qlkv][tinh]) CASCADE[gdv][qlkv][tinh].forEach(h=>huyens.add(h));
+  [...huyens].sort().forEach(h=>{const o=document.createElement('option');o.value=h;o.textContent=h;hs.appendChild(o);});
+}
+
+function onQHBSHuyenChange(){
+  const tinh=document.getElementById('qhbsTinh').value,huyen=document.getElementById('qhbsHuyen').value;
+  if(!tinh||!huyen)return;
+  for(const gdv of Object.keys(CASCADE)) for(const qlkv of Object.keys(CASCADE[gdv])) if(CASCADE[gdv][qlkv][tinh]&&CASCADE[gdv][qlkv][tinh].includes(huyen)){document.getElementById('qhbsGDV').value=gdv;return;}
+}
+
+function toggleQHBSForm(){
+  const wrap=document.getElementById('qhbsFormWrap'),btn=document.getElementById('qhbsBtn');
+  if(wrap.style.display==='none'||!wrap.style.display){
+    wrap.style.display='block';btn.textContent='✖ Đóng';
+    if(!document.getElementById('qhbsTinh').children.length)initQHBSTinh();
+    if(!document.getElementById('qhbsGDV').children.length)initQHBSGDV();
+    if(scanGPS.lat){document.getElementById('qhbsLat').value=scanGPS.lat.toFixed(6);document.getElementById('qhbsLng').value=scanGPS.lng.toFixed(6);}
+    document.getElementById('qhbsGenerated').style.display='none';
+  }else{wrap.style.display='none';btn.textContent='➕ Đề xuất điểm Quy hoạch';}
+}
+
+async function submitQHBS(){
+  const tinh=document.getElementById('qhbsTinh').value,huyen=document.getElementById('qhbsHuyen').value,xa=document.getElementById('qhbsXa').value.trim();
+  const gdv=document.getElementById('qhbsGDV').value,qlkv=document.getElementById('qhbsQLKV').value.trim();
+  const lat=parseFloat(document.getElementById('qhbsLat').value),lng=parseFloat(document.getElementById('qhbsLng').value);
+  if(!tinh||!huyen||!xa){toast('⚠️ Vui lòng nhập Tỉnh, Huyện, Xã/Phường','err');return;}
+  if(!lat||!lng){toast('⚠️ Cần có tọa độ GPS','err');return;}
+  const maTinh=TINH_MA[tinh]||tinh.replace(/^T\.?\s*/,'').replace(/\s/g,'').substring(0,3).toUpperCase();
+  if(!qhbsSeq[maTinh])qhbsSeq[maTinh]=0;
+  qhbsSeq[maTinh]++;localStorage.setItem('tkmb_field_qhbs_seq',JSON.stringify(qhbsSeq));
+  const maQHBS='QHBS-'+maTinh+'_'+String(qhbsSeq[maTinh]).padStart(3,'0');
+  const d={qh:maQHBS,x:xa,h:huyen,t:tinh,gdv,qlkv,lat,lng,note:document.getElementById('qhbsNote').value.trim(),nguoiDeXuat:currentUser?.name||'',ngayDeXuat:new Date().toISOString(),nguon:'QHBS'};
+  qhbsLocal.push(d);localStorage.setItem('tkmb_field_qhbs',JSON.stringify(qhbsLocal));
+  qhPoints.push(d);
+  document.getElementById('qhbsGenerated').style.display='block';
+  document.getElementById('qhbsGenerated').innerHTML='<div class="qhbs-generated"><div class="code">✅ '+maQHBS+'</div><div class="note">'+xa+', '+huyen+', '+tinh+'</div></div>';
+  try{await fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'saveQHBS',...d}),headers:{'Content-Type':'text/plain'}});}catch(e){}
+  toast('✅ Đã tạo '+maQHBS,'ok');
+  document.getElementById('qhbsXa').value='';document.getElementById('qhbsNote').value='';document.getElementById('qhbsQLKV').value='';
+  if(scanGPS.lat){document.getElementById('qhbsLat').value=scanGPS.lat.toFixed(6);document.getElementById('qhbsLng').value=scanGPS.lng.toFixed(6);}
+  if(navigator.virate) navigator.vibrate([100,50,100]);
+}
+
+// �══ HELPERS �══
 function toast(m,t){
   const el=document.getElementById('toast');
   el.textContent=m;el.className='toast '+(t||'')+' show';
@@ -539,7 +808,7 @@ function toast(m,t){
 
 document.addEventListener('keydown',e=>{
   if(e.key==='Enter'&&document.getElementById('loginOv').style.display!=='none')doLogin();
-  if(e.key==='Escape'&&document.getElementById('scanDetail').style.display==='block')closeScanDetail();
+  if(e.key=='Escape'&&document.getElementById('checkinView').style.display==='block')closeCheckin();
 });
 </script>
 </body>
