@@ -143,7 +143,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.4 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.5 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -521,20 +521,20 @@ function loadDacthu(qh){
 
   const lastWithMB = history.filter(c=>c.hasMB).slice(-3);
   const lastPrices = history.filter(c=>c.priceKV).slice(-3);
-  const lastPriorityrity = history.filter(c=>c.priority).slice(-3);
+  const lastPriority = history.filter(c=>c.priority).slice(-3);
 
   let html = '';
   if(lastWithMB.length){
     html += '<div class="dacthu-box"><div class="dt-title">🏠 MB tiềm năng (các lần gần nhất)</div>';
     lastWithMB.reverse().forEach(h=>{
-      html += '<div style="font-size:10px;margin:2px 0">📅 '+new Date(h.ts).toLocaleDateString('vi-VN')+' — '+(h.mbAddr||'Chưa rõ địa chỉ')+' · '+(h.mbArea||'?')+'m² · '+(h. mbPrice||'?')+' tr</div>';
+      html += '<div style="font-size:10px;margin:2px 0">📅 '+new Date(h.ts).toLocaleDateString('vi-VN')+' — '+(h.mbAddr||'Chưa rõ địa chỉ')+' · '+(h.mbArea||'?')+'m² · '+(h.mbPrice||'?')+' tr</div>';
     });
-    htm l += '</div>';
+    html += '</div>';
   }
 
- if(lastPriorityrity.length){
+ if(lastPriority.length){
     html += '<div class="dacthu-box"><div class="dt-title">🎯 Hướng ưu tiên tìm MB</div>';
-    lastPriorityrity.reverse().forEach(h=>{
+    lastPriority.reverse().forEach(h=>{
       html += '<div style="font-size:10px;margin:2px 0">'+h.priority+' — '+(h.priorityNote||'')+'</div>';
     });
     html += '</div>';
@@ -543,7 +543,7 @@ function loadDacthu(qh){
   if(lastPrices.length){
     html += '<div class="dacthu-box"><div class="dt-title">💰 Giá thuê KV</div>';
     lastPrices.reverse().forEach(h=>{
-      html += '<d iv style="font-size:10px;margin:2px 0">'+h.priceKV+' tr/th'+(h.priceRange?' · Biên độ: '+h.priceRange:'')+'</div>';
+      html += '<div style="font-size:10px;margin:2px 0">'+h.priceKV+' tr/th'+(h.priceRange?' · Biên độ: '+h.priceRange:'')+'</div>';
     });
     html += '</div>';
   }
