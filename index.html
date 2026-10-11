@@ -137,14 +137,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.11</h2>
+  <h2>TKMB Field v1.12</h2>
   <div class="sub">Scan QH · Check-in · Tiếp nhận MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.11 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.12 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -235,7 +235,20 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    <div style="font-size:11px;color:var(--m);margin-bottom:10px">Nếu có MB tiềm năng tạii điểm này → chuyển sang tab Tiếp nhận MB</div>
    <button class="btn-s" onclick="goToTKMB()">➕ Thêm MB → Sang tab Tiếp nhận</button>
    <div style="text-align:center;margin:10px 0;font-size:11px;color:var(--m)">— hoặc —</div>
-   <button class="btn-w" onclick="saveCheckinOnly()">✅ Không có MB — Lưu check-in</button>
+   <span class="block-label">5️⃣ Đánh giá điểm QH</span>
+   <div style="font-weight:600;font-size:10px;color:var(--p);margin:8px 0 4px">🏠 MB tiềm năng</div>
+   <div class="gr gr2">
+    <div class="fg"><label>Số MB đạt tiêu chí</label><input type="number" id="ciMBTieuChi" placeholder="0" min="0"></div>
+    <div class="fg"><label>Số MB đạt tiêu chí ghép cần</label><input type="number" id="ciMBGhepCan" placeholder="0" min="0"></div>
+   </div>
+   <div style="font-weight:600;font-size:10px;color:var(--p);margin:8px 0 4px">🎯 Hướng ưu tiên tìm MB</div>
+   <div class="gr gr2">
+    <div class="fg"><label>Hướng</label><input type="text" id="ciPriorityDir" placeholder="VD: Đông Nam"></div>
+    <div class="fg"><label>Khoảng cách (m)</label><input type="number" id="ciPriorityDist" placeholder="500" min="0"></div>
+   </div>
+   <div style="font-weight:600;font-size:10px;color:var(--p);margin:8px 0 4px">💰 Khảo sát giá thuê</div>
+   <div class="fg"><label>MB và giá thuê</label><input type="text" id="ciPriceInfo" placeholder="VD: MB 120m2, MT 8m - DT 150m2 - Giá 15tr"></div>
+   <button class="btn-w" onclick="saveCheckinOnly()">💾 Lưu đánh giá</button>
   </div>
  </div>
 </div>
@@ -314,7 +327,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 const DB_SHEET = '1jac8uf8eeB57C-zZ85Lg_l-UwpPxOTPkcoQ2mywMZyw';
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbz-BBkWkq8ye9K-ua-QDWWw2fBbBIXFx4ivvc6ViiBUwIzPizJhD2YT0OQy2o_C1GUl/exec';
 const QH_URL = 'qh_points.json';
-const SCAN_R = 100;
+const SCAN_R = 200;
 
 // ═══ USERS ═══
 const USERS = [
@@ -395,7 +408,7 @@ function showApp(){
   document.getElementById('appWrap').style.display='flex';
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
-  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.11';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.12';
   if(['GĐV','GĐM'].includes(currentUser.rank)) document.getElementById('navDuyet').style.display='block';
   populateGDV();
 }
@@ -556,11 +569,15 @@ function loadDacthu(qh){
 async function saveCheckinOnly(){
   if(!scanSel||!checkinQHRef) return;
 
-  // Prompt for Block 3 & 5 info quick
-  const priority = prompt('🎯 Hướng ưu tiên tìm MB (Cao/TB/Thấp):','')||'';
-  const priorityNote = prompt('📝 Ghi chú hướng ưu tiên:','')||'';
-  const priceKV = prompt('💰 Giá thuê KV (tr/th):','')||'';
-  const priceRange = prompt('📊 Biên độ giá KV:','')||'';
+  // v1.12: Read from evaluation form (Block 5) instead of prompt()
+  const mbTieuChi=document.getElementById('ciMBTieuChi')?.value||'';
+  const mbGhepCan=document.getElementById('ciMBGhepCan')?.value||'';
+  const priorityDir=document.getElementById('ciPriorityDir')?.value||'';
+  const priorityDist=document.getElementById('ciPriorityDist')?.value||'';
+  const priceInfo=document.getElementById('ciPriceInfo')?.value||'';
+
+  const priority=priorityDir?(priorityDir+(priorityDist?' · '+priorityDist+'m':'')):'';
+  const priorityNote=priceInfo;
 
   const d = {
     action:'saveCheckin',
@@ -569,8 +586,9 @@ async function saveCheckinOnly(){
     user: currentUser?.name||'',
     lat: scanGPS.lat||0, lng: scanGPS.lng||0,
     hasMB: false,
+    mbTieuChi, mbGhepCan,
     priority, priorityNote,
-    priceKV, priceRange,
+    priceKV: priceInfo,
     nguon: 'Scan'
   };
 
@@ -772,14 +790,42 @@ function onQHBSHuyenChange(){
 }
 
 function toggleQHBSForm(){
-  const wrap=document.getElementById('qhbsFormWrap'),btn=document.getElementById('qhbsBtn');
-  if(wrap.style.display==='none'||!wrap.style.display){
-    wrap.style.display='block';btn.textContent='✖ Đóng';
-    if(!document.getElementById('qhbsTinh').children.length)initQHBSTinh();
-    if(!document.getElementById('qhbsGDV').children.length)initQHBSGDV();
-    if(scanGPS.lat){document.getElementById('qhbsLat').value=scanGPS.lat.toFixed(6);document.getElementById('qhbsLng').value=scanGPS.lng.toFixed(6);}
-    document.getElementById('qhbsGenerated').style.display='none';
-  }else{wrap.style.display='none';btn.textContent='➕ Đề xuất điểm Quy hoạch';}
+  // v1.12: Auto-generate QHBS point and open FULL check-in
+  if(!scanGPS.lat){toast('⚠️ Đang chờ GPS...','err');return;}
+
+  // Generate QHBS code
+  if(!qhbsSeq['GPS'])qhbsSeq['GPS']=0;
+  qhbsSeq['GPS']++;localStorage.setItem('tkmb_field_qhbs_seq',JSON.stringify(qhbsSeq));
+  const maQHBS='QHBS-GPS_'+String(qhbsSeq['GPS']).padStart(3,'0');
+
+  // Create synthetic point
+  const syntheticPoint={
+    qh:maQHBS,x:'',h:'',t:'',gdv:'',
+    lat:scanGPS.lat,lng:scanGPS.lng,
+    nguon:'QHBS'
+  };
+
+  // Add to qhPoints and qhbsLocal
+  qhPoints.push(syntheticPoint);
+  qhbsLocal.push({
+    qh:maQHBS,x:'',h:'',t:'',gdv:'',
+    lat:scanGPS.lat,lng:scanGPS.lng,
+    nguoiDeXuat:currentUser?.name||'',
+    ngayDeXuat:new Date().toISOString(),
+    nguon:'QHBS'
+  });
+  localStorage.setItem('tkmb_field_qhbs',JSON.stringify(qhbsLocal));
+
+  toast('✅ Đã tạo '+maQHBS+' — Mở check-in','ok');
+  if(navigator.vibrate)navigator.vibrate([100,50,100]);
+
+  // Open full check-in with the generated point
+  openCheckin(maQHBS);
+
+  // Save to GAS in background
+  try{
+    fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'saveQHBS',qh:maQHBS,x:'',h:'',t:'',gdv:'',lat:scanGPS.lat,lng:scanGPS.lng,nguoiDeXuat:currentUser?.name||'',ngayDeXuat:new Date().toISOString(),nguon:'QHBS'}),headers:{'Content-Type':'text/plain'}});
+  }catch(e){}
 }
 
 async function submitQHBS(){
