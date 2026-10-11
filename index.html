@@ -124,14 +124,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.20</h2>
+  <h2>TKMB Field v1.21</h2>
   <div class="sub">Scan QH · Check-in · Tiếp nhận MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.20 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.21 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -395,7 +395,7 @@ function showApp(){
   document.getElementById('appWrap').style.display='flex';
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
-  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.20';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.21';
   populateGDV();
 }
 
@@ -583,10 +583,9 @@ async function saveCheckinOnly(){
     ts: new Date().toISOString(),
     user: currentUser?.name||'',
     lat: scanGPS.lat||0, lng: scanGPS.lng||0,
-    hasMB: false,
-    mbTieuChi, mbGhepCan,
-    priority, priorityNote,
-    priceKV: priceInfo,
+    mbCount: mbTieuChi, mbGhepCan,
+    dirs: priority, dists: '',
+    priceKV: priceInfo, priceNote: '',
     nguon: 'Scan'
   };
 
@@ -717,9 +716,8 @@ async function submitTKMB(){
   if(checkinQHRef){
     checkinLocal.push({
       qh:checkinQHRef,ts:new Date().toISOString(),user:currentUser?.name,
-      lat:scanGPS.lat||0,lng:scanGPS.lng||0,hasMB:true,
-      mbAddr:d.addr,mbArea:d.area,mbPrice:d.price,
-      nguon:'Scan'
+      lat:scanGPS.lat||0,lng:scanGPS.lng||0,
+      nguon:'Scan+MB', mbRef: mbId
     });
     localStorage.setItem('tkmb_field_checkins',JSON.stringify(checkinLocal));
   }
