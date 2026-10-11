@@ -137,14 +137,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.12</h2>
+  <h2>TKMB Field v1.13</h2>
   <div class="sub">Scan QH · Check-in · Tiếp nhận MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.12 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.13 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -207,13 +207,13 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
   <!-- Block 1: Auto-fill -->
   <div class="card">
    <span class="block-label">1️⃣ Check-in</span>
-   <div class="gr gr2">
-    <div class="fg"><label>Mã QH</label><input type="text" id="ciQH" readonly></div>
-    <div class="fg"><label>Thờii gian</label><input type="text" id="ciTime" readonly></div>
+   <div style="display:flex;gap:12px">
+    <div class="fg" style="flex:1"><label>Mã QH</label><input type="text" id="ciQH" readonly></div>
+    <div class="fg" style="flex:1"><label>Thời gian</label><input type="text" id="ciTime" readonly></div>
    </div>
-   <div class="gr gr2">
-    <div class="fg"><label>Ngườii check-in</label><input type="text" id="ciUser" readonly></div>
-    <div class="fg"><label>Tọa độ GPS</label><input type="text" id="ciGPS" readonly></div>
+   <div style="display:flex;gap:12px">
+    <div class="fg" style="flex:1"><label>Người check-in</label><input type="text" id="ciUser" readonly></div>
+    <div class="fg" style="flex:1"><label>Tọa độ GPS</label><input type="text" id="ciGPS" readonly></div>
    </div>
   </div>
 
@@ -229,25 +229,35 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    <div id="ciDacthu"><div class="dacthu-empty">Đang tảii...</div></div>
   </div>
 
-  <!-- Block 4 & 5: Actions -->
+  <!-- Block 4: Thêm MB (độc lập) -->
   <div class="card">
-   <span class="block-label">4️⃣ MB tiềm năng</span>
-   <div style="font-size:11px;color:var(--m);margin-bottom:10px">Nếu có MB tiềm năng tạii điểm này → chuyển sang tab Tiếp nhận MB</div>
+   <span class="block-label">4️⃣ Thêm MB</span>
+   <div style="font-size:11px;color:var(--m);margin-bottom:10px">Thêm mặt bằng tiềm năng tại khu vực này (không phụ thuộc check-in)</div>
    <button class="btn-s" onclick="goToTKMB()">➕ Thêm MB → Sang tab Tiếp nhận</button>
-   <div style="text-align:center;margin:10px 0;font-size:11px;color:var(--m)">— hoặc —</div>
+  </div>
+
+  <!-- Block 5: Đánh giá điểm QH -->
+  <div class="card">
    <span class="block-label">5️⃣ Đánh giá điểm QH</span>
+
    <div style="font-weight:600;font-size:10px;color:var(--p);margin:8px 0 4px">🏠 MB tiềm năng</div>
-   <div class="gr gr2">
-    <div class="fg"><label>Số MB đạt tiêu chí</label><input type="number" id="ciMBTieuChi" placeholder="0" min="0"></div>
-    <div class="fg"><label>Số MB đạt tiêu chí ghép cần</label><input type="number" id="ciMBGhepCan" placeholder="0" min="0"></div>
+   <div style="display:flex;gap:12px">
+    <div class="fg" style="flex:1"><label>Số MB đạt tiêu chí</label><input type="number" id="ciMBTieuChi" placeholder="0" min="0"></div>
+    <div class="fg" style="flex:1"><label>Số MB ghép cần</label><input type="number" id="ciMBGhepCan" placeholder="0" min="0"></div>
    </div>
-   <div style="font-weight:600;font-size:10px;color:var(--p);margin:8px 0 4px">🎯 Hướng ưu tiên tìm MB</div>
-   <div class="gr gr2">
-    <div class="fg"><label>Hướng</label><input type="text" id="ciPriorityDir" placeholder="VD: Đông Nam"></div>
-    <div class="fg"><label>Khoảng cách (m)</label><input type="number" id="ciPriorityDist" placeholder="500" min="0"></div>
+
+   <div style="font-weight:600;font-size:10px;color:var(--p);margin:8px 0 4px">🎯 Hướng ưu tiên tìm MB (theo hướng đồng hồ)</div>
+   <div id="priorityDirContainer">
+    <div class="priority-dir-row" style="display:flex;gap:8px;margin-bottom:6px">
+     <div class="fg" style="flex:1"><label>Hướng 1</label><select class="priDir"><option value="">-- Chọn --</option><option>1h</option><option>2h</option><option>3h</option><option>4h</option><option>5h</option><option>6h</option><option>7h</option><option>8h</option><option>9h</option><option>10h</option><option>11h</option><option>12h</option></select></div>
+     <div class="fg" style="flex:1"><label>Hướng 2</label><select class="priDir"><option value="">-- Chọn --</option><option>1h</option><option>2h</option><option>3h</option><option>4h</option><option>5h</option><option>6h</option><option>7h</option><option>8h</option><option>9h</option><option>10h</option><option>11h</option><option>12h</option></select></div>
+    </div>
    </div>
+   <button style="font-size:10px;background:none;border:1px dashed var(--pl);color:var(--p);padding:3px 8px;border-radius:4px;cursor:pointer;margin-top:4px" onclick="addPriorityDir()">(+) thêm</button>
+
    <div style="font-weight:600;font-size:10px;color:var(--p);margin:8px 0 4px">💰 Khảo sát giá thuê</div>
-   <div class="fg"><label>MB và giá thuê</label><input type="text" id="ciPriceInfo" placeholder="VD: MB 120m2, MT 8m - DT 150m2 - Giá 15tr"></div>
+   <div class="fg"><label>Thông tin MB & giá thuê</label><textarea id="ciPriceInfo" rows="3" placeholder="Tên MB - Mặt tiền (m) - Diện tích (m2) - Giá thuê (tr)"></textarea></div>
+
    <button class="btn-w" onclick="saveCheckinOnly()">💾 Lưu đánh giá</button>
   </div>
  </div>
@@ -408,7 +418,7 @@ function showApp(){
   document.getElementById('appWrap').style.display='flex';
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
-  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.12';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.13';
   if(['GĐV','GĐM'].includes(currentUser.rank)) document.getElementById('navDuyet').style.display='block';
   populateGDV();
 }
@@ -572,12 +582,16 @@ async function saveCheckinOnly(){
   // v1.12: Read from evaluation form (Block 5) instead of prompt()
   const mbTieuChi=document.getElementById('ciMBTieuChi')?.value||'';
   const mbGhepCan=document.getElementById('ciMBGhepCan')?.value||'';
-  const priorityDir=document.getElementById('ciPriorityDir')?.value||'';
-  const priorityDist=document.getElementById('ciPriorityDist')?.value||'';
-  const priceInfo=document.getElementById('ciPriceInfo')?.value||'';
 
-  const priority=priorityDir?(priorityDir+(priorityDist?' · '+priorityDist+'m':'')):'';
-  const priorityNote=priceInfo;
+  // Collect all clock directions selected
+  const dirs=[];
+  document.querySelectorAll('#priorityDirContainer .priDir').forEach(s=>{
+    if(s.value) dirs.push(s.value);
+  });
+  const priority=dirs.length?dirs.join(', '):'';
+  const priorityNote='';
+
+  const priceInfo=document.getElementById('ciPriceInfo')?.value||'';
 
   const d = {
     action:'saveCheckin',
@@ -874,6 +888,19 @@ function validateTKMB(){
     }
   }
   return true;
+}
+
+// ═══ PRIORITY DIRECTION ═══
+let priDirCount = 2;
+function addPriorityDir(){
+  if(priDirCount >= 4){toast('⚠️ Tối đa 4 hướng','err');return;}
+  priDirCount++;
+  const container=document.getElementById('priorityDirContainer');
+  const row=document.createElement('div');
+  row.className='priority-dir-row';
+  row.style.cssText='display:flex;gap:8px;margin-bottom:6px';
+  row.innerHTML='<div class="fg" style="flex:1"><label>Hướng '+(priDirCount)+'</label><select class="priDir"><option value="">-- Chọn --</option><option>1h</option><option>2h</option><option>3h</option><option>4h</option><option>5h</option><option>6h</option><option>7h</option><option>8h</option><option>9h</option><option>10h</option><option>11h</option><option>12h</option></select></div>';
+  container.appendChild(row);
 }
 
 // ═══ HELPERS ═══
