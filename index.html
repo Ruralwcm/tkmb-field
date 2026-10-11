@@ -83,6 +83,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 /* FORM */
 .fg{margin-bottom:8px}
 .fg input[type="number"]{width:100%}
+.fg select.pri-dir{min-width:80px;font-size:14px}
 .fg label{display:block;font-size:10px;font-weight:600;color:var(--m);text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
 .fg input,.fg select,.fg textarea{padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;width:100%;background:#fafafa}
 .fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--pl);background:#fff}
@@ -138,14 +139,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.17</h2>
+  <h2>TKMB Field v1.18</h2>
   <div class="sub">Scan QH · Check-in · Tiếp nhận MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.16 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.18 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -419,7 +420,7 @@ function showApp(){
   document.getElementById('appWrap').style.display='flex';
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
-  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.16';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.18';
   if(['GĐV','GĐM'].includes(currentUser.rank)) document.getElementById('navDuyet').style.display='block';
   populateGDV();
 }
@@ -580,7 +581,7 @@ function loadDacthu(qh){
 async function saveCheckinOnly(){
   if(!scanSel||!checkinQHRef) return;
 
-  // v1.16: Read from evaluation form (Block 5) instead of prompt()
+  // v1.18: Read from evaluation form (Block 5) instead of prompt()
   const mbTieuChi=document.getElementById('ciMBTieuChi')?.value||'';
   const mbGhepCan=document.getElementById('ciMBGhepCan')?.value||'';
 
@@ -597,7 +598,7 @@ async function saveCheckinOnly(){
 
   const priceInfo=document.getElementById('ciPriceInfo')?.value||'';
 
-  // v1.17: Validate giá thuê format
+  // v1.18: Validate giá thuê format
   if(priceInfo.trim()&&!/^.+\s*-\s*MT:\s*\d+m\s*-\s*DT:\s*\d+m2\s*-\s*GT:\s*\d+tr$/i.test(priceInfo.trim())){
     toast('⚠️ Giá thuê sai định dạng! Mẫu: Tên - MT: Xm - DT: Xm2 - GT: Xtr','err');
     return;
@@ -814,7 +815,7 @@ function onQHBSHuyenChange(){
 }
 
 function toggleQHBSForm(){
-  // v1.16: Auto-generate QHBS point and open FULL check-in
+  // v1.18: Auto-generate QHBS point and open FULL check-in
   if(!scanGPS.lat){toast('⚠️ Đang chờ GPS...','err');return;}
 
   // Generate QHBS code
@@ -872,6 +873,20 @@ async function submitQHBS(){
   document.getElementById('qhbsXa').value='';document.getElementById('qhbsNote').value='';document.getElementById('qhbsQLKV').value='';
   if(scanGPS.lat){document.getElementById('qhbsLat').value=scanGPS.lat.toFixed(6);document.getElementById('qhbsLng').value=scanGPS.lng.toFixed(6);}
   if(navigator.virate) navigator.vibrate([100,50,100]);
+}
+
+// ═══ PRICE ENTRIES ═══
+let priceEntryCount = 1;
+function addPriceEntry(){
+  if(priceEntryCount >= 5) return;
+  const div = document.getElementById('priceEntries');
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.id = 'fPriceKV' + priceEntryCount;
+  input.placeholder = 'VD: Siêu Thị Hoàn Hảo - MT: 20m - DT: 100m2 - GT: 20tr';
+  input.style.cssText = 'margin-bottom:4px;width:100%;padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;background:#fafafa';
+  div.appendChild(input);
+  priceEntryCount++;
 }
 
 // ═══ VALIDATION ═══
