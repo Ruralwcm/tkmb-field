@@ -139,14 +139,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.23</h2>
+  <h2>TKMB Field v1.25</h2>
   <div class="sub">Scan QH · Check-in · Tiếp nhận MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.23 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.25 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -174,7 +174,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
   </div>
   <div id="scanResults"></div>
  </div>
-  <div style="text-align:center;margin-top:4px">
+  <div style="text-align:center;margin-top:4px;display:none" id="qhbsBtnWrap">
    <button class="qhbs-btn" id="qhbsBtn" onclick="toggleQHBSForm()">➕ Đề xuất điểm Quy hoạch</button>
    <div id="qhbsGenerated" style="display:none"></div>
   </div>
@@ -417,7 +417,7 @@ function showApp(){
   document.getElementById('appWrap').style.display='flex';
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
-  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.23';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.25';
   // Duyet MB tab removed
   populateGDV();
 }
@@ -491,6 +491,7 @@ function doScan(){
     }else{
       document.getElementById('scanResults').innerHTML='<div class="no-result"><div style="font-size:48px;margin-bottom:8px">📭</div><div style="font-weight:600">Không có điểm QH trong '+SCAN_R+'m</div><div style="margin-top:4px;font-size:12px">Gần nhất: <b>'+nearest.qh+'</b> cách <b>'+Math.round(nd)+'m</b></div><button class="qhbs-btn" onclick="openCheckin(\''+nearest.qh+'\',true)" style="margin-top:10px">📍 Check-in '+nearest.qh+' ('+Math.round(nd)+'m)</button></div>';
     }
+    document.getElementById('qhbsBtnWrap').style.display='block';
   },200);
 }
 
@@ -502,6 +503,7 @@ function openCheckin(qh,forceDist){
   checkinQHRef = qh;
   document.getElementById('scanHero').style.display='none';
   document.getElementById('scanResults').style.display='none';
+  document.getElementById('qhbsBtnWrap').style.display='none';
   document.getElementById('checkinView').style.display='block';
 
   // Block 1: Auto-fill
@@ -519,6 +521,7 @@ function closeCheckin(){
   document.getElementById('checkinView').style.display='none';
   document.getElementById('scanHero').style.display='block';
   document.getElementById('scanResults').style.display='block';
+  document.getElementById('qhbsBtnWrap').style.display='block';
   checkinQHRef = null;
   scanSel = null;
 }
