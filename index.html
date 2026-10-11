@@ -124,14 +124,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.26</h2>
+  <h2>TKMB Field v1.27</h2>
   <div class="sub">Scan QH · Check-in · Giới thiệu MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.26 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.27 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -228,16 +228,21 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    <div style="font-weight:600;font-size:10px;color:var(--p);margin:8px 0 4px">🎯 Hướng ưu tiên tìm MB (theo hướng đồng hồ)</div>
    <div id="priorityDirContainer">
     <div class="priority-dir-row" style="display:flex;gap:8px;margin-bottom:6px;align-items:flex-end">
-     <div class="fg" style="flex:1"><label>Hướng 1</label><select class="priDir"><option value="">-- Chọn --</option><option>1h</option><option>2h</option><option>3h</option><option>4h</option><option>5h</option><option>6h</option><option>7h</option><option>8h</option><option>9h</option><option>10h</option><option>11h</option><option>12h</option></select></div>
-     <div class="fg" style="flex:0 0 100px"><label>K.cách (m)</label><input type="number" class="priDist" placeholder="m" min="0"></div>
-     <div class="fg" style="flex:1"><label>Hướng 2</label><select class="priDir"><option value="">-- Chọn --</option><option>1h</option><option>2h</option><option>3h</option><option>4h</option><option>5h</option><option>6h</option><option>7h</option><option>8h</option><option>9h</option><option>10h</option><option>11h</option><option>12h</option></select></div>
-     <div class="fg" style="flex:0 0 100px"><label>K.cách (m)</label><input type="number" class="priDist" placeholder="m" min="0"></div>
+     <div class="fg" style="flex:3"><label>Hướng 1</label><select class="priDir"><option value="">-- Chọn --</option><option>1h</option><option>2h</option><option>3h</option><option>4h</option><option>5h</option><option>6h</option><option>7h</option><option>8h</option><option>9h</option><option>10h</option><option>11h</option><option>12h</option></select></div>
+     <div class="fg" style="flex:0 0 60px"><label>m</label><input type="number" class="priDist" placeholder="0" min="0"></div>
+     <div class="fg" style="flex:3"><label>Hướng 2</label><select class="priDir"><option value="">-- Chọn --</option><option>1h</option><option>2h</option><option>3h</option><option>4h</option><option>5h</option><option>6h</option><option>7h</option><option>8h</option><option>9h</option><option>10h</option><option>11h</option><option>12h</option></select></div>
+     <div class="fg" style="flex:0 0 60px"><label>m</label><input type="number" class="priDist" placeholder="0" min="0"></div>
     </div>
    </div>
    <button style="font-size:10px;background:none;border:1px dashed var(--pl);color:var(--p);padding:3px 8px;border-radius:4px;cursor:pointer;margin-top:4px" onclick="addPriorityDir()">(+) thêm</button>
 
    <div style="font-weight:600;font-size:10px;color:var(--p);margin:8px 0 4px">💰 Khảo sát giá thuê</div>
-   <div class="fg"><label>Thông tin MB & giá thuê</label><textarea id="ciPriceInfo" rows="3" placeholder="VD: Siêu Thị Hoàn Hảo - MT: 20m - DT: 100m2 - GT: 20tr"></textarea></div>
+   <div style="display:flex;gap:8px;margin-bottom:6px">
+    <div class="fg" style="flex:2"><label>Tên MB</label><input type="text" id="ciPriceName" placeholder="VD: Siêu Thị Hoàn Hảo"></div>
+    <div class="fg" style="flex:0 0 60px"><label>MT(m)</label><input type="number" id="ciPriceMT" placeholder="20" min="0"></div>
+    <div class="fg" style="flex:0 0 70px"><label>DT(m²)</label><input type="number" id="ciPriceDT" placeholder="100" min="0"></div>
+    <div class="fg" style="flex:0 0 70px"><label>Giá(tr)</label><input type="number" id="ciPriceGT" placeholder="20" min="0"></div>
+   </div>
 
    <button class="btn-w" onclick="saveCheckinOnly()">💾 Lưu đánh giá</button>
   </div>
@@ -570,12 +575,14 @@ async function saveCheckinOnly(){
   const priority=dirs.length?dirs.join(', '):'';
   const priorityNote='';
 
-  const priceInfo=document.getElementById('ciPriceInfo')?.value||'';
-
-  // v1.17: Validate giá thuê format
-  if(priceInfo.trim()&&!/^.+\s*-\s*MT:\s*\d+m\s*-\s*DT:\s*\d+m2\s*-\s*GT:\s*\d+tr$/i.test(priceInfo.trim())){
-    toast('⚠️ Giá thuê sai định dạng! Mẫu: Tên - MT: Xm - DT: Xm2 - GT: Xtr','err');
-    return;
+  const priceName=document.getElementById('ciPriceName')?.value?.trim()||'';
+  const priceMT=document.getElementById('ciPriceMT')?.value||'';
+  const priceDT=document.getElementById('ciPriceDT')?.value||'';
+  const priceGT=document.getElementById('ciPriceGT')?.value||'';
+  // Build priceKV string from 4 fields
+  let priceKV='';
+  if(priceName||priceMT||priceDT||priceGT){
+    priceKV=(priceName||'?')+' - MT: '+(priceMT||'?')+'m - DT: '+(priceDT||'?')+'m2 - GT: '+(priceGT||'?')+'tr';
   }
 
   const d = {
@@ -586,7 +593,7 @@ async function saveCheckinOnly(){
     lat: scanGPS.lat||0, lng: scanGPS.lng||0,
     mbCount: mbTieuChi, mbGhepCan,
     dirs: priority, dists: '',
-    priceKV: priceInfo, priceNote: '',
+    priceKV: priceKV, priceNote: '',
     nguon: 'Scan'
   };
 
@@ -831,7 +838,7 @@ function addPriorityDir(){
   const row=document.createElement('div');
   row.className='priority-dir-row';
   row.style.cssText='display:flex;gap:8px;margin-bottom:6px;align-items:flex-end';
-  row.innerHTML='<div class="fg" style="flex:1"><label>Hướng '+(priDirCount)+'</label><select class="priDir"><option value="">-- Chọn --</option><option>1h</option><option>2h</option><option>3h</option><option>4h</option><option>5h</option><option>6h</option><option>7h</option><option>8h</option><option>9h</option><option>10h</option><option>11h</option><option>12h</option></select></div><div class="fg" style="flex:0 0 100px"><label>K.cách (m)</label><input type="number" class="priDist" placeholder="m" min="0"></div>';
+  row.innerHTML='<div class="fg" style="flex:3"><label>Hướng '+(priDirCount)+'</label><select class="priDir"><option value="">-- Chọn --</option><option>1h</option><option>2h</option><option>3h</option><option>4h</option><option>5h</option><option>6h</option><option>7h</option><option>8h</option><option>9h</option><option>10h</option><option>11h</option><option>12h</option></select></div><div class="fg" style="flex:0 0 60px"><label>m</label><input type="number" class="priDist" placeholder="0" min="0"></div>';
   container.appendChild(row);
 }
 
