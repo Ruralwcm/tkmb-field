@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>TKMB Field — Scan QH & Tiếp nhận MB</title>
+<title>TKMB Field — Scan QH & Giới thiệu MB</title>
 <style>
 :root{--p:#7c3aed;--pl:#a78bfa;--bg:#f5f3ff;--card:#fff;--t:#1f2937;--m:#6b7280;--s:#16a34a;--w:#d97706;--d:#dc2626;--b:#e5e7eb;--r:12px;--sh:0 1px 3px rgba(0,0,0,.04)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -124,14 +124,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.23</h2>
-  <div class="sub">Scan QH · Check-in · Tiếp nhận MB</div>
+  <h2>TKMB Field v1.24</h2>
+  <div class="sub">Scan QH · Check-in · Giới thiệu MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.23 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.24 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -142,7 +142,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 </div>
 <div class="nav" id="appNav" style="display:none">
  <button class="active" data-tab="scan" onclick="switchTab('scan')">📍 Scan QH</button>
- <button data-tab="tkmb" onclick="switchTab('tkmb')">📋 Tiếp nhận MB</button>
+ <button data-tab="tkmb" onclick="switchTab('tkmb')">📋 Giới thiệu MB</button>
 </div>
 <div class="main" id="appMain" style="display:none">
 
@@ -247,7 +247,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <!-- ═══ TKMB PAGE ═══ -->
 <div class="page" id="pgTKMB">
  <div class="card">
-  <h3>📋 Tiếp nhận Mặt Bằằng</h3>
+  <h3>📋 Giới thiệu Mặt Bằng</h3>
   <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👥 GĐV → QLKV → Tỉnh → Huyện</div>
   <div class="gr gr2">
    <div class="fg"><label>GĐV *</label><select id="mbGDV" onchange="onGDVChange()"><option value="">-- Chọn GĐV --</option></select></div>
@@ -292,7 +292,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    <div class="fg"><label>BCT - SĐT</label><input type="text" id="mbBCTPhone" placeholder="SĐT"></div>
   </div>
 
-  <button class="btn-s" onclick="submitTKMB()">📤 Gửi Mặt Bằằng → Chờ GĐV duyệt</button>
+  <button class="btn-s" onclick="submitTKMB()">📤 Gửi Mặt Bằng → Chờ GĐV duyệt</button>
  </div>
 </div>
 </div>
@@ -386,7 +386,7 @@ function showApp(){
   document.getElementById('appWrap').style.display='flex';
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
-  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.23';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.24';
   populateGDV();
 }
 
@@ -790,16 +790,26 @@ function validateNum(el){
 }
 
 function validateTKMB(){
+  // Required dropdowns
+  if(!document.getElementById('mbGDV').value){toast('⚠️ Vui lòng chọn GĐV','err');return false;}
+  if(!document.getElementById('mbQLKV').value){toast('⚠️ Vui lòng chọn QLKV','err');return false;}
+  if(!document.getElementById('mbTinh').value){toast('⚠️ Vui lòng chọn Tỉnh/TP','err');return false;}
+  if(!document.getElementById('mbHuyen').value){toast('⚠️ Vui lòng chọn Huyện/Quận','err');return false;}
+  // Required numeric fields
   var fields=["mbArea","mbFront","mbPrice","mbPayment","mbDuration","mbDeposit"];
   for(var i=0;i<fields.length;i++){
     var el=document.getElementById(fields[i]);
     var v=parseFloat(el.value);
     if(!el.value||isNaN(v)||v<parseFloat(el.min||0)){
       el.classList.add("invalid");el.focus();el.scrollIntoView({behavior:"smooth"});
-      toast("⚠️ Vui long nhap day du va dung cac so lieu bat buoc","err");
+      toast("⚠️ Vui lòng nhập đầy đủ và đúng các số liệu bắt buộc","err");
       return false;
     }
   }
+  // Required text fields
+  if(!document.getElementById('mbAddr').value.trim()){toast('⚠️ Vui lòng nhập địa chỉ','err');return false;}
+  if(!document.getElementById('mbGTName').value.trim()){toast('⚠️ Vui lòng nhập tên người GT','err');return false;}
+  if(!document.getElementById('mbBCT').value.trim()){toast('⚠️ Vui lòng nhập tên chủ nhà','err');return false;}
   return true;
 }
 
