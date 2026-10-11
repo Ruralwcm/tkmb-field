@@ -138,14 +138,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.15</h2>
+  <h2>TKMB Field v1.16</h2>
   <div class="sub">Scan QH · Check-in · Tiếp nhận MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.15 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.16 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -419,7 +419,7 @@ function showApp(){
   document.getElementById('appWrap').style.display='flex';
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
-  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.15';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.16';
   if(['GĐV','GĐM'].includes(currentUser.rank)) document.getElementById('navDuyet').style.display='block';
   populateGDV();
 }
@@ -580,7 +580,7 @@ function loadDacthu(qh){
 async function saveCheckinOnly(){
   if(!scanSel||!checkinQHRef) return;
 
-  // v1.15: Read from evaluation form (Block 5) instead of prompt()
+  // v1.16: Read from evaluation form (Block 5) instead of prompt()
   const mbTieuChi=document.getElementById('ciMBTieuChi')?.value||'';
   const mbGhepCan=document.getElementById('ciMBGhepCan')?.value||'';
 
@@ -805,7 +805,7 @@ function onQHBSHuyenChange(){
 }
 
 function toggleQHBSForm(){
-  // v1.15: Auto-generate QHBS point and open FULL check-in
+  // v1.16: Auto-generate QHBS point and open FULL check-in
   if(!scanGPS.lat){toast('⚠️ Đang chờ GPS...','err');return;}
 
   // Generate QHBS code
