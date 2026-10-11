@@ -139,14 +139,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.18</h2>
+  <h2>TKMB Field v1.19</h2>
   <div class="sub">Scan QH · Check-in · Tiếp nhận MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.18 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.19 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -158,7 +158,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="nav" id="appNav" style="display:none">
  <button class="active" data-tab="scan" onclick="switchTab('scan')">📍 Scan QH</button>
  <button data-tab="tkmb" onclick="switchTab('tkmb')">📋 Tiếp nhận MB</button>
- <button data-tab="duyet" onclick="switchTab('duyet')" id="navDuyet" style="display:none">✅ Duyệt MB</button>
+ <!-- Duyet MB tab removed -->
 </div>
 <div class="main" id="appMain" style="display:none">
 
@@ -420,8 +420,8 @@ function showApp(){
   document.getElementById('appWrap').style.display='flex';
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
-  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.18';
-  if(['GĐV','GĐM'].includes(currentUser.rank)) document.getElementById('navDuyet').style.display='block';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.19';
+  // Duyet MB tab removed
   populateGDV();
 }
 
@@ -581,7 +581,7 @@ function loadDacthu(qh){
 async function saveCheckinOnly(){
   if(!scanSel||!checkinQHRef) return;
 
-  // v1.18: Read from evaluation form (Block 5) instead of prompt()
+  // v1.19: Read from evaluation form (Block 5) instead of prompt()
   const mbTieuChi=document.getElementById('ciMBTieuChi')?.value||'';
   const mbGhepCan=document.getElementById('ciMBGhepCan')?.value||'';
 
@@ -598,7 +598,7 @@ async function saveCheckinOnly(){
 
   const priceInfo=document.getElementById('ciPriceInfo')?.value||'';
 
-  // v1.18: Validate giá thuê format
+  // v1.19: Validate giá thuê format
   if(priceInfo.trim()&&!/^.+\s*-\s*MT:\s*\d+m\s*-\s*DT:\s*\d+m2\s*-\s*GT:\s*\d+tr$/i.test(priceInfo.trim())){
     toast('⚠️ Giá thuê sai định dạng! Mẫu: Tên - MT: Xm - DT: Xm2 - GT: Xtr','err');
     return;
@@ -815,7 +815,7 @@ function onQHBSHuyenChange(){
 }
 
 function toggleQHBSForm(){
-  // v1.18: Auto-generate QHBS point and open FULL check-in
+  // v1.19: Auto-generate QHBS point and open FULL check-in
   if(!scanGPS.lat){toast('⚠️ Đang chờ GPS...','err');return;}
 
   // Generate QHBS code
