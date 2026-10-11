@@ -124,14 +124,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.24</h2>
+  <h2>TKMB Field v1.25</h2>
   <div class="sub">Scan QH · Check-in · Giới thiệu MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.24 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.25 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -590,7 +590,6 @@ async function saveCheckinOnly(){
   toast('✅ Đã lưu check-in '+checkinQHRef,'ok');
   if(navigator.vibrate)navigator.vibrate(100);
   closeCheckin();
-}
 }
 
 // ═══ TKMB FORM ═══
