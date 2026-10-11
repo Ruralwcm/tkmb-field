@@ -124,14 +124,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.21</h2>
+  <h2>TKMB Field v1.22</h2>
   <div class="sub">Scan QH · Check-in · Tiếp nhận MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.21 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.22 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -215,14 +215,9 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    <div id="ciDacthu"><div class="dacthu-empty">Đang tảii...</div></div>
   </div>
 
-  <!-- Block 4: Thêm MB -->
-  <div class="card" style="text-align:center">
-   <button class="btn-s" onclick="goToTKMB()">➕ Thêm MB → Sang tab Tiếp nhận</button>
-  </div>
-
-  <!-- Block 5: Đánh giá điểm QH -->
+  <!-- Block 4: Đánh giá điểm QH -->
   <div class="card">
-   <span class="block-label">5️⃣ Đánh giá điểm QH</span>
+   <span class="block-label">4️⃣ Đánh giá điểm QH</span>
 
    <div style="font-weight:600;font-size:10px;color:var(--p);margin:8px 0 4px">🏠 MB tiềm năng</div>
    <div style="display:flex;gap:12px">
@@ -251,10 +246,6 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 
 <!-- ═══ TKMB PAGE ═══ -->
 <div class="page" id="pgTKMB">
- <div id="tkmbQHRef" style="display:none;background:#ede9fe;padding:8px 12px;border-radius:6px;margin-bottom:10px;font-size:11px">
-  🔗 Từ check-in: <b id="tkmbQHLabel">—</b>
-  <button style="float:right;background:none;border:none;color:var(--m);cursor:pointer;font-size:16px" onclick="clearQHRef()" title="Bỏ liên kết">✕</button>
- </div>
  <div class="card">
   <h3>📋 Tiếp nhận Mặt Bằằng</h3>
   <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👥 GĐV → QLKV → Tỉnh → Huyện</div>
@@ -355,7 +346,7 @@ let currentUser = null;
 let qhPoints = [];
 let scanGPS = {lat:null,lng:null,watchId:null};
 let scanSel = null;
-let checkinQHRef = null; // QH being checked-in, used to link to TKMB
+let checkinQHRef = null; // QH being checked-in (Scan QH only, independent from TKMB)
 let mbIDSeq = parseInt(localStorage.getItem('tkmb_field_mb_seq')||'0');
 let qhbsSeq = JSON.parse(localStorage.getItem('tkmb_field_qhbs_seq')||'{}');
 let qhbsLocal = JSON.parse(localStorage.getItem('tkmb_field_qhbs')||'[]');
@@ -395,7 +386,7 @@ function showApp(){
   document.getElementById('appWrap').style.display='flex';
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
-  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.21';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.22';
   populateGDV();
 }
 
@@ -600,29 +591,6 @@ async function saveCheckinOnly(){
   if(navigator.vibrate)navigator.vibrate(100);
   closeCheckin();
 }
-
-function goToTKMB(){
-  if(!scanSel||!checkinQHRef) return;
-  // Pre-fill TKMB form from QH
-  switchTab('tkmb');
-  document.getElementById('tkmbQHRef').style.display='block';
-  document.getElementById('tkmbQHLabel').textContent=checkinQHRef+' — '+[scanSel.x,scanSel.h,scanSel.t].filter(Boolean).join(', ');
-
-  // Auto-set GĐV if available
-  if(scanSel.gdv){
-    document.getElementById('mbGDV').value=scanSel.gdv;
-    onGDVChange();
-}
-  // Set coordinates
-  if(scanGPS.lat){
-    document.getElementById('mbMapLink').value=scanGPS.lat.toFixed(6)+', '+scanGPS.lng.toFixed(6);
-    onMapInput();
-  }
-}
-
-function clearQHRef(){
-  checkinQHRef = null;
-  document.getElementById('tkmbQHRef').style.display='none';
 }
 
 // ═══ TKMB FORM ═══
@@ -707,20 +675,9 @@ async function submitTKMB(){
     gtMNV:document.getElementById('mbGTMNV').value,
     bct:document.getElementById('mbBCT').value,
     bctPhone:document.getElementById('mbBCTPhone').value,
-    qhRef: checkinQHRef||'',
     submitter:currentUser?.name||'',
     ts:new Date().toISOString()
   };
-
-  // Also save checkin if coming from QH
-  if(checkinQHRef){
-    checkinLocal.push({
-      qh:checkinQHRef,ts:new Date().toISOString(),user:currentUser?.name,
-      lat:scanGPS.lat||0,lng:scanGPS.lng||0,
-      nguon:'Scan+MB', mbRef: mbId
-    });
-    localStorage.setItem('tkmb_field_checkins',JSON.stringify(checkinLocal));
-  }
 
   try{
     const r=await fetch(GAS_URL,{method:'POST',body:JSON.stringify(d),headers:{'Content-Type':'text/plain'}});
@@ -730,7 +687,6 @@ async function submitTKMB(){
   }catch(e){
     toast('⚠️ Lưu tạm trên máy','err');
   }
-  clearQHRef();
 }
 // ═══ QHBS ═══
 function initQHBSTinh(){
