@@ -124,14 +124,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.22</h2>
+  <h2>TKMB Field v1.23</h2>
   <div class="sub">Scan QH · Check-in · Tiếp nhận MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.22 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.23 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -284,9 +284,9 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    <div class="fg"><label>TG bàn giao</label><input type="date" id="mbHandover"></div>
   </div>
 
-  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👤 Ngườii GT & Chủ nhà</div>
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👤 Người GT & Chủ nhà</div>
   <div class="gr" style="grid-template-columns:1fr 1fr">
-   <div class="fg"><label>Ngườii GT</label><input type="text" id="mbGTName" placeholder="Tên ngườii GT"></div>
+   <div class="fg"><label>Người GT</label><input type="text" id="mbGTName" placeholder="Tên người GT"></div>
    <div class="fg"><label>MNV</label><input type="text" id="mbGTMNV" placeholder="Mã NV"></div>
    <div class="fg"><label>BCT - Tên</label><input type="text" id="mbBCT" placeholder="Tên chủ nhà"></div>
    <div class="fg"><label>BCT - SĐT</label><input type="text" id="mbBCTPhone" placeholder="SĐT"></div>
@@ -386,7 +386,7 @@ function showApp(){
   document.getElementById('appWrap').style.display='flex';
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
-  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.22';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.23';
   populateGDV();
 }
 
