@@ -124,14 +124,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.25</h2>
+  <h2>TKMB Field v1.26</h2>
   <div class="sub">Scan QH · Check-in · Giới thiệu MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.25 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.26 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -440,24 +440,34 @@ function doScan(){
   document.getElementById('scanResults').innerHTML='<div style="text-align:center;padding:16px"><div class="spin"></div><div style="font-size:11px;color:var(--m);margin-top:4px">Đang quét '+qhPoints.length+' điểm QH...</div></div>';
 
   setTimeout(()=>{
-    const nearby=[];let nearest=null,nd=Infinity;
+    const nearby=[];let far=[];let nearest=null,nd=Infinity;
     for(const p of qhPoints){
       const d=haversine(scanGPS.lat,scanGPS.lng,p.lat,p.lng);
+      p.dist=d;
       if(d<nd){nd=d;nearest=p;}
-      if(d<=SCAN_R)nearby.push({...p,dist:d});
+      if(d<=SCAN_R)nearby.push(p);
+      else far.push(p);
     }
     nearby.sort((a,b)=>a.dist-b.dist);
+    far.sort((a,b)=>a.dist-b.dist);
     btn.classList.remove('scanning');
     btn.querySelector('span:last-child').textContent='Scan QH';
-
+  
+    let h='';
     if(nearby.length>0){
-      document.getElementById('scanResults').innerHTML='<div style="font-weight:600;font-size:12px;color:var(--p);margin-bottom:6px">✅ '+nearby.length+' điểm QH trong '+SCAN_R+'m</div>'+
+      h+='<div style="font-weight:600;font-size:12px;color:var(--p);margin-bottom:6px">✅ '+nearby.length+' điểm QH trong '+SCAN_R+'m</div>'+
         nearby.map(p=>'<div class="qh-card" onclick="openCheckin(\''+p.qh+'\')"><div class="qh-code">'+p.qh+'</div><div class="qh-addr">📍 '+
           [p.x,p.h,p.t].filter(Boolean).join(', ')+'</div><div class="qh-tags"><span class="qh-tag near">📏 '+Math.round(p.dist)+'m</span><span class="qh-tag gdv">👤 '+(p.gdv||'')+'</span></div></div>').join('');
-      if(navigator.vibrate)navigator.vibrate(200);
-    }else{
-      document.getElementById('scanResults').innerHTML='<div class="no-result"><div style="font-size:48px;margin-bottom:8px">📭</div><div style="font-weight:600">Không có điểm QH trong '+SCAN_R+'m</div><div style="margin-top:4px;font-size:12px">Gần nhất: <b>'+nearest.qh+'</b> cách <b>'+Math.round(nd)+'m</b></div><button class="qhbs-btn" onclick="openCheckin(\''+nearest.qh+'\',true)" style="margin-top:10px">📍 Check-in '+nearest.qh+' ('+Math.round(nd)+'m)</button></div>';
     }
+    const farShow=far.slice(0,Math.max(0,8-(nearby?nearby.length:0)));
+    if(farShow.length>0){
+      if(nearby.length>0) h+='<div style="font-weight:600;font-size:11px;color:var(--w);margin:10px 0 4px">📍 Gần nhất ngoài '+SCAN_R+'m</div>';
+      else h+='<div style="font-weight:600;font-size:12px;color:var(--w);margin-bottom:6px">📭 Điểm QH xa ('+Math.round(farShow[0].dist)+'m), vẫn check-in được:</div>';
+      h+=farShow.map(p=>'<div class="qh-card" onclick="openCheckin(\''+p.qh+'\')" style="border-color:#fed7aa"><div class="qh-code">'+p.qh+'</div><div class="qh-addr">📍 '+
+          [p.x,p.h,p.t].filter(Boolean).join(', ')+'</div><div class="qh-tags"><span class="qh-tag" style="background:#fff7ed;color:#c2410c">📏 '+Math.round(p.dist)+'m</span><span class="qh-tag gdv">👤 '+(p.gdv||'')+'</span></div></div>').join('');
+    }
+    document.getElementById('scanResults').innerHTML=h||'<div class="no-result"><div style="font-size:48px;margin-bottom:8px">📭</div><div>Không có điểm QH nào</div></div>';
+    if(nearby.length>0&&navigator.vibrate)navigator.vibrate(200);
   },200);
 }
 
