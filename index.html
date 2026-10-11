@@ -143,7 +143,7 @@ body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-s
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.3 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.4 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -367,14 +367,14 @@ let checkinLocal = JSON.parse(localStorage.getItem('tkmb_field_checkins')||'[]')
       const pu=JSON.parse(localStorage.getItem('portal_user'));
       const u=USERS.find(x=>x.name===pu.name)||USERS.find(x=>x.code===pu.id);
       if(u){currentUser=u;showApp();}
-    }catch(e){}
+    }catch(e){qhPoints=[];}
   }
   loadQHData();
   startScanGPS();
 })();
 
 async function loadQHData(){
-  try{const r=await fetch(QH_URL);qhPoints=await r.json();}catch(e){}
+  try{const r=await fetch(QH_URL);qhPoints=await r.json();}catch(e){qhPoints=[];}
 }
 
 // ═══ AUTH ═══
@@ -578,7 +578,7 @@ async function saveCheckinOnly(){
   localStorage.setItem('tkmb_field_checkins',JSON.stringify(checkinLocal));
 
   // Try GAS
-  try{await fetch(GAS_URL,{method:'POST',body:JSON.stringify(d),headers:{'Content-Type':'text/plain'}});}catch(e){}
+  try{await fetch(GAS_URL,{method:'POST',body:JSON.stringify(d),headers:{'Content-Type':'text/plain'}});}catch(e){qhPoints=[];}
 
   toast('✅ Đã lưu check-in '+checkinQHRef,'ok');
   if(navigator.vibrate)navigator.vibrate(100);
@@ -796,7 +796,7 @@ async function submitQHBS(){
   qhPoints.push(d);
   document.getElementById('qhbsGenerated').style.display='block';
   document.getElementById('qhbsGenerated').innerHTML='<div class="qhbs-generated"><div class="code">✅ '+maQHBS+'</div><div class="note">'+xa+', '+huyen+', '+tinh+'</div></div>';
-  try{await fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'saveQHBS',...d}),headers:{'Content-Type':'text/plain'}});}catch(e){}
+  try{await fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'saveQHBS',...d}),headers:{'Content-Type':'text/plain'}});}catch(e){qhPoints=[];}
   toast('✅ Đã tạo '+maQHBS,'ok');
   document.getElementById('qhbsXa').value='';document.getElementById('qhbsNote').value='';document.getElementById('qhbsQLKV').value='';
   if(scanGPS.lat){document.getElementById('qhbsLat').value=scanGPS.lat.toFixed(6);document.getElementById('qhbsLng').value=scanGPS.lng.toFixed(6);}
