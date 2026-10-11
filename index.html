@@ -124,14 +124,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.30</h2>
+  <h2>TKMB Field v1.31</h2>
   <div class="sub">Scan QH · Check-in · Giới thiệu MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.30 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.31 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -237,12 +237,15 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    <button style="font-size:10px;background:none;border:1px dashed var(--pl);color:var(--p);padding:3px 8px;border-radius:4px;cursor:pointer;margin-top:4px" onclick="addPriorityDir()">(+) thêm</button>
 
    <div style="font-weight:600;font-size:10px;color:var(--p);margin:8px 0 4px">💰 Khảo sát giá thuê</div>
-   <div style="display:flex;gap:8px;margin-bottom:6px">
-    <div class="fg" style="flex:2"><label>Tên MB</label><input type="text" id="ciPriceName" placeholder="VD: Siêu Thị Hoàn Hảo"></div>
-    <div class="fg" style="flex:0 0 60px"><label>MT(m)</label><input type="number" id="ciPriceMT" placeholder="20" min="0"></div>
-    <div class="fg" style="flex:0 0 70px"><label>DT(m²)</label><input type="number" id="ciPriceDT" placeholder="100" min="0"></div>
-    <div class="fg" style="flex:0 0 70px"><label>Giá(tr)</label><input type="number" id="ciPriceGT" placeholder="20" min="0"></div>
+   <div id="priceSurveyContainer">
+    <div class="price-survey-row" style="display:flex;gap:8px;margin-bottom:6px">
+     <div class="fg" style="flex:2"><label>Tên MB</label><input type="text" class="ciPriceName" placeholder="VD: Siêu Thị Hoàn Hảo"></div>
+     <div class="fg" style="flex:0 0 60px"><label>MT(m)</label><input type="number" class="ciPriceMT" placeholder="20" min="0"></div>
+     <div class="fg" style="flex:0 0 70px"><label>DT(m²)</label><input type="number" class="ciPriceDT" placeholder="100" min="0"></div>
+     <div class="fg" style="flex:0 0 70px"><label>Giá(tr)</label><input type="number" class="ciPriceGT" placeholder="20" min="0"></div>
+    </div>
    </div>
+   <button style="font-size:10px;background:none;border:1px dashed var(--pl);color:var(--p);padding:3px 8px;border-radius:4px;cursor:pointer;margin-top:4px" onclick="addPriceRow()">(+) thêm</button>
 
    <button class="btn-w" onclick="saveCheckinOnly()">💾 Lưu đánh giá</button>
   </div>
@@ -391,7 +394,7 @@ function showApp(){
   document.getElementById('appWrap').style.display='flex';
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
-  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.30';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.31';
   populateGDV();
 }
 
@@ -578,15 +581,16 @@ async function saveCheckinOnly(){
   const priority=dirs.length?dirs.join(', '):'';
   const priorityNote='';
 
-  const priceName=document.getElementById('ciPriceName')?.value?.trim()||'';
-  const priceMT=document.getElementById('ciPriceMT')?.value||'';
-  const priceDT=document.getElementById('ciPriceDT')?.value||'';
-  const priceGT=document.getElementById('ciPriceGT')?.value||'';
-  // Build priceKV string from 4 fields
-  let priceKV='';
-  if(priceName||priceMT||priceDT||priceGT){
-    priceKV=(priceName||'?')+' - MT: '+(priceMT||'?')+'m - DT: '+(priceDT||'?')+'m2 - GT: '+(priceGT||'?')+'tr';
-  }
+  // Collect all price survey rows
+  const priceRows=[];
+  document.querySelectorAll('#priceSurveyContainer .price-survey-row').forEach(row=>{
+    const n=row.querySelector('.ciPriceName')?.value?.trim()||'';
+    const mt=row.querySelector('.ciPriceMT')?.value||'';
+    const dt=row.querySelector('.ciPriceDT')?.value||'';
+    const gt=row.querySelector('.ciPriceGT')?.value||'';
+    if(n||mt||dt||gt) priceRows.push((n||'?')+' - MT: '+(mt||'?')+'m - DT: '+(dt||'?')+'m2 - GT: '+(gt||'?')+'tr');
+  });
+  const priceKV=priceRows.join(' | ');
 
   const d = {
     action:'saveCheckin',
@@ -842,6 +846,18 @@ function addPriorityDir(){
   row.className='priority-dir-row';
   row.style.cssText='display:flex;gap:8px;margin-bottom:6px;align-items:flex-end';
   row.innerHTML='<div class="fg" style="flex:3"><label>Hướng '+(priDirCount)+'</label><select class="priDir"><option value="">-- Chọn --</option><option>1h</option><option>2h</option><option>3h</option><option>4h</option><option>5h</option><option>6h</option><option>7h</option><option>8h</option><option>9h</option><option>10h</option><option>11h</option><option>12h</option></select></div><div class="fg" style="flex:0 0 60px"><label>m</label><input type="number" class="priDist" placeholder="0" min="0"></div>';
+  container.appendChild(row);
+}
+
+// ═══ PRICE SURVEY ═══
+function addPriceRow(){
+  const container=document.getElementById('priceSurveyContainer');
+  const rows=container.querySelectorAll('.price-survey-row');
+  if(rows.length>=5){toast('⚠️ Tối đa 5 MB khảo sát','err');return;}
+  const row=document.createElement('div');
+  row.className='price-survey-row';
+  row.style.cssText='display:flex;gap:8px;margin-bottom:6px';
+  row.innerHTML='<div class="fg" style="flex:2"><input type="text" class="ciPriceName" placeholder="VD: Siêu Thị Hoàn Hảo"></div><div class="fg" style="flex:0 0 60px"><input type="number" class="ciPriceMT" placeholder="20" min="0"></div><div class="fg" style="flex:0 0 70px"><input type="number" class="ciPriceDT" placeholder="100" min="0"></div><div class="fg" style="flex:0 0 70px"><input type="number" class="ciPriceGT" placeholder="20" min="0"></div>';
   container.appendChild(row);
 }
 
