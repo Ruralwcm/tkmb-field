@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+<title>TKMB Field — Scan QH & Tiếp nhận MB</title>
+<style>
+:root{--p:#7c3aed;--pl:#a78bfa;--bg:#f5f3ff;--card:#fff;--t:#1f2937;--m:#6b7280;--s:#16a34a;--w:#d97706;--d:#dc2626;--b:#e5e7eb;--r:12px;--sh:0 1px 3px rgba(0,0,0,.04)}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif;background:#f8f9fb;color:var(--t);line-height:1.5;min-height:100vh}
+
+.topbar{background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.topbar .t{font-size:15px;font-weight:700}
+.topbar .u{font-size:11px;opacity:.85;margin-top:1px}
+.topbar button{background:rgba(255,255,255,.15);border:none;color:#fff;padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer}
+
+.nav{display:flex;background:#fff;border-bottom:1px solid var(--b);position:sticky;top:56px;z-index:50}
+.nav button{flex:1;padding:11px;border:none;background:none;font-size:13px;font-weight:600;color:var(--m);cursor:pointer;border-bottom:2px solid transparent;transition:.15s}
+.nav button.active{color:var(--p);border-bottom-color:var(--p)}
+
+.main{max-width:600px;margin:0 auto;padding:12px}
+.page{display:none}
+.page.active{display:block;animation:fadeIn .2s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+.card{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--sh);border:1px solid #f0edf5}
+.card h3{font-size:14px;color:var(--p);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #f0edf5}
+
+/* LOGIN */
+.login-ov{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:9999}
+.login-c{background:#fff;padding:28px;border-radius:var(--r);width:340px;box-shadow:0 8px 32px rgba(0,0,0,.2);text-align:center}
+.login-c .icon{font-size:40px;margin-bottom:8px}
+.login-c h2{color:var(--p);font-size:18px;margin-bottom:4px}
+.login-c .sub{font-size:12px;color:var(--m);margin-bottom:16px}
+.login-c input{width:100%;padding:10px 12px;border:1px solid var(--b);border-radius:6px;font-size:14px;margin-bottom:10px;text-align:center}
+.login-c input:focus{outline:none;border-color:var(--p)}
+.login-c .err{color:var(--d);font-size:11px;min-height:16px}
+.login-c button{width:100%;padding:11px;background:var(--p);color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:600;cursor:pointer;margin-top:4px}
+.login-c .link{font-size:11px;margin-top:10px}
+.login-c .link a{color:var(--p);text-decoration:none}
+
+/* SCAN */
+.scan-hero{text-align:center;padding:16px 0}
+.scan-btn{width:110px;height:110px;border-radius:50%;background:linear-gradient(145deg,#16a34a,#22c55e);color:white;border:none;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(22,163,74,.4);transition:transform .2s;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.scan-btn:active{transform:scale(.93)}
+.scan-btn.scanning{background:linear-gradient(145deg,#d97706,#f59e0b);animation:pulse 1.5s infinite}
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(217,119,6,.5)}70%{box-shadow:0 0 0 20px rgba(217,119,6,0)}100%{box-shadow:0 0 0 0 rgba(217,119,6,0)}}
+.gps-status{font-size:11px;color:var(--m);margin-top:8px}
+.gps-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#ccc;margin-right:4px}
+.gps-dot.ok{background:var(--s)}
+.qh-card{cursor:pointer;background:#fff;border-radius:8px;padding:10px 12px;margin-bottom:6px;border:1px solid #ede9fe;transition:transform .15s}
+.qh-card:active{transform:scale(.98)}
+.qh-code{font-weight:700;font-size:14px;color:var(--p)}
+.qh-addr{font-size:11px;color:var(--m);margin-top:1px}
+.qh-tags{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap}
+.qh-tag{padding:1px 7px;border-radius:8px;font-size:9px;font-weight:600}
+.qh-tag.near{background:#dcfce7;color:#15803d}
+.qh-tag.gdv{background:#ede9fe;color:var(--p)}
+.no-result{text-align:center;padding:24px;color:var(--m)}
+.back-btn{background:none;border:none;color:var(--p);font-size:13px;font-weight:600;cursor:pointer;margin-bottom:10px}
+
+/* FORM */
+.fg{margin-bottom:8px}
+.fg label{display:block;font-size:10px;font-weight:600;color:var(--m);text-transform:uppercase;letter-spacing:.3px;margin-bottom:2px}
+.fg input,.fg select,.fg textarea{padding:9px 12px;border:1px solid #d1d5db;border-radius:8px;font-size:13px;width:100%;background:#fafafa}
+.fg input:focus,.fg select:focus,.fg textarea:focus{outline:none;border-color:var(--pl);background:#fff}
+.fg textarea{resize:vertical;min-height:60px}
+.gr{display:grid;gap:8px 12px}
+.gr2{grid-template-columns:1fr 1fr}
+.gr3{grid-template-columns:1fr 1fr 1fr}
+.gr6{grid-template-columns:repeat(3,1fr)}
+.btn-p{width:100%;padding:12px;background:var(--s);color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer}
+.btn-p:active{background:#15803d}
+.btn-s{width:100%;padding:11px;background:var(--p);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;margin-top:12px}
+
+/* MAP */
+.map-box{background:linear-gradient(135deg,#eff6ff,#f0f9ff);border:2px dashed #93c5fd;border-radius:var(--r);padding:10px 14px;margin:8px 0;display:flex;align-items:center;gap:10px}
+.map-box .mi{font-size:24px;flex-shrink:0}
+.map-box .min{flex:1;min-width:0}
+.map-res{background:#fff;border-radius:8px;padding:8px 10px;text-align:center;flex:1}
+.map-res .qh-name{font-weight:700;color:var(--p);font-size:11px}
+.map-res .qh-dist{font-size:20px;font-weight:800;color:var(--s)}
+
+/* TIMELINE */
+.tl-item{position:relative;padding:0 0 12px 18px;border-left:2px solid #ede9fe;font-size:11px}
+.tl-item:last-child{border-left-color:transparent}
+.tl-item::before{content:'';position:absolute;left:-5px;top:3px;width:8px;height:8px;border-radius:50%;background:var(--p)}
+.tl-date{color:#aaa;font-size:10px}
+
+/* TOAST */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#333;color:#fff;padding:8px 16px;border-radius:16px;font-size:12px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none}
+.toast.show{opacity:1}
+.toast.ok{background:var(--s)}
+.toast.err{background:var(--d)}
+
+/* SPINNER */
+.spin{display:inline-block;width:24px;height:24px;border:3px solid #e5e7eb;border-top-color:var(--p);border-radius:50%;animation:spin .8s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+@media(min-width:480px){.gr6{grid-template-columns:repeat(6,1fr)}}
+</style>
+</head>
+<body>
+
+<!-- LOGIN -->
+<div class="login-ov" id="loginOv">
+ <div class="login-c">
+  <div class="icon">🏗️</div>
+  <h2>TKMB Field</h2>
+  <div class="sub">Scan QH & Tiếp nhận MB</div>
+  <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
+  <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
+  <div class="err" id="loginErr"></div>
+  <button onclick="doLogin()">Đăng nhập</button>
+  <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.0 · Rural Miền Bắc</div>
+ </div>
+</div>
+
+<!-- APP -->
+<div class="topbar" id="appWrap" style="display:none">
+ <div><div class="t">🏗️ TKMB Field</div><div class="u" id="userLabel">...</div></div>
+ <button onclick="doLogout()">Thoát</button>
+</div>
+<div class="nav" id="appNav" style="display:none">
+ <button class="active" data-tab="scan" onclick="switchTab('scan')">📍 Scan QH</button>
+ <button data-tab="tkmb" onclick="switchTab('tkmb')">📋 Tiếp nhận MB</button>
+</div>
+<div class="main" id="appMain" style="display:none">
+
+<!-- SCAN PAGE -->
+<div class="page active" id="pgScan">
+ <div class="card" style="text-align:center">
+  <h3>📍 Scan điểm Quy Hoạch</h3>
+  <div class="scan-hero">
+   <button class="scan-btn" id="scanBtn" onclick="doScan()"><span style="font-size:28px">📍</span><span>Scan QH</span></button>
+   <div class="gps-status" id="gpsStatus"><span class="gps-dot" id="gpsDot"></span> <span id="gpsText">Sẵn sàng</span></div>
+   <div style="font-size:9px;color:#aaa" id="gpsCoords"></div>
+  </div>
+  <div id="scanResults"></div>
+ </div>
+ <div id="scanDetail" style="display:none">
+  <button class="back-btn" onclick="closeScanDetail()">← Quay lại</button>
+  <div class="card" id="scanInfo"></div>
+  <div class="card">
+   <h3>📝 Ghi nhận khảo sát</h3>
+   <div class="gr gr2"><div class="fg"><label>Ngày KS</label><input type="date" id="fNgayKS"></div><div class="fg"><label>Giá thuê KV (tr/th)</label><input type="number" id="fGiaKV" placeholder="VD: 12"></div></div>
+   <div class="fg"><label>Địa chỉ nhà</label><input type="text" id="fDiaChi" placeholder="Số nhà, đường, phường/xã"></div>
+   <div class="gr gr2"><div class="fg"><label>Diện tích (m²)</label><input type="number" id="fDienTich" placeholder="VD: 120"></div><div class="fg"><label>Mặt tiền (m)</label><input type="number" id="fMatTien" placeholder="VD: 8"></div></div>
+   <div class="gr gr2"><div class="fg"><label>Giá thuê nhà (tr/th)</label><input type="number" id="fGiaThue" placeholder="VD: 15"></div><div class="fg"><label>Cơ hội ghép căn</label><select id="fGhepCan"><option value="">— Chọn —</option><option value="Có">✅ Có thể ghép</option><option value="Không">❌ Không</option><option value="Cần KS thêm">🔄 Cần KS thêm</option></select></div></div>
+   <div class="fg"><label>Ghi chú</label><textarea id="fGhiChu" rows="2" placeholder="Thông tin thêm..."></textarea></div>
+   <button class="btn-p" onclick="saveScanQH()">💾 Lưu khảo sát</button>
+  </div>
+  <div class="card">
+   <h3>📋 Lịch sử khảo sát</h3>
+   <div id="scanTimeline" style="text-align:center;color:var(--m);font-size:12px">Đang tải...</div>
+  </div>
+ </div>
+</div>
+
+<!-- TKMB PAGE -->
+<div class="page" id="pgTKMB">
+ <div class="card">
+  <h3>📋 Tiếp nhận Mặt Bằng</h3>
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👥 GĐV → QLKV → Tỉnh → Huyện</div>
+  <div class="gr gr2">
+   <div class="fg"><label>GĐV *</label><select id="mbGDV" onchange="onGDVChange()"><option value="">-- Chọn GĐV --</option></select></div>
+   <div class="fg"><label>QLKV *</label><select id="mbQLKV" onchange="onQLKVChange()" disabled><option value="">-- Chọn QLKV --</option></select></div>
+   <div class="fg"><label>Tỉnh/TP *</label><select id="mbTinh" onchange="onTinhChange()" disabled><option value="">-- Chọn Tỉnh/TP --</option></select></div>
+   <div class="fg"><label>Huyện/Quận *</label><select id="mbHuyen" disabled><option value="">-- Chọn Huyện/Quận --</option></select></div>
+  </div>
+
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">📍 Địa chỉ & Thông số</div>
+  <div class="fg"><label>Địa chỉ cụ thể *</label><input type="text" id="mbAddr" placeholder="VD: Thôn Dục Tú, xã Dục Tú, Đông Anh"></div>
+  <div class="gr gr6">
+   <div class="fg"><label>DT (m²)</label><input type="text" inputmode="decimal" id="mbArea" placeholder="12.5"></div>
+   <div class="fg"><label>MT (m)</label><input type="text" inputmode="decimal" id="mbFront" placeholder="6.5"></div>
+   <div class="fg"><label>Giá (tr/th)</label><input type="text" inputmode="decimal" id="mbPrice" placeholder="15.5"></div>
+   <div class="fg"><label>Thanh toán</label><input type="text" id="mbPayment" placeholder="3 tháng/lần"></div>
+   <div class="fg"><label>Cọc (tr)</label><input type="text" inputmode="decimal" id="mbDeposit" placeholder="30"></div>
+   <div class="fg"><label>Thời hạn</label><input type="text" id="mbDuration" placeholder="5 năm"></div>
+  </div>
+
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">🗺 Định vị Map</div>
+  <div class="map-box">
+   <div class="mi">📍</div>
+   <div class="min"><div class="fg"><label>Link Google Maps hoặc Tọa độ (lat, lng)</label><input type="text" id="mbMapLink" placeholder="VD: 21.0179, 105.9650 hoặc maps link" oninput="onMapInput()"></div></div>
+  </div>
+  <div id="mapResult" style="display:none"><div style="display:flex;gap:6px;margin-top:6px">
+   <div class="map-res"><div style="font-size:8px;color:var(--m)">📍 Điểm QH gần nhất</div><div class="qh-name" id="qhName">—</div><div style="font-size:9px;color:var(--m)" id="qhDetail"></div></div>
+   <div class="map-res"><div style="font-size:8px;color:var(--m)">📏 Khoảng cách</div><div class="qh-dist" id="qhDistance">—</div><div style="font-size:9px;color:var(--m)" id="qhDistLabel"></div></div>
+   <div class="map-res"><div style="font-size:8px;color:var(--m)">🎯 Đánh giá</div><div style="font-size:12px;font-weight:700" id="qhEval">—</div></div>
+  </div></div>
+
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">📋 Pháp lý · Hiện trạng · Bàn giao</div>
+  <div class="gr gr3">
+   <div class="fg"><label>Pháp lý</label><select id="mbLegal"><option value="">-- Chọn --</option><option>Sổ đỏ chính chủ</option><option>Sổ đỏ đồng sở hữu</option><option>Hợp đồng ủy quyền</option><option>Giấy tờ khác</option><option>Đang chờ xác minh</option></select></div>
+   <div class="fg"><label>Hiện trạng</label><select id="mbCondition"><option value="">-- Chọn --</option><option>Nhà trống</option><option>Đang kinh doanh</option><option>Đất trống</option><option>Đang xây dựng</option><option>Cần sửa chữa</option></select></div>
+   <div class="fg"><label>TG bàn giao</label><input type="text" id="mbHandover" placeholder="VD: 15/10"></div>
+  </div>
+
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👤 Người GT & Chủ nhà</div>
+  <div class="gr" style="grid-template-columns:1fr 1fr">
+   <div class="fg"><label>Người GT</label><input type="text" id="mbGTName" placeholder="Tên người GT"></div>
+   <div class="fg"><label>MNV</label><input type="text" id="mbGTMNV" placeholder="Mã NV"></div>
+   <div class="fg"><label>BCT - Tên</label><input type="text" id="mbBCT" placeholder="Tên chủ nhà"></div>
+   <div class="fg"><label>BCT - SĐT</label><input type="text" id="mbBCTPhone" placeholder="SĐT"></div>
+  </div>
+
+  <button class="btn-s" onclick="submitTKMB()">📤 Gửi Mặt Bằng → Chờ GĐV duyệt</button>
+ </div>
+</div>
+
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ═══ CONFIG ═══
+const GAS_URL = 'https://script.google.com/macros/s/AKfycbz-BBkWkq8ye9K-ua-QDWWw2fBbBIXFx4ivvc6ViiBUwIzPizJhD2YT0OQy2o_C1GUl/exec';
+const QH_URL = 'qh_points.json';
+const SCAN_R = 100;
+
+// ═══ USERS ═══
+const USERS = [
+  {rank:'GĐV',name:'Phạm Minh Thu',code:'928615',phone:'12345678',gdv:'Phạm Minh Thu'},
+  {rank:'GĐV',name:'Lê Thị Hồng Thu',code:'960421',phone:'12345678',gdv:'Lê Thị Hồng Thu'},
+  {rank:'GĐV',name:'Tạ Công Nhận',code:'961088',phone:'12345678',gdv:'Tạ Công Nhận'},
+  {rank:'GĐV',name:'Bùi Thị Thu Nhài',code:'976644',phone:'12345678',gdv:'Bùi Thị Thu Nhài'},
+  {rank:'GĐV',name:'Nguyễn Mạnh Sơn',code:'965799',phone:'12345678',gdv:'Nguyễn Mạnh Sơn'},
+  {rank:'GĐV',name:'Hồ Nam',code:'960668',phone:'12345678',gdv:'Hồ Nam'},
+  {rank:'GĐV',name:'Nguyễn Duy Đoàn',code:'976998',phone:'12345678',gdv:'Nguyễn Duy Đoàn'},
+  {rank:'GĐV',name:'Đặng Văn Dũng',code:'3004544',phone:'12345678',gdv:'Đặng Văn Dũng'},
+  {rank:'GĐV',name:'Tạ Quốc Huy',code:'965140',phone:'12345678',gdv:'Tạ Quốc Huy'},
+  {rank:'GĐV',name:'Dương Tùng',code:'3004543',phone:'12345678',gdv:'Dương Tùng'},
+  {rank:'GĐV',name:'Nguyễn Thị Thu',code:'961678',phone:'12345678',gdv:'Nguyễn Thị Thu'},
+  {rank:'GĐV',name:'Đỗ Quỳnh Thùy Trang',code:'961100',phone:'12345678',gdv:'Đỗ Quỳnh Thùy Trang'},
+  {rank:'GĐV',name:'Lạc Nhật Minh',code:'3004545',phone:'12345678',gdv:'Lạc Nhật Minh'},
+  {rank:'GĐV',name:'Bùi Anh Tuấn',code:'3004546',phone:'12345678',gdv:'Bùi Anh Tuấn'},
+  {rank:'GĐV',name:'Hoàng Nguyễn Tú Anh',code:'3004547',phone:'12345678',gdv:'Hoàng Nguyễn Tú Anh'},
+  {rank:'QLKV',name:'Trần Thu Trà',code:'3004548',phone:'12345678',gdv:'Phạm Minh Thu'},
+  {rank:'GĐM',name:'Đặng Trần Hảo',code:'963956',phone:'12345678',gdv:'Đặng Trần Hảo'}
+];
+
+// ═══ CASCADE ═══
+const CASCADE = {"Bùi Thị Thu Nhài":{"Bùi Thị Thu Nhài":{"TP. Hà Nội":["H. Hoài Đức","H. Đan Phượng"]},"Nguyễn Hữu Huân":{"TP. Hà Nội":["H. Đan Phượng"]},"Nguyễn Thị Hồng":{"TP. Hà Nội":["H. Ba Vì"]},"Nguyễn Thị Thu Hương":{"TP. Hà Nội":["H. Phúc Thọ"]},"Ngô Thị Quỳnh Anh":{"TP. Hà Nội":["H. Hoài Đức"]},"Phan Phúc Tân":{"TP. Hà Nội":["H. Ba Vì","H. Phúc Thọ"]},"Phạm Thị Nhâm":{"TP. Hà Nội":["H. Hoài Đức"]}},"Dương Tùng":{"Bùi Thị Thu Trang":{"TP. Hà Nội":["H. Ứng Hòa"]},"Dương Tùng":{"T. Hoà Bình":["H. Cao Phong","H. Lương Sơn","H. Mai Châu","H. Tân Lạc","TP. Hoà Bình"]},"Nguyễn Thị Dung":{"TP. Hà Nội":["H. Mỹ Đức"]},"Phạm Thị Bưởi":{"T. Hoà Bình":["H. Đà Bắc"]},"Vũ Thị Hương":{"T. Hoà Bình":["H. Lạc Thủy","H. Yên Thủy"]},"Đinh Thị Thu Hiền":{"T. Hoà Bình":["H. Lạc Sơn"]},"Đỗ Thanh Thủy":{"T. Sơn La":["H. Mộc Châu","H. Phù Yên","H. Vân Hồ"]}},"Hồ Nam":{"Bàn Văn Minh":{"T. Phú Thọ":["H. Hạ Hoà"]},"Cấn Văn Hoàn":{"T. Phú Thọ":["H. Thanh Ba"]},"Dương Đức Tài":{"T. Thái Nguyên":["H. Đồng Hỷ"]},"Hoàng Văn Huỳnh":{"T. Tuyên Quang":["H. Chiêm Hoá"]},"Lộc Thị Tươi":{"T. Tuyên Quang":["TP. Tuyên Quang"]},"Lương Văn Thửa":{"T. Thái Nguyên":["H. Phú Lương"]},"Lý Văn Sinh":{"T. Thái Nguyên":["H. Định Hoá"]},"Lê Thị Thu":{"T. Phú Thọ":["H. Thanh Thuỷ"]},"Ma Văn Toàn":{"T. Phú Thọ":["H. Thanh Sơn"]},"Nguyễn Ngọc Tâm":{"T. Phú Thọ":["H. Tam Nông","H. Thanh Sơn"]},"Nguyễn Trọng Hoàng":{"T. Bắc Kạn":["H. Ba Bể"]},"Nguyễn Văn Bình":{"T. Phú Thọ":["H. Yên Lập"]},"Nguyễn Đình Hậu":{"TP. Hà Nội":["H. Ba Vì"]},"Nông Minh Sơn":{"T. Tuyên Quang":["H. Na Hang"]},"Phùng Minh Hoàng":{"T. Tuyên Quang":["H. Sơn Dương"]},"Triệu Đức Thành":{"T. Bắc Kạn":["TP. Bắc Kạn"]},"Trần Trọng Hiếu":{"TP. Hà Nội":["H. Ba Vì"]},"Tạ Quốc Oanh":{"T. Phú Thọ":["H. Cẩm Khê"]},"Tạ Vân Anh":{"TP. Hà Nội":["H. Sơn Tây"]},"Vi Văn Đại":{"T. Phú Thọ":["H. Tân Sơn"]},"Đỗ Hải Võ":{"T. Thái Nguyên":["TP. Thái Nguyên"]}},"Lê Thị Hồng Thu":{"Lê Thị Hồng Thu":{"T. Hải Dương":["H. Nam Sách","TP. Chí Linh","TP. Hải Dương"]},"Nguyễn Thị Thu":{"T. Hải Dương":["H. Cẩm Giàng","H. Kim Thành"]},"Phạm Thị Hải":{"T. Hải Dương":["H. Thanh Hà","TP. Hải Dương"]},"Trần Thị Hoa":{"T. Hải Dương":["H. Kinh Môn"]},"Đào Thị Hường":{"T. Hải Dương":["H. Ninh Giang"]}},"Nguyễn Duy Đoàn":{"Chu Văn Anh":{"T. Hưng Yên":["H. Văn Giang"]},"Dương Thị Hòa":{"T. Hưng Yên":["H. Khoái Châu"]},"Lưu Văn Sơn":{"T. Hưng Yên":["H. Mỹ Hào","H. Văn Lâm"]},"Lê Văn Thao":{"T. Hưng Yên":["TP. Hưng Yên"]},"Nguyễn Văn Luyến":{"T. Hưng Yên":["H. Văn Giang"]},"Nguyễn Đức Lợi":{"T. Bắc Ninh":["H. Thuận Thành","TP. Bắc Ninh"]},"Phạm Văn Huân":{"T. Hưng Yên":["H. Phù Cừ"]}},"Nguyễn Mạnh Sơn":{"Bùi Thị Thanh":{"T. Hà Giang":["H. Quang Bình"]},"Hoàng Xuân Tưởng":{"T. Tuyên Quang":["H. Yên Sơn"]},"Lâm Văn Hà":{"T. Hà Giang":["H. Vị Xuyên","TP. Hà Giang"]},"Mã Ích Dương":{"T. Hà Giang":["H. Quản Bạ","H. Yên Minh"]},"Nông Minh Hòa":{"T. Hà Giang":["H. Bắc Mê","H. Đồng Văn"]},"Phạm Hữu Tài":{"T. Hà Giang":["H. Hoàng Su Phì"]},"Trần Đức Anh":{"T. Hà Giang":["H. Mèo Vạc"]},"Trần Đức Dũng":{"T. Hà Giang":["H. Xín Mần"]},"Đặng Thị Bích Nhi":{"T. Hà Giang":["TP. Hà Giang"]}},"Nguyễn Thị Thu":{"Bùi Ngọc Quỳnh Trang":{"TP. Hà Nội":["H. Mỹ Đức"]},"Mai Thanh Hải":{"T. Thanh Hóa":["H. Nga Sơn"]},"Nguyễn Ngọc Tú":{"T. Thanh Hóa":["H. Hà Trung"]},"Nguyễn Thị Hằng":{"T. Nam Định":["H. Trực Ninh","H. Vụ Bản"]},"Phan Thị Mai":{"T. Nam Định":["H. Hải Hậu","H. Nghĩa Hưng"]},"Phạm Xuân Hùng":{"T. Thanh Hóa":["H. Hậu Lộc"]},"Phạm Đình Kỳ":{"T. Ninh Bình":["H. Hoa Lư","H. Yên Mô"]},"Trần Văn Thao":{"T. Ninh Bình":["H. Kim Sơn","H. Yên Khánh"]},"Vũ Ngọc Toàn":{"T. Nam Định":["H. Ý Yên","TP. Nam Định"]}},"Phạm Minh Thu":{"Bùi Văn Chiến":{"TP. Hà Nội":["H. Mê Linh"]},"Hoàng Thị Thảo":{"T. Vĩnh Phúc":["H. Vĩnh Tường","H. Yên Lạc"]},"Lê Văn Trung":{"T. Vĩnh Phúc":["H. Tam Dương","TP. Vĩnh Yên"]},"Lê Đức Toàn":{"T. Vĩnh Phúc":["H. Bình Xuyên","H. Tam Đảo"]},"Nguyễn Đức Thành":{"T. Vĩnh Phúc":["H. Lập Thạch","H. Sông Lô"]},"Ngô Thị Hà":{"TP. Hà Nội":["H. Sóc Sơn"]},"Trần Thu Trà":{"TP. Hà Nội":["H. Đông Anh","H. Gia Lâm"]},"Trần Văn Bắc":{"TP. Hà Nội":["H. Mê Linh"]},"Đoàn Thị Hương Giang":{"TP. Hà Nội":["H. Đông Anh"]}},"Tạ Công Nhận":{"Hoàng Văn Cường":{"T. Bắc Giang":["H. Lục Ngạn","H. Sơn Động"]},"Hà Văn Nhân":{"T. Bắc Ninh":["H. Quế Võ"]},"Nông Thị Minh Sơn":{"T. Lạng Sơn":["H. Bắc Sơn"]},"Phùng Văn Thịnh":{"T. Bắc Giang":["H. Lạng Giang","H. Yên Dũng"]},"Phạm Bá Quang":{"T. Bắc Ninh":["H. Gia Bình","H. Lương Tài"]},"Thân Văn Tùng":{"T. Bắc Giang":["TP. Bắc Giang"]},"Trần Thị Hợp":{"T. Lạng Sơn":["H. Hữu Lũng"]},"Vi Hoài Nam":{"T. Lạng Sơn":["H. Lộc Bình"]},"Đào Xuân Hải":{"T. Bắc Giang":["H. Tân Yên","H. Yên Thế"]}},"Tạ Quốc Huy":{"Lê Thị Mây":{"T. Hải Dương":["H. Thanh Miện"]},"Nguyễn Quốc Minh":{"T. Bắc Ninh":["H. Tiên Du","H. Yên Phong","TP. Từ Sơn"]},"Phạm Hồng Hải":{"T. Bắc Ninh":["TP. Bắc Ninh"]},"Trần Mạnh Hùng":{"T. Bắc Ninh":["H. Thuận Thành"]},"Vũ Đình Thức":{"T. Hải Dương":["H. Bình Giang"]}},"Đặng Văn Dũng":{"Lương Văn Chỉnh":{"T. Hà Nam":["H. Kim Bảng","H. Thanh Liêm","TP. Phủ Lý"]},"Nguyễn Việt Hùng":{"T. Thái Bình":["H. Quỳnh Phụ","H. Thái Thụy"]},"Nguyễn Đức Hải":{"T. Hà Nam":["H. Bình Lục","H. Duy Tiên","H. Lý Nhân"]},"Phạm Văn Tuân":{"T. Thái Bình":["H. Kiến Xương","H. Tiền Hải"]},"Trịnh Thanh Bình":{"T. Ninh Bình":["H. Gia Viễn","H. Nho Quan","H. Yên Khánh","TP. Ninh Bình","TP. Tam Điệp"]},"Trần Thị Hương":{"T. Hà Nam":["H. Duy Tiên","TP. Phủ Lý"]},"Vũ Đức Vượng":{"T. Thái Bình":["H. Hưng Hà","H. Vũ Thư","TP. Thái Bình"]}}};
+
+// ═══ STATE ═══
+let currentUser = null;
+let qhPoints = [];
+let scanGPS = {lat:null,lng:null,watchId:null};
+let scanSel = null;
+let mbIDSeq = parseInt(localStorage.getItem('tkmb_field_mb_seq')||'0');
+let localMBs = JSON.parse(localStorage.getItem('tkmb_field_mbs')||'[]');
+
+// ═══ INIT ═══
+(function init(){
+  if(localStorage.getItem('portal_user')){
+    try{
+      const pu=JSON.parse(localStorage.getItem('portal_user'));
+      const u=USERS.find(x=>x.name===pu.name)||USERS.find(x=>x.code===pu.id);
+      if(u){currentUser=u;showApp();}
+    }catch(e){}
+  }
+  loadQHData();
+  startScanGPS();
+})();
+
+async function loadQHData(){
+  try{const r=await fetch(QH_URL);qhPoints=await r.json();}catch(e){}
+}
+
+// ═══ AUTH ═══
+function doLogin(){
+  const c=document.getElementById('loginCode').value.trim();
+  const p=document.getElementById('loginPass').value.trim();
+  let u=USERS.find(x=>x.code===c&&x.phone===p);
+  if(!u&&!p) u=USERS.find(x=>x.code===c);
+  if(!u){document.getElementById('loginErr').textContent='Sai mã NV hoặc mật khẩu!';return;}
+  currentUser=u;
+  localStorage.setItem('portal_user',JSON.stringify({id:u.code,name:u.name,role:u.rank,gdv:u.gdv||'',ts:Date.now()}));
+  showApp();
+}
+
+function showApp(){
+  document.getElementById('loginOv').style.display='none';
+  document.getElementById('appWrap').style.display='flex';
+  document.getElementById('appNav').style.display='flex';
+  document.getElementById('appMain').style.display='block';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+')';
+  populateGDV();
+}
+
+function doLogout(){
+  currentUser=null;
+  localStorage.removeItem('portal_user');
+  document.getElementById('loginOv').style.display='flex';
+  document.getElementById('appWrap').style.display='none';
+  document.getElementById('appNav').style.display='none';
+  document.getElementById('appMain').style.display='none';
+  document.getElementById('loginCode').value='';
+  document.getElementById('loginPass').value='';
+  document.getElementById('loginErr').textContent='';
+}
+
+// ═══ TABS ═══
+function switchTab(t){
+  document.querySelectorAll('.nav button').forEach(b=>b.classList.remove('active'));
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelector('[data-tab="'+t+'"]').classList.add('active');
+  document.getElementById(t==='scan'?'pgScan':'pgTKMB').classList.add('active');
+}
+
+// ═══ GPS SCAN ═══
+function startScanGPS(){
+  if(!navigator.geolocation)return;
+  scanGPS.watchId=navigator.geolocation.watchPosition(
+    function(pos){
+      scanGPS.lat=pos.coords.latitude;scanGPS.lng=pos.coords.longitude;
+      document.getElementById('gpsDot').className='gps-dot ok';
+      document.getElementById('gpsText').textContent='GPS OK (±'+Math.round(pos.coords.accuracy)+'m)';
+      document.getElementById('gpsCoords').textContent=scanGPS.lat.toFixed(6)+', '+scanGPS.lng.toFixed(6);
+    },
+    function(err){
+      document.getElementById('gpsText').textContent='GPS: '+(err.code===1?'Bị từ chối':err.code===2?'Không tín hiệu':'Lỗi');
+    },
+    {enableHighAccuracy:true,maximumAge:30000,timeout:15000}
+  );
+}
+
+function haversine(lat1,lng1,lat2,lng2){
+  const R=6371000,dLat=(lat2-lat1)*Math.PI/180,dLng=(lng2-lng1)*Math.PI/180;
+  const a=Math.sin(dLat/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dLng/2)**2;
+  return R*2*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+}
+
+function doScan(){
+  if(!scanGPS.lat){toast('⚠️ Đang chờ GPS...','err');return;}
+  if(!qhPoints.length){toast('⚠️ Chưa tải dữ liệu QH','err');return;}
+
+  const btn=document.getElementById('scanBtn');
+  btn.classList.add('scanning');
+  btn.querySelector('span:last-child').textContent='Đang quét...';
+  document.getElementById('scanResults').innerHTML='<div style="text-align:center;padding:16px"><div class="spin"></div><div style="font-size:11px;color:var(--m);margin-top:4px">Đang quét '+qhPoints.length+' điểm QH...</div></div>';
+
+  setTimeout(()=>{
+    const nearby=[];let nearest=null,nd=Infinity;
+    for(const p of qhPoints){
+      const d=haversine(scanGPS.lat,scanGPS.lng,p.lat,p.lng);
+      if(d<nd){nd=d;nearest=p;}
+      if(d<=SCAN_R)nearby.push({...p,dist:d});
+    }
+    nearby.sort((a,b)=>a.dist-b.dist);
+    btn.classList.remove('scanning');
+    btn.querySelector('span:last-child').textContent='Scan QH';
+
+    if(nearby.length>0){
+      document.getElementById('scanResults').innerHTML='<div style="font-weight:600;font-size:12px;color:var(--p);margin-bottom:6px">✅ '+nearby.length+' điểm QH trong '+SCAN_R+'m</div>'+
+        nearby.map(p=>'<div class="qh-card" onclick="openScanDetail(\''+p.qh+'\')"><div class="qh-code">'+p.qh+'</div><div class="qh-addr">📍 '+
+          [p.x,p.h,p.t].filter(Boolean).join(', ')+'</div><div class="qh-tags"><span class="qh-tag near">📏 '+Math.round(p.dist)+'m</span><span class="qh-tag gdv">👤 '+(p.gdv||'')+'</span></div></div>').join('');
+      if(navigator.vibrate)navigator.vibrate(200);
+    }else{
+      document.getElementById('scanResults').innerHTML='<div class="no-result"><div style="font-size:48px;margin-bottom:8px">📭</div><div style="font-weight:600">Không có điểm QH trong '+SCAN_R+'m</div><div style="margin-top:4px;font-size:12px">Gần nhất: <b>'+nearest.qh+'</b> cách <b>'+Math.round(nd)+'m</b></div></div>';
+    }
+  },200);
+}
+
+function openScanDetail(qh){
+  scanSel=qhPoints.find(p=>p.qh===qh);if(!scanSel)return;
+  document.getElementById('scanResults').style.display='none';
+  document.getElementById('scanDetail').style.display='block';
+  document.getElementById('scanInfo').innerHTML='<h3 style="color:var(--p);margin-bottom:6px">'+scanSel.qh+'</h3>'+
+    '<div style="font-size:12px;color:var(--m)">📍 '+[scanSel.x,scanSel.h,scanSel.t].filter(Boolean).join(', ')+'</div>'+
+    '<div style="font-size:12px;color:var(--m);margin-top:2px">👤 GĐV: '+(scanSel.gdv||'—')+' · QLKV: '+(scanSel.qlkv||'—')+' · '+(scanSel.vung||'')+'</div>';
+  document.getElementById('fNgayKS').value=new Date().toISOString().split('T')[0];
+  ['fGiaKV','fDiaChi','fDienTich','fMatTien','fGiaThue','fGhiChu'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('fGhepCan').value='';
+  loadScanHistory(qh);
+}
+
+function closeScanDetail(){
+  document.getElementById('scanDetail').style.display='none';
+  document.getElementById('scanResults').style.display='block';
+  scanSel=null;
+}
+
+async function saveScanQH(){
+  if(!scanSel)return;
+  const d={
+    action:'saveSurvey',maQH:scanSel.qh,
+    ngayKS:document.getElementById('fNgayKS').value,
+    giaThueKV:document.getElementById('fGiaKV').value,
+    diaChiNha:document.getElementById('fDiaChi').value,
+    dienTich:document.getElementById('fDienTich').value,
+    matTien:document.getElementById('fMatTien').value,
+    giaThue:document.getElementById('fGiaThue').value,
+    coHoiGhepCan:document.getElementById('fGhepCan').value,
+    ghiChu:document.getElementById('fGhiChu').value,
+    lat:scanGPS.lat,lng:scanGPS.lng
+  };
+  try{
+    const r=await fetch(GAS_URL,{method:'POST',body:JSON.stringify(d),headers:{'Content-Type':'text/plain'}});
+    const j=await r.json();
+    if(j.ok){toast('✅ Đã lưu!','ok');loadScanHistory(scanSel.qh);}
+    else toast('❌ '+(j.error||'Lỗi'),'err');
+  }catch(e){
+    toast('⚠️ Lưu tạm trên máy','err');
+    loadScanHistoryLocal(scanSel.qh);
+  }
+}
+
+async function loadScanHistory(qh){
+  try{
+    const r=await fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'getHistory',maQH:qh}),headers:{'Content-Type':'text/plain'}});
+    const j=await r.json();
+    renderTimeline(j.surveys||[]);
+  }catch(e){loadScanHistoryLocal(qh);}
+}
+
+function loadScanHistoryLocal(qh){renderTimeline([]);}
+
+function renderTimeline(surveys){
+  const el=document.getElementById('scanTimeline');
+  if(!surveys.length){el.innerHTML='<div style="text-align:center;padding:16px;color:#aaa">Chưa có lần khảo sát nào</div>';return;}
+  el.innerHTML=surveys.map((s,i)=>'<div class="tl-item">'+
+    '<div class="tl-date">📅 '+s.ngayKS+' · '+(s.nguoiKS||'')+'</div>'+
+    (s.diaChiNha?'<div style="margin-top:2px">🏠 '+s.diaChiNha+(s.dienTich?' · '+s.dienTich+'m²':'')+(s.matTien?' · MT '+s.matTien+'m':'')+'</div><div style="font-size:10px;color:#888">💲 '+(s.giaThue||'—')+' tr/th'+(s.giaThueKV?' · KV: '+s.giaThueKV:'')+'</div>':'')+
+    (s.coHoiGhepCan?'<div style="font-size:10px;color:#888">🔀 '+s.coHoiGhepCan+'</div>':'')+
+    (s.ghiChu?'<div style="font-size:10px;color:#666">📝 '+s.ghiChu+'</div>':'')+
+    '</div>').join('');
+}
+
+// ═══ TKMB FORM ═══
+function populateGDV(){
+  const sel=document.getElementById('mbGDV');
+  const gdvs=[...new Set(Object.keys(CASCADE))];
+  gdvs.forEach(g=>{const o=document.createElement('option');o.value=g;o.textContent=g;sel.appendChild(o);});
+}
+
+function onGDVChange(){
+  const gdv=document.getElementById('mbGDV').value;
+  ['mbQLKV','mbTinh','mbHuyen'].forEach(id=>{document.getElementById(id).innerHTML='<option value="">-- Chọn --</option>';document.getElementById(id).disabled=true;});
+  if(!gdv||!CASCADE[gdv])return;
+  const qlkv=document.getElementById('mbQLKV');
+  Object.keys(CASCADE[gdv]).forEach(q=>{const o=document.createElement('option');o.value=q;o.textContent=q;qlkv.appendChild(o);});
+  qlkv.disabled=false;
+}
+
+function onQLKVChange(){
+  const gdv=document.getElementById('mbGDV').value,qlkv=document.getElementById('mbQLKV').value;
+  ['mbTinh','mbHuyen'].forEach(id=>{document.getElementById(id).innerHTML='<option value="">-- Chọn --</option>';document.getElementById(id).disabled=true;});
+  if(!gdv||!qlkv||!CASCADE[gdv]||!CASCADE[gdv][qlkv])return;
+  const tinh=document.getElementById('mbTinh');
+  Object.keys(CASCADE[gdv][qlkv]).forEach(t=>{const o=document.createElement('option');o.value=t;o.textContent=t;tinh.appendChild(o);});
+  tinh.disabled=false;
+}
+
+function onTinhChange(){
+  const gdv=document.getElementById('mbGDV').value,qlkv=document.getElementById('mbQLKV').value,tinh=document.getElementById('mbTinh').value;
+  document.getElementById('mbHuyen').innerHTML='<option value="">-- Chọn --</option>';
+  document.getElementById('mbHuyen').disabled=true;
+  if(!gdv||!qlkv||!tinh||!CASCADE[gdv]||!CASCADE[gdv][qlkv]||!CASCADE[gdv][qlkv][tinh])return;
+  const huyen=document.getElementById('mbHuyen');
+  CASCADE[gdv][qlkv][tinh].forEach(h=>{const o=document.createElement('option');o.value=h;o.textContent=h;huyen.appendChild(o);});
+  huyen.disabled=false;
+}
+
+function onMapInput(){
+  const v=document.getElementById('mbMapLink').value.trim();
+  let lat, lng;
+  const coordMatch=v.match(/([\d.]+)\s*[,;\s]\s*([\d.]+)/);
+  if(coordMatch){lat=parseFloat(coordMatch[1]);lng=parseFloat(coordMatch[2]);}
+  else{
+    const m=v.match(/[?&](?:q|center)=([\d.-]+),([\d.-]+)/);
+    if(m){lat=parseFloat(m[1]);lng=parseFloat(m[2]);}
+  }
+  if(!lat||!lng||!qhPoints.length){document.getElementById('mapResult').style.display='none';return;}
+  
+  let nearest=null,nd=Infinity;
+  for(const p of qhPoints){const d=haversine(lat,lng,p.lat,p.lng);if(d<nd){nd=d;nearest=p;}}
+  document.getElementById('qhName').textContent=nearest.qh;
+  document.getElementById('qhDetail').textContent=[nearest.x,nearest.h].filter(Boolean).join(', ');
+  document.getElementById('qhDistance').textContent=Math.round(nd)+'m';
+  document.getElementById('qhDistLabel').textContent=nd<=SCAN_R?'✅ Trong phạm vi QH':nd<=500?'⚠️ Gần QH':'❌ Xa QH';
+  document.getElementById('qhDistance').style.color=nd<=SCAN_R?'var(--s)':nd<=500?'var(--w)':'var(--d)';
+  document.getElementById('qhEval').textContent=nd<=SCAN_R?'⭐ Rất tốt':nd<=200?'⭐⭐ Tốt':nd<=500?'👍 Khả thi':'🔍 Cần xem xét';
+  document.getElementById('mapResult').style.display='block';
+}
+
+async function submitTKMB(){
+  const gdv=document.getElementById('mbGDV').value;
+  const qlkv=document.getElementById('mbQLKV').value;
+  const tinh=document.getElementById('mbTinh').value;
+  if(!gdv||!qlkv||!tinh){toast('⚠️ Chọn GĐV, QLKV, Tỉnh/TP','err');return;}
+  
+  mbIDSeq++;localStorage.setItem('tkmb_field_mb_seq',mbIDSeq);
+  const mbId='MB-'+new Date().toISOString().split('T')[0].replace(/-/g,'')+'-'+String(mbIDSeq).padStart(3,'0');
+  
+  const d={
+    action:'submitMB',
+    id:mbId,nguon:'TKMB',gdv,qlkv,tinh,
+    huyen:document.getElementById('mbHuyen').value,
+    addr:document.getElementById('mbAddr').value,
+    area:document.getElementById('mbArea').value,
+    front:document.getElementById('mbFront').value,
+    price:document.getElementById('mbPrice').value,
+    payment:document.getElementById('mbPayment').value,
+    deposit:document.getElementById('mbDeposit').value,
+    duration:document.getElementById('mbDuration').value,
+    legal:document.getElementById('mbLegal').value,
+    condition:document.getElementById('mbCondition').value,
+    handover:document.getElementById('mbHandover').value,
+    gtName:document.getElementById('mbGTName').value,
+    gtMNV:document.getElementById('mbGTMNV').value,
+    bct:document.getElementById('mbBCT').value,
+    bctPhone:document.getElementById('mbBCTPhone').value,
+    submitter:currentUser?.name||'',
+    ts:new Date().toISOString()
+  };
+  
+  try{
+    const r=await fetch(GAS_URL,{method:'POST',body:JSON.stringify(d),headers:{'Content-Type':'text/plain'}});
+    const j=await r.json();
+    if(j.ok){toast('✅ Đã gửi MB '+mbId+' → Chờ GĐV duyệt','ok');}
+    else{toast('⚠️ Lỗi server, đã lưu tạm','err');localMBs.push(d);localStorage.setItem('tkmb_field_mbs',JSON.stringify(localMBs));}
+  }catch(e){
+    localMBs.push(d);localStorage.setItem('tkmb_field_mbs',JSON.stringify(localMBs));
+    toast('⚠️ Lưu tạm trên máy ('+localMBs.length+' MB chờ gửi)','err');
+  }
+}
+
+// ═══ HELPERS ═══
+function toast(m,t){
+  const el=document.getElementById('toast');
+  el.textContent=m;el.className='toast '+(t||'')+' show';
+  setTimeout(()=>el.classList.remove('show'),2500);
+}
+
+document.addEventListener('keydown',e=>{
+  if(e.key==='Enter'&&document.getElementById('loginOv').style.display!=='none')doLogin();
+  if(e.key==='Escape'&&document.getElementById('scanDetail').style.display==='block')closeScanDetail();
+});
+</script>
+</body>
+</html>
