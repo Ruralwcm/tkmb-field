@@ -395,7 +395,7 @@ function showApp(){
   document.getElementById('appWrap').style.display='flex';
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
-  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+')';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.9';
   if(['GĐV','GĐM'].includes(currentUser.rank)) document.getElementById('navDuyet').style.display='block';
   populateGDV();
 }
