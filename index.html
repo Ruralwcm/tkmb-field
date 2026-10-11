@@ -124,14 +124,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="login-ov" id="loginOv">
  <div class="login-c">
   <div class="icon">🏗️</div>
-  <h2>TKMB Field v1.29</h2>
+  <h2>TKMB Field v1.30</h2>
   <div class="sub">Scan QH · Check-in · Giới thiệu MB</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
   <button onclick="doLogin()">Đăng nhập</button>
   <div class="link"><a href="https://ruralwcm.github.io/portal/">🔗 Đăng nhập qua Portal</a></div>
-  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.29 · Rural Miền Bắc</div>
+  <div style="font-size:10px;color:#aaa;margin-top:8px">v1.30 · Rural Miền Bắc</div>
  </div>
 </div>
 
@@ -391,7 +391,7 @@ function showApp(){
   document.getElementById('appWrap').style.display='flex';
   document.getElementById('appNav').style.display='flex';
   document.getElementById('appMain').style.display='block';
-  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.29';
+  document.getElementById('userLabel').textContent=currentUser.name+' ('+currentUser.rank+') · v1.30';
   populateGDV();
 }
 
@@ -471,8 +471,7 @@ function doScan(){
         document.getElementById('scanResults').innerHTML=
           '<div class="no-result"><div style="font-size:48px;margin-bottom:8px">📭</div>'+
           '<div style="font-weight:600">Điểm QH gần nhất: <b>'+nearest.qh+'</b></div>'+
-          '<div style="font-size:12px;color:var(--m);margin-top:4px">📍 '+info+' · cách <b>'+d+'m</b> (>'+SCAN_R+'m)</div>'+
-          '<div style="font-size:11px;color:var(--d);margin-top:4px">⚠️ Quá xa — không check-in được. Đề xuất điểm mới bên dưới ↓</div></div>';
+          '<div style="font-size:12px;color:var(--m);margin-top:4px">📍 '+info+' · cách <b>'+d+'m</b> (>'+SCAN_R+'m)</div></div>';
       }
     }else{
       document.getElementById('scanResults').innerHTML='<div class="no-result"><div style="font-size:48px;margin-bottom:8px">📭</div><div>Không có điểm QH nào trong dữ liệu</div></div>';
