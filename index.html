@@ -5,7 +5,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-<title>Rural Site Finding by HaoDT v1.34</title>
+<title>Rural Site Finding by HaoDT v1.35</title>
 <style>
 :root{--p:#7c3aed;--pl:#a78bfa;--bg:#f5f3ff;--card:#fff;--t:#1f2937;--m:#6b7280;--s:#16a34a;--w:#d97706;--d:#dc2626;--b:#e5e7eb;--r:12px;--sh:0 1px 3px rgba(0,0,0,.04)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -126,7 +126,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
  <div class="login-c">
   <div class="icon">🏗️</div>
   <h2>Rural Site Finding by HaoDT</h2>
-  <div class="sub">Scan QH · Check-in · Giới thiệu MB · v1.34</div>
+  <div class="sub">Scan QH · Check-in · Giới thiệu MB · v1.35</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
@@ -138,7 +138,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 
 <!-- APP -->
 <div class="topbar" id="appWrap" style="display:none">
- <div><div class="t">Rural Site Finding by HaoDT v1.34</div><div class="u" id="userLabel">...</div></div>
+ <div><div class="t">Rural Site Finding by HaoDT v1.35</div><div class="u" id="userLabel">...</div></div>
  <button onclick="doLogout()">Thoát</button>
 </div>
 <div class="nav" id="appNav" style="display:none">
@@ -229,10 +229,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
      <div class="fg" style="flex:0 0 65px"><input type="number" class="ciPriceDT" placeholder="DT" min="0"></div>
      <div class="fg" style="flex:0 0 65px"><input type="number" class="ciPriceGT" placeholder="Giá" min="0"></div></div></div>
    <button style="font-size:10px;background:none;border:1px dashed var(--pl);color:var(--p);padding:3px 8px;border-radius:4px;cursor:pointer;margin-top:4px" onclick="addPriceRow()">(+) thêm</button>
+  </div>
 
-   <div style="font-weight:600;font-size:10px;color:var(--p);margin:12px 0 4px">🏢 MB đang tiếp cận (tối đa 5 MB)</div>
+  <!-- Block 3: MB đang tiếp cận -->
+  <div class="card">
+   <span class="block-label">3️⃣ MB đang tiếp cận</span>
    <div id="mtnContainer"></div>
    <button style="font-size:10px;background:none;border:1px dashed var(--pl);color:var(--p);padding:3px 8px;border-radius:4px;cursor:pointer;margin-top:6px" onclick="addMTNRow()">(+) thêm MB</button>
+  </div>
 
    <button class="btn-w" onclick="saveCheckinOnly()">💾 Lưu đánh giá</button>
   </div>
