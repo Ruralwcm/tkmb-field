@@ -202,23 +202,12 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
     <div class="fg" style="flex:1"><label>Người check-in</label><input type="text" id="ciUser" readonly></div>
     <div class="fg" style="flex:1"><label>Tọa độ GPS</label><input type="text" id="ciGPS" readonly></div>
    </div>
+   <div style="font-size:10px;color:var(--m);margin-top:6px" id="ciLastInfo"></div>
   </div>
 
-  <!-- Block 2: History -->
+  <!-- Block 2: Đánh giá điểm QH -->
   <div class="card">
-   <span class="block-label">2️⃣ Lịch sử Check-in (3 lần gần nhất)</span>
-   <div id="ciHistory"><div class="dacthu-empty">Đang tảii...</div></div>
-  </div>
-
-  <!-- Block 3: Đặc thù -->
-  <div class="card">
-   <span class="block-label">3️⃣ Đặc thù điểm QH</span>
-   <div id="ciDacthu"><div class="dacthu-empty">Đang tảii...</div></div>
-  </div>
-
-  <!-- Block 4: Đánh giá điểm QH -->
-  <div class="card">
-   <span class="block-label">4️⃣ Đánh giá điểm QH</span>
+   <span class="block-label">2️⃣ Đánh giá điểm QH</span>
 
    <div style="font-weight:600;font-size:10px;color:var(--p);margin:8px 0 4px">🎯 Hướng ưu tiên tìm MB (theo hướng đồng hồ)</div>
    <div id="priorityDirContainer">
@@ -231,10 +220,6 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    </div>
    <button style="font-size:10px;background:none;border:1px dashed var(--pl);color:var(--p);padding:3px 8px;border-radius:4px;cursor:pointer;margin-top:4px" onclick="addPriorityDir()">(+) thêm hướng</button>
 
-   <div style="font-weight:600;font-size:10px;color:var(--p);margin:12px 0 4px">🏢 MB tiềm năng (tối đa 5 MB)</div>
-   <div id="mtnContainer"></div>
-   <button style="font-size:10px;background:none;border:1px dashed var(--pl);color:var(--p);padding:3px 8px;border-radius:4px;cursor:pointer;margin-top:6px" onclick="addMTNRow()">(+) thêm MB</button>
-
    <div style="font-weight:600;font-size:10px;color:var(--p);margin:12px 0 4px">💰 Khảo sát giá thuê (tham khảo nhanh KV)</div>
    <div id="priceSurveyContainer">
     <div class="price-survey-row" style="display:flex;gap:8px;margin-bottom:6px">
@@ -243,6 +228,10 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
      <div class="fg" style="flex:0 0 65px"><input type="number" class="ciPriceDT" placeholder="DT" min="0"></div>
      <div class="fg" style="flex:0 0 65px"><input type="number" class="ciPriceGT" placeholder="Giá" min="0"></div></div></div>
    <button style="font-size:10px;background:none;border:1px dashed var(--pl);color:var(--p);padding:3px 8px;border-radius:4px;cursor:pointer;margin-top:4px" onclick="addPriceRow()">(+) thêm</button>
+
+   <div style="font-weight:600;font-size:10px;color:var(--p);margin:12px 0 4px">🏢 MB tiềm năng (tối đa 5 MB)</div>
+   <div id="mtnContainer"></div>
+   <button style="font-size:10px;background:none;border:1px dashed var(--pl);color:var(--p);padding:3px 8px;border-radius:4px;cursor:pointer;margin-top:6px" onclick="addMTNRow()">(+) thêm MB</button>
 
    <button class="btn-w" onclick="saveCheckinOnly()">💾 Lưu đánh giá</button>
   </div>
@@ -521,14 +510,44 @@ function openCheckin(qh,forceDist){
   document.getElementById('ciUser').value = currentUser?.name||'';
   document.getElementById('ciGPS').value = scanGPS.lat?scanGPS.lat.toFixed(6)+', '+scanGPS.lng.toFixed(6):'—';
 
-  // Block 2 & 3: Load history
-  loadCheckinHistory(qh);
-  loadDacthu(qh);
-  
-  // Init MB tiềm năng
+  // Block 1: Auto-fill
+  document.getElementById('ciQH').value = scanSel.qh;
+  document.getElementById('ciTime').value = new Date().toLocaleString('vi-VN');
+  document.getElementById('ciUser').value = currentUser?.name||'';
+  document.getElementById('ciGPS').value = scanGPS.lat?scanGPS.lat.toFixed(6)+', '+scanGPS.lng.toFixed(6):'—';
+
+  // Show last check-in info if exists
+  const prev=checkinLocal.filter(c=>c.qh===qh).slice(-1)[0];
+  document.getElementById('ciLastInfo').textContent=prev?'📋 Check-in gần nhất: '+new Date(prev.ts).toLocaleDateString('vi-VN')+' — '+prev.user:'Chưa có check-in trước đó';
+
+  // Pre-fill from last check-in data
   document.getElementById('mtnContainer').innerHTML='';
   mtnCount=0;
-  addMTNRow(); // Default 1 empty row
+  if(prev&&prev.priceKV){
+    const prices=prev.priceKV.split(' | ');
+    prices.forEach(p=>{
+      const parts=p.split(' - MT: ').join('|').split(' - DT: ').join('|').split(' - GT: ').join('|').split('|');
+      const name=parts[0]||'';
+      const mt=(parts[1]||'').replace('m','');
+      const dt=(parts[2]||'').replace('m2','');
+      const gt=(parts[3]||'').replace('tr','');
+      if(name||mt||dt||gt){
+        addPriceRow();
+        const rows=document.querySelectorAll('#priceSurveyContainer .price-survey-row');
+        const last=rows[rows.length-1];
+        if(last){
+          last.querySelector('.ciPriceName').value=name;
+          last.querySelector('.ciPriceMT').value=mt;
+          last.querySelector('.ciPriceDT').value=dt;
+          last.querySelector('.ciPriceGT').value=gt;
+        }
+      }
+    });
+  }
+  if(!prev||!prev.priceKV){addPriceRow();}
+  
+  // Always add one empty MTN row
+  addMTNRow();
 }
 
 function closeCheckin(){
