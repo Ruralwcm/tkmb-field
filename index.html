@@ -142,7 +142,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 </div>
 <div class="nav" id="appNav" style="display:none">
  <button class="active" data-tab="scan" onclick="switchTab('scan')">📍 Scan QH</button>
- <button data-tab="mtn" onclick="switchTab('mtn')">🏢 MB Tiềm Năng</button>
+ <button data-tab="mtn" onclick="switchTab('mtn')">🏢 MB Đang Tiếp Cận</button>
  <button data-tab="tkmb" onclick="switchTab('tkmb')">📋 Giới thiệu MB</button>
 </div>
 <div class="main" id="appMain" style="display:none">
@@ -229,7 +229,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
      <div class="fg" style="flex:0 0 65px"><input type="number" class="ciPriceGT" placeholder="Giá" min="0"></div></div></div>
    <button style="font-size:10px;background:none;border:1px dashed var(--pl);color:var(--p);padding:3px 8px;border-radius:4px;cursor:pointer;margin-top:4px" onclick="addPriceRow()">(+) thêm</button>
 
-   <div style="font-weight:600;font-size:10px;color:var(--p);margin:12px 0 4px">🏢 MB tiềm năng (tối đa 5 MB)</div>
+   <div style="font-weight:600;font-size:10px;color:var(--p);margin:12px 0 4px">🏢 MB đang tiếp cận (tối đa 5 MB)</div>
    <div id="mtnContainer"></div>
    <button style="font-size:10px;background:none;border:1px dashed var(--pl);color:var(--p);padding:3px 8px;border-radius:4px;cursor:pointer;margin-top:6px" onclick="addMTNRow()">(+) thêm MB</button>
 
@@ -241,12 +241,12 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <!-- ═══ MB TIỀM NĂNG PAGE ═══ -->
 <div class="page" id="pgMTN">
  <div class="card" style="text-align:center" id="mtnEmpty">
-  <h3>🏢 MB Tiềm Năng</h3>
-  <div style="padding:24px;color:var(--m)">Chưa có MB tiềm năng nào. Đi Scan QH và thêm MB để bắt đầu!</div>
+  <h3>🏢 MB Đang Tiếp Cận</h3>
+  <div style="padding:24px;color:var(--m)">Chưa có MB đang tiếp cận nào. Đi Scan QH và thêm MB để bắt đầu!</div>
  </div>
  <div id="mtnList" style="display:none">
   <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
-   <h3 style="margin:0">🏢 MB Tiềm Năng</h3>
+   <h3 style="margin:0">🏢 MB Đang Tiếp Cận</h3>
    <span style="font-size:11px;color:var(--m)" id="mtnCount"></span>
   </div>
   <div id="mtnCards"></div>
@@ -269,8 +269,8 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    <div style="background:#fff;border-radius:8px;padding:8px 10px;text-align:center;flex:1" id="qhGDVBox" hidden><div style="font-size:8px;color:var(--m)">👤 GĐV</div><div style="font-weight:700;color:var(--p);font-size:11px" id="qhDetectedGDV">—</div></div>
   </div></div>
 
-  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">🏢 Chọn MB Tiềm Năng</div>
-  <div class="fg"><label>Chọn MB từ danh sách tiềm năng</label><select id="mbMTNRef" onchange="onMTNSelect()"><option value="">-- Không chọn (nhập mới) --</option></select></div>
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">🏢 Chọn MB Đang Tiếp Cận</div>
+  <div class="fg"><label>Chọn MB từ danh sách đang tiếp cận</label><select id="mbMTNRef" onchange="onMTNSelect()"><option value="">-- Không chọn (nhập mới) --</option></select></div>
 
   <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👥 GĐV → QLKV → Tỉnh → Huyện</div>
   <div class="gr gr2">
@@ -583,7 +583,7 @@ function loadDacthu(qh){
 
   let html = '';
   if(lastWithMB.length){
-    html += '<div class="dacthu-box"><div class="dt-title">🏠 MB tiềm năng (các lần gần nhất)</div>';
+    html += '<div class="dacthu-box"><div class="dt-title">🏠 MB đang tiếp cận (các lần gần nhất)</div>';
     lastWithMB.reverse().forEach(h=>{
       html += '<div style="font-size:10px;margin:2px 0">📅 '+new Date(h.ts).toLocaleDateString('vi-VN')+' — '+(h.mbAddr||'Chưa rõ địa chỉ')+' · '+(h.mbArea||'?')+'m² · '+(h.mbPrice||'?')+' tr</div>';
     });
@@ -628,7 +628,7 @@ async function saveCheckinOnly(){
   });
   const priority=dirs.length?dirs.join(', '):'';
 
-  // Collect MB tiềm năng from new form
+  // Collect MB đang tiếp cận from new form
   const mbtnCards=document.querySelectorAll('#mtnContainer .mtn-card');
   const mbtnCodes=[];
   mbtnCards.forEach(card=>{
@@ -650,7 +650,7 @@ async function saveCheckinOnly(){
       name:n, addr:addr,
       ownerName:ownN, ownerPhone:ownP,
       mt:mt, dt:dt, gia:gt,
-      status:'Tiềm năng', // Tiềm năng / Đạt / Chuyển duyệt / Chốt / Fail
+      status:'Đang tiếp cận', // Đang tiếp cận / Đạt / Chuyển duyệt / Chốt / Fail
       ts:now.toISOString(),
       user:currentUser?.name||'',
       lat:scanGPS.lat||0, lng:scanGPS.lng||0,
@@ -694,7 +694,7 @@ async function saveCheckinOnly(){
   // Try GAS
   try{await fetch(GAS_URL,{method:'POST',body:JSON.stringify(d),headers:{'Content-Type':'text/plain'}});}catch(e){}
 
-  toast('✅ Đã lưu check-in '+checkinQHRef+(mbtnCodes.length?' + '+mbtnCodes.length+' MB tiềm năng':''),'ok');
+  toast('✅ Đã lưu check-in '+checkinQHRef+(mbtnCodes.length?' + '+mbtnCodes.length+' MB đang tiếp cận':''),'ok');
   if(navigator.vibrate)navigator.vibrate(100);
   closeCheckin();
 }
@@ -986,7 +986,7 @@ let mtnCount=0;
 function addMTNRow(){
   const container=document.getElementById('mtnContainer');
   const rows=container.querySelectorAll('.mtn-card');
-  if(rows.length>=5){toast('⚠️ Tối đa 5 MB tiềm năng','err');return;}
+  if(rows.length>=5){toast('⚠️ Tối đa 5 MB đang tiếp cận','err');return;}
   mtnCount++;
   const card=document.createElement('div');
   card.className='mtn-card';
@@ -1015,19 +1015,19 @@ function populateMTNList(){
   if(!mbtnList.length){document.getElementById('mtnEmpty').style.display='block';document.getElementById('mtnList').style.display='none';return;}
   document.getElementById('mtnEmpty').style.display='none';document.getElementById('mtnList').style.display='block';
   
-  // Sort: Tiềm năng/Đạt first, then Chuyển duyệt, then Chốt/Fail
-  const statusOrder={'Tiềm năng':0,'Đạt':1,'Chuyển duyệt':2,'Chốt':3,'Fail':4};
+  // Sort: Đang tiếp cận/Đạt first, then Chuyển duyệt, then Chốt/Fail
+  const statusOrder={'Đang tiếp cận':0,'Đạt':1,'Chuyển duyệt':2,'Chốt':3,'Fail':4};
   const sorted=[...mbtnList].sort((a,b)=>(statusOrder[a.status]||9)-(statusOrder[b.status]||9));
   
-  const colors={ 'Tiềm năng':'#7c3aed','Đạt':'#16a34a','Chuyển duyệt':'#d97706','Chốt':'#059669','Fail':'#dc2626' };
-  const bgColors={ 'Tiềm năng':'#f5f3ff','Đạt':'#f0fdf4','Chuyển duyệt':'#fffbeb','Chốt':'#ecfdf5','Fail':'#fef2f2' };
+  const colors={ 'Đang tiếp cận':'#7c3aed','Đạt':'#16a34a','Chuyển duyệt':'#d97706','Chốt':'#059669','Fail':'#dc2626' };
+  const bgColors={ 'Đang tiếp cận':'#f5f3ff','Đạt':'#f0fdf4','Chuyển duyệt':'#fffbeb','Chốt':'#ecfdf5','Fail':'#fef2f2' };
   
   document.getElementById('mtnCards').innerHTML=sorted.map(m=>{
-    const isActive=m.status==='Tiềm năng'||m.status==='Đạt';
+    const isActive=m.status==='Đang tiếp cận'||m.status==='Đạt';
     const followBtns=isActive?
       '<button onclick="followUpMBTN(\''+m.code+'\',\'Đạt\')" style="background:#16a34a;color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:10px;cursor:pointer;margin-right:4px">✅ Đạt</button>'+
       '<button onclick="followUpMBTN(\''+m.code+'\',\'Fail\')" style="background:#dc2626;color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:10px;cursor:pointer;margin-right:4px">❌ Fail</button>':'';
-    const convertBtn=(m.status==='Tiềm năng'||m.status==='Đạt')?
+    const convertBtn=(m.status==='Đang tiếp cận'||m.status==='Đạt')?
       '<button onclick="convertMBTN(\''+m.code+'\')" style="background:var(--p);color:#fff;border:none;padding:5px 12px;border-radius:4px;font-size:10px;cursor:pointer;margin-top:4px">➡️ Chuyển hóa thành MB gửi duyệt</button>':'';
     return '<div style="background:'+(bgColors[m.status]||'#fff')+';border-left:3px solid '+(colors[m.status]||'#aaa')+';border-radius:6px;padding:10px 12px;margin-bottom:8px">'+
       '<div style="display:flex;justify-content:space-between;align-items:flex-start">'+
@@ -1080,8 +1080,8 @@ function populateMTNDropdown(){
   const sel=document.getElementById('mbMTNRef');
   const cur=sel.value;
   sel.innerHTML='<option value="">-- Không chọn (nhập mới) --</option>';
-  // Only show Tiềm năng / Đạt MBs
-  mbtnList.filter(m=>m.status==='Tiềm năng'||m.status==='Đạt').forEach(m=>{
+  // Only show Đang tiếp cận / Đạt MBs
+  mbtnList.filter(m=>m.status==='Đang tiếp cận'||m.status==='Đạt').forEach(m=>{
     const o=document.createElement('option');
     o.value=m.code;
     o.textContent=m.code+' — '+(m.name||'Chưa đặt tên')+' ('+(m.gia||'?')+'tr)';
