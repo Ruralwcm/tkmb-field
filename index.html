@@ -865,9 +865,14 @@ function toggleQHBSForm(){
   if(!scanGPS.lat){toast('⚠️ Đang chờ GPS...','err');return;}
 
   // Generate QHBS code
-  if(!qhbsSeq['GPS'])qhbsSeq['GPS']=0;
-  qhbsSeq['GPS']++;localStorage.setItem('tkmb_field_qhbs_seq',JSON.stringify(qhbsSeq));
-  const maQHBS='QHBS-GPS_'+String(qhbsSeq['GPS']).padStart(3,'0');
+  // Detect tỉnh gần nhất từ QH scan
+  let maTinh='GPS';
+  const nearestQH=scanSel||(qhPoints.length?qhPoints.reduce((a,b)=>haversine(scanGPS.lat,scanGPS.lng,a.lat,a.lng)<haversine(scanGPS.lat,scanGPS.lng,b.lat,b.lng)?a:b):null);
+  if(nearestQH&&nearestQH.t){maTinh=TINH_MA[nearestQH.t]||'GPS';}
+  
+  if(!qhbsSeq[maTinh])qhbsSeq[maTinh]=0;
+  qhbsSeq[maTinh]++;localStorage.setItem('tkmb_field_qhbs_seq',JSON.stringify(qhbsSeq));
+  const maQHBS='QHBS-'+maTinh+'_'+String(qhbsSeq[maTinh]).padStart(3,'0');
 
   // Create synthetic point
   const syntheticPoint={
