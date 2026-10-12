@@ -166,12 +166,12 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    <div class="card" style="margin-top:8px;text-align:left">
     <h3>📝 Đề xuất điểm Quy hoạch mớii</h3>
     <div class="gr gr2">
-     <div class="fg"><label>Tỉnh/TP *</label><select id="qhbsTinh" onchange="onQHBSTinhChange()"><option value="">-- Chọn Tỉnh/TP --</option></select></div>
-     <div class="fg"><label>Huyện/Quận *</label><select id="qhbsHuyen" onchange="onQHBSHuyenChange()"><option value="">-- Chọn Huyện/Quận --</option></select></div>
+     <div class="fg"><label>Tỉnh/TP</label><select id="qhbsTinh" onchange="onQHBSTinhChange()"><option value="">-- Chọn Tỉnh/TP --</option></select></div>
+     <div class="fg"><label>Huyện/Quận</label><select id="qhbsHuyen" onchange="onQHBSHuyenChange()"><option value="">-- Chọn Huyện/Quận --</option></select></div>
     </div>
-    <div class="fg"><label>Xã/Phường/Thị trấn *</label><input type="text" id="qhbsXa" placeholder="Tên xã/phường"></div>
+    <div class="fg"><label>Xã/Phường/Thị trấn</label><input type="text" id="qhbsXa" placeholder="Tên xã/phường"></div>
     <div class="gr gr2">
-     <div class="fg"><label>GĐV *</label><select id="qhbsGDV"><option value="">-- Chọn GĐV --</option></select></div>
+     <div class="fg"><label>GĐV</label><select id="qhbsGDV"><option value="">-- Chọn GĐV --</option></select></div>
      <div class="fg"><label>QLKV</label><input type="text" id="qhbsQLKV" placeholder="Tên QLKV"></div>
     </div>
     <div class="gr gr2">
@@ -257,11 +257,12 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 <div class="page" id="pgTKMB">
  <div class="card">
   <h3>📋 Giới thiệu Mặt Bằng</h3>
+  <div style="font-size:10px;color:#dc2626;margin-bottom:8px">⚠️ Tất cả các trường đều bắt buộc</div>
 
   <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">🗺 Định vị Map</div>
   <div class="map-box">
    <div style="font-size:24px;flex-shrink:0">📍</div>
-   <div style="flex:1;min-width:0"><div class="fg"><label>Link Google Maps hoặc Tọa độ (lat, lng) *</label><input type="text" id="mbMapLink" placeholder="VD: 21.0179, 105.9650" oninput="onMapInput()"></div></div>
+   <div style="flex:1;min-width:0"><div class="fg"><label>Link Google Maps hoặc Tọa độ (lat, lng)</label><input type="text" id="mbMapLink" placeholder="VD: 21.0179, 105.9650" oninput="onMapInput()"></div></div>
   </div>
   <div id="mapResult" style="display:none"><div style="display:flex;gap:6px;margin-top:6px;flex-wrap:wrap">
    <div style="background:#fff;border-radius:8px;padding:8px 10px;text-align:center;flex:1"><div style="font-size:8px;color:var(--m)">📍 Điểm QH gần nhất</div><div style="font-weight:700;color:var(--p);font-size:11px" id="qhName">—</div><div style="font-size:9px;color:var(--m)" id="qhDetail"></div></div>
@@ -274,36 +275,36 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 
   <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👥 GĐV → QLKV → Tỉnh → Huyện</div>
   <div class="gr gr2">
-   <div class="fg"><label>GĐV *</label><select id="mbGDV" onchange="onGDVChange()"><option value="">-- Chọn GĐV --</option></select></div>
-   <div class="fg"><label>QLKV *</label><select id="mbQLKV" onchange="onQLKVChange()" disabled><option value="">-- Chọn QLKV --</option></select></div>
-   <div class="fg"><label>Tỉnh/TP *</label><select id="mbTinh" onchange="onTinhChange()" disabled><option value="">-- Chọn Tỉnh/TP --</option></select></div>
-   <div class="fg"><label>Huyện/Quận *</label><select id="mbHuyen" disabled><option value="">-- Chọn Huyện/Quận --</option></select></div>
+   <div class="fg"><label>GĐV</label><select id="mbGDV" onchange="onGDVChange()"><option value="">-- Chọn GĐV --</option></select></div>
+   <div class="fg"><label>QLKV</label><select id="mbQLKV" onchange="onQLKVChange()" disabled><option value="">-- Chọn QLKV --</option></select></div>
+   <div class="fg"><label>Tỉnh/TP</label><select id="mbTinh" onchange="onTinhChange()" disabled><option value="">-- Chọn Tỉnh/TP --</option></select></div>
+   <div class="fg"><label>Huyện/Quận</label><select id="mbHuyen" disabled><option value="">-- Chọn Huyện/Quận --</option></select></div>
   </div>
 
   <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">📍 Địa chỉ & Thông số</div>
-  <div class="fg"><label>Địa chỉ cụ thể *</label><input type="text" id="mbAddr" placeholder="VD: Thôn Dục Tú, xã Dục Tú, Đông Anh"></div>
+  <div class="fg"><label>Địa chỉ cụ thể</label><input type="text" id="mbAddr" placeholder="VD: Thôn Dục Tú, xã Dục Tú, Đông Anh"></div>
   <div class="gr gr6">
-   <div class="fg"><label>DT (m²) *</label><input type="number" inputmode="decimal" id="mbArea" placeholder="120" min="10" step="0.5" oninput="validateNum(this)"><span class="hint" id="hintArea">DT phải >0 m²</span></div>
-   <div class="fg"><label>MT (m) *</label><input type="number" inputmode="decimal" id="mbFront" placeholder="8" min="1" step="0.1" oninput="validateNum(this)"><span class="hint" id="hintFront">MT phải >0 m</span></div>
-   <div class="fg"><label>Giá (tr/th) *</label><input type="number" inputmode="decimal" id="mbPrice" placeholder="15.5" min="0.1" step="0.1" oninput="validateNum(this)"><span class="hint" id="hintPrice">Giá phải >0 tr/th</span></div>
-   <div class="fg"><label>Kỳ TT (Tháng) *</label><input type="number" id="mbPayment" placeholder="3" min="1" max="12" oninput="validateNum(this)"><span class="hint" id="hintPayment">1-12 tháng/lần</span></div>
-   <div class="fg"><label>Cọc (tr) *</label><input type="number" inputmode="decimal" id="mbDeposit" placeholder="30" min="0" step="0.5" oninput="validateNum(this)"><span class="hint" id="hintDeposit">Cọc phải >= 0 tr</span></div>
-   <div class="fg"><label>Thời hạn (Năm) *</label><input type="text" id="mbDuration" placeholder="5"></div>
+   <div class="fg"><label>DT (m²)</label><input type="number" inputmode="decimal" id="mbArea" placeholder="120" min="10" step="0.5" oninput="validateNum(this)"><span class="hint" id="hintArea">DT phải >0 m²</span></div>
+   <div class="fg"><label>MT (m)</label><input type="number" inputmode="decimal" id="mbFront" placeholder="8" min="1" step="0.1" oninput="validateNum(this)"><span class="hint" id="hintFront">MT phải >0 m</span></div>
+   <div class="fg"><label>Giá (tr/th)</label><input type="number" inputmode="decimal" id="mbPrice" placeholder="15.5" min="0.1" step="0.1" oninput="validateNum(this)"><span class="hint" id="hintPrice">Giá phải >0 tr/th</span></div>
+   <div class="fg"><label>Kỳ TT (Tháng)</label><input type="number" id="mbPayment" placeholder="3" min="1" max="12" oninput="validateNum(this)"><span class="hint" id="hintPayment">1-12 tháng/lần</span></div>
+   <div class="fg"><label>Cọc (tr)</label><input type="number" inputmode="decimal" id="mbDeposit" placeholder="30" min="0" step="0.5" oninput="validateNum(this)"><span class="hint" id="hintDeposit">Cọc phải >= 0 tr</span></div>
+   <div class="fg"><label>Thời hạn (Năm)</label><input type="text" id="mbDuration" placeholder="5"></div>
   </div>
 
   <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">📋 Pháp lý · Hiện trạng · Bàn giao</div>
   <div class="gr gr3">
-   <div class="fg"><label>Pháp lý *</label><select id="mbLegal"><option value="">-- Chọn --</option><option>Sổ đỏ chính chủ</option><option>Sổ đỏ đồng sởở hữu</option><option>Hợợp đồng ủy quyền</option><option>Giấy tờ khác</option><option>Đang chờ xác minh</option></select></div>
-   <div class="fg"><label>Hiện trạng *</label><select id="mbCondition"><option value="">-- Chọn --</option><option>Nhà trống</option><option>Đang kinh doanh</option><option>Đất trống</option><option>Đang xây dựng</option><option>Cần sửa chữa</option></select></div>
-   <div class="fg"><label>TG bàn giao *</label><input type="date" id="mbHandover"></div>
+   <div class="fg"><label>Pháp lý</label><select id="mbLegal"><option value="">-- Chọn --</option><option>Sổ đỏ chính chủ</option><option>Sổ đỏ đồng sởở hữu</option><option>Hợợp đồng ủy quyền</option><option>Giấy tờ khác</option><option>Đang chờ xác minh</option></select></div>
+   <div class="fg"><label>Hiện trạng</label><select id="mbCondition"><option value="">-- Chọn --</option><option>Nhà trống</option><option>Đang kinh doanh</option><option>Đất trống</option><option>Đang xây dựng</option><option>Cần sửa chữa</option></select></div>
+   <div class="fg"><label>TG bàn giao</label><input type="date" id="mbHandover"></div>
   </div>
 
   <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👤 Người GT & Chủ nhà</div>
   <div class="gr" style="grid-template-columns:1fr 1fr">
-   <div class="fg"><label>Người GT *</label><input type="text" id="mbGTName" placeholder="Tên người GT"></div>
-   <div class="fg"><label>MNV *</label><input type="text" id="mbGTMNV" placeholder="Mã NV"></div>
-   <div class="fg"><label>BCT - Tên *</label><input type="text" id="mbBCT" placeholder="Tên chủ nhà"></div>
-   <div class="fg"><label>BCT - SĐT *</label><input type="text" id="mbBCTPhone" placeholder="SĐT"></div>
+   <div class="fg"><label>Người GT</label><input type="text" id="mbGTName" placeholder="Tên người GT"></div>
+   <div class="fg"><label>MNV</label><input type="text" id="mbGTMNV" placeholder="Mã NV"></div>
+   <div class="fg"><label>BCT - Tên</label><input type="text" id="mbBCT" placeholder="Tên chủ nhà"></div>
+   <div class="fg"><label>BCT - SĐT</label><input type="text" id="mbBCTPhone" placeholder="SĐT"></div>
   </div>
 
   <button class="btn-s" onclick="submitTKMB()">📤 Gửi Mặt Bằng → Chờ GĐV duyệt</button>
