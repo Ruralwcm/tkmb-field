@@ -4,7 +4,8 @@
 <meta charset="UTF-8">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
-<title>Rural Site Finding by HaoDT v1.32</title>
+<script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
+<title>Rural Site Finding by HaoDT v1.33</title>
 <style>
 :root{--p:#7c3aed;--pl:#a78bfa;--bg:#f5f3ff;--card:#fff;--t:#1f2937;--m:#6b7280;--s:#16a34a;--w:#d97706;--d:#dc2626;--b:#e5e7eb;--r:12px;--sh:0 1px 3px rgba(0,0,0,.04)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -125,7 +126,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
  <div class="login-c">
   <div class="icon">🏗️</div>
   <h2>Rural Site Finding by HaoDT</h2>
-  <div class="sub">Scan QH · Check-in · Giới thiệu MB · v1.32</div>
+  <div class="sub">Scan QH · Check-in · Giới thiệu MB · v1.33</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
@@ -137,7 +138,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 
 <!-- APP -->
 <div class="topbar" id="appWrap" style="display:none">
- <div><div class="t">Rural Site Finding by HaoDT v1.32</div><div class="u" id="userLabel">...</div></div>
+ <div><div class="t">Rural Site Finding by HaoDT v1.33</div><div class="u" id="userLabel">...</div></div>
  <button onclick="doLogout()">Thoát</button>
 </div>
 <div class="nav" id="appNav" style="display:none">
@@ -245,9 +246,12 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
   <div style="padding:24px;color:var(--m)">Chưa có MB đang tiếp cận nào. Đi Scan QH và thêm MB để bắt đầu!</div>
  </div>
  <div id="mtnList" style="display:none">
-  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;flex-wrap:wrap;gap:8px">
    <h3 style="margin:0">🏢 MB Đang Tiếp Cận</h3>
-   <span style="font-size:11px;color:var(--m)" id="mtnCount"></span>
+   <div style="display:flex;gap:6px;align-items:center">
+    <span style="font-size:11px;color:var(--m)" id="mtnCount"></span>
+    <button onclick="exportMBTN()" style="background:#16a34a;color:#fff;border:none;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap">📥 Export Excel</button>
+   </div>
   </div>
   <div id="mtnCards"></div>
  </div>
@@ -1152,6 +1156,77 @@ function onMTNSelect(){
   document.getElementById('mbPrice').value=m.gia||'';
   document.getElementById('mbBCT').value=m.ownerName||'';
   document.getElementById('mbBCTPhone').value=m.ownerPhone||'';
+}
+
+// ═══ EXPORT EXCEL ═══
+function exportMBTN(){
+  if(!mbtnList.length){toast('⚠️ Chưa có dữ liệu MB đang tiếp cận','err');return;}
+  
+  const userGdv=currentUser?.gdv||'';
+  // Filter by user's GĐV (or show all if no filter)
+  let data=mbtnList;
+  if(userGdv){data=mbtnList.filter(m=>m.gdv===userGdv);}
+  if(!data.length){toast('⚠️ Không có MB nào thuộc vùng của bạn','err');return;}
+
+  const rows=data.map(m=>{
+    const ts=m.ts?new Date(m.ts).toLocaleDateString('vi-VN'):'';
+    return {
+      'Mã MBTN':m.code||'',
+      'Trip':m.trip||'',
+      'Ngày':ts,
+      'Điểm QH':m.qh||'',
+      'Tên MB':m.name||'',
+      'Địa chỉ':m.addr||'',
+      'Chủ nhà':m.ownerName||'',
+      'SĐT Chủ':m.ownerPhone||'',
+      'MT (m)':m.mt||'',
+      'DT (m²)':m.dt||'',
+      'Giá (tr/th)':m.gia||'',
+      'Ghi chú':m.note||'',
+      'Trạng thái':m.status||'',
+      'GĐV':m.gdv||'',
+      'Người tạo':m.user||'',
+      'Tọa độ':(m.lat&&m.lng)?(Number(m.lat).toFixed(5)+', '+Number(m.lng).toFixed(5)):''
+    };
+  });
+
+  const ws=XLSX.utils.json_to_sheet(rows);
+  // Set column widths
+  ws['!cols']=[
+    {wch:14},{wch:14},{wch:10},{wch:16},{wch:20},{wch:25},
+    {wch:15},{wch:12},{wch:7},{wch:8},{wch:10},{wch:25},
+    {wch:12},{wch:15},{wch:12},{wch:22}
+  ];
+  const wb=XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(wb,ws,'MB_Dang_Tiep_Can');
+  
+  // Also add Check-in sheet
+  const ciUser=currentUser?.gdv||currentUser?.name||'';
+  const ciData=checkinLocal.filter(c=>!userGdv||c.user===currentUser?.name);
+  if(ciData.length){
+    const ciRows=ciData.map(c=>{
+      const ts=c.ts?new Date(c.ts).toLocaleDateString('vi-VN'):'';
+      return {
+        'Code Trip':c.codeTrip||'',
+        'Ngày':ts,
+        'Điểm QH':c.qh||'',
+        'Người check-in':c.user||'',
+        'Số MBTN':c.mbtnCount||0,
+        'Mã MBTN':c.mbtnCodes||'',
+        'Hướng ưu tiên':c.dirs||'',
+        'Giá KV tham khảo':c.priceKV||'',
+        'Tọa độ':(c.lat&&c.lng)?(Number(c.lat).toFixed(5)+', '+Number(c.lng).toFixed(5)):''
+      };
+    });
+    const ws2=XLSX.utils.json_to_sheet(ciRows);
+    ws2['!cols']=[{wch:14},{wch:10},{wch:16},{wch:15},{wch:7},{wch:30},{wch:20},{wch:35},{wch:22}];
+    XLSX.utils.book_append_sheet(wb,ws2,'Checkin');
+  }
+
+  const gdvLabel=userGdv?userGdv.replace(/\s+/g,'_') : 'All';
+  const fname='MB_Dang_Tiep_Can_'+gdvLabel+'_'+new Date().toISOString().split('T')[0]+'.xlsx';
+  XLSX.writeFile(wb,fname);
+  toast('✅ Đã xuất '+data.length+' MB → '+fname,'ok');
 }
 
 // ═══ HELPERS ═══
