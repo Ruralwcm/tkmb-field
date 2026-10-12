@@ -637,6 +637,7 @@ async function saveCheckinOnly(){
     const ownN=card.querySelector('.mtnOwnerName')?.value?.trim()||'';
     const ownP=card.querySelector('.mtnOwnerPhone')?.value?.trim()||'';
     const addr=card.querySelector('.mtnAddr')?.value?.trim()||'';
+    const note=card.querySelector('.mtnNote')?.value?.trim()||'';
     const mt=card.querySelector('.mtnMT')?.value||'';
     const dt=card.querySelector('.mtnDT')?.value||'';
     const gt=card.querySelector('.mtnGT')?.value||'';
@@ -648,7 +649,7 @@ async function saveCheckinOnly(){
       code:codeMBTN,
       trip:codeTrip,
       qh:checkinQHRef,
-      name:n, addr:addr,
+      name:n, addr:addr, note:note,
       ownerName:ownN, ownerPhone:ownP,
       mt:mt, dt:dt, gia:gt,
       status:'Đang tiếp cận', // Đang tiếp cận / Đạt / Chuyển duyệt / Chốt / Fail
@@ -1019,7 +1020,8 @@ function addMTNRow(){
     '<div class="fg" style="flex:0 0 55px"><input type="number" class="mtnMT" placeholder="MT" min="0" style="font-size:11px;padding:5px 4px;border:1px solid #e5e7eb;border-radius:4px;width:100%;text-align:center"></div>'+
     '<div class="fg" style="flex:0 0 70px"><input type="number" class="mtnDT" placeholder="DT(m²)" min="0" style="font-size:11px;padding:5px 4px;border:1px solid #e5e7eb;border-radius:4px;width:100%;text-align:center"></div>'+
     '<div class="fg" style="flex:0 0 75px"><input type="number" class="mtnGT" placeholder="Giá(tr)" min="0" style="font-size:11px;padding:5px 4px;border:1px solid #e5e7eb;border-radius:4px;width:100%;text-align:center"></div>'+
-    '</div>';
+    '</div>'+
+    '<div class="fg" style="margin-top:4px"><input type="text" class="mtnNote" placeholder="Ghi chú (VD: cần đàm phán giá, chờ chủ xác nhận...)" style="font-size:10px;padding:5px 6px;border:1px solid #e5e7eb;border-radius:4px;width:100%"></div>';
   container.appendChild(card);
 }
 
@@ -1038,11 +1040,12 @@ function populateMTNList(){
   
   document.getElementById('mtnCards').innerHTML=sorted.map(m=>{
     const isActive=m.status==='Đang tiếp cận'||m.status==='Đạt';
-    const followBtns=isActive?
-      '<button onclick="followUpMBTN(\''+m.code+'\',\'Đạt\')" style="background:#16a34a;color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:10px;cursor:pointer;margin-right:4px">✅ Đạt</button>'+
-      '<button onclick="followUpMBTN(\''+m.code+'\',\'Fail\')" style="background:#dc2626;color:#fff;border:none;padding:4px 10px;border-radius:4px;font-size:10px;cursor:pointer;margin-right:4px">❌ Fail</button>':'';
-    const convertBtn=(m.status==='Đang tiếp cận'||m.status==='Đạt')?
-      '<button onclick="convertMBTN(\''+m.code+'\')" style="background:var(--p);color:#fff;border:none;padding:5px 12px;border-radius:4px;font-size:10px;cursor:pointer;margin-top:4px">➡️ Chuyển hóa thành MB gửi duyệt</button>':'';
+    const buttons=[];
+    if(isActive){
+      buttons.push('<button onclick="convertMBTN(\''+m.code+'\')" style="background:var(--p);color:#fff;border:none;padding:5px 12px;border-radius:4px;font-size:10px;cursor:pointer;margin-right:4px">📋 Giới thiệu MB</button>');
+      buttons.push('<button onclick="updateMBTN(\''+m.code+'\')" style="background:#d97706;color:#fff;border:none;padding:5px 12px;border-radius:4px;font-size:10px;cursor:pointer;margin-right:4px">✏️ Cập nhật</button>');
+      buttons.push('<button onclick="failMBTN(\''+m.code+'\')" style="background:#dc2626;color:#fff;border:none;padding:5px 12px;border-radius:4px;font-size:10px;cursor:pointer">❌ Fail</button>');
+    }
     return '<div style="background:'+(bgColors[m.status]||'#fff')+';border-left:3px solid '+(colors[m.status]||'#aaa')+';border-radius:6px;padding:10px 12px;margin-bottom:8px">'+
       '<div style="display:flex;justify-content:space-between;align-items:flex-start">'+
       '<div style="flex:1"><div style="font-size:11px;font-weight:700;color:var(--t)">'+m.code+'</div>'+
@@ -1050,26 +1053,53 @@ function populateMTNList(){
       '<div style="font-size:9px;color:var(--m)">📍 '+(m.addr||'?')+'</div>'+
       '<div style="font-size:9px;color:var(--m)">👤 '+(m.ownerName||'?')+' · 📞 '+(m.ownerPhone||'?')+'</div>'+
       '<div style="font-size:9px;color:var(--m)">📏 MT:'+(m.mt||'?')+'m · DT:'+(m.dt||'?')+'m² · 💰 '+(m.gia||'?')+'tr</div>'+
+      (m.note?'<div style="font-size:9px;color:#d97706;margin-top:2px">📝 '+(m.note.length>50?m.note.slice(0,50)+'...':m.note)+'</div>':'')+
       '<div style="font-size:9px;color:var(--m)">🧭 '+m.trip+' · 📍 '+m.qh+' · 📅 '+new Date(m.ts).toLocaleDateString('vi-VN')+'</div>'+
       '</div>'+
       '<div><span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700;background:'+(colors[m.status]||'#aaa')+';color:#fff">'+m.status+'</span></div>'+
       '</div>'+
-      (followBtns||convertBtn?'<div style="margin-top:6px">'+followBtns+convertBtn+'</div>':'')+
+      (buttons.length?'<div style="margin-top:6px">'+buttons.join('')+'</div>':'')+
+      (m.failReason?'<div style="font-size:9px;color:#dc2626;margin-top:4px">❌ Lý do Fail: '+m.failReason+'</div>':'')+
       (m.mbRef?'<div style="font-size:9px;color:var(--s);margin-top:4px">🔗 Đã chuyển → '+m.mbRef+'</div>':'')+
       '</div>';
   }).join('');
   document.getElementById('mtnCount').textContent=mbtnList.length+' MB';
 }
 
-function followUpMBTN(code,newStatus){
+function updateMBTN(code){
   const m=mbtnList.find(x=>x.code===code);
   if(!m) return;
-  m.status=newStatus; m.followUpTs=new Date().toISOString();
+  const newNote=prompt('📝 Cập nhật Ghi chú cho '+code+':',m.note||'');
+  if(newNote===null) return;
+  m.note=newNote;
+  m.updatedTs=new Date().toISOString();
   localStorage.setItem('tkmb_field_mbtn',JSON.stringify(mbtnList));
-  toast('✅ '+code+' → '+newStatus,'ok');
+  toast('✅ Đã cập nhật ghi chú '+code,'ok');
   populateMTNList();
-  // Try GAS
-  try{fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'followUpMBTN',code:code,status:newStatus,ts:new Date().toISOString()}),headers:{'Content-Type':'text/plain'}});}catch(e){}
+  try{fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'updateMBTN',code:code,note:newNote,ts:new Date().toISOString()}),headers:{'Content-Type':'text/plain'}});}catch(e){}
+}
+
+function failMBTN(code){
+  const failReasons=['Giá cao','Vị trí không phù hợp','Pháp lý không rõ ràng','Chủ không cho thuê','Đã có đối thủ','Không đủ DT/MT','Đường vào khó','Khác'];
+  const opts=failReasons.map((r,i)=>i+'. '+r).join('\n');
+  const choice=prompt('❌ Chọn lý do Fail cho '+code+':\n\n'+opts+'\n\n(Nhập số hoặc gõ lý do khác)', '');
+  if(!choice) return;
+  let reason=choice;
+  const idx=parseInt(choice);
+  if(!isNaN(idx)&&idx>=1&&idx<=failReasons.length) reason=failReasons[idx-1];
+  // If 'Khác', ask for detail
+  if(reason==='Khác'){
+    const detail=prompt('Nhập lý do cụ thể:','');
+    if(!detail) return;
+    reason='Khác: '+detail;
+  }
+  const m=mbtnList.find(x=>x.code===code);
+  if(!m) return;
+  m.status='Fail'; m.failReason=reason; m.followUpTs=new Date().toISOString();
+  localStorage.setItem('tkmb_field_mbtn',JSON.stringify(mbtnList));
+  toast('❌ '+code+' → Fail: '+reason,'ok');
+  populateMTNList();
+  try{fetch(GAS_URL,{method:'POST',body:JSON.stringify({action:'failMBTN',code:code,status:'Fail',reason:reason,ts:new Date().toISOString()}),headers:{'Content-Type':'text/plain'}});}catch(e){}
 }
 
 function convertMBTN(code){
