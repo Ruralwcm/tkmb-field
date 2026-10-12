@@ -369,6 +369,7 @@ let checkinLocal = JSON.parse(localStorage.getItem('tkmb_field_checkins')||'[]')
 let tripSeq = parseInt(localStorage.getItem('tkmb_field_trip_seq')||'0');
 let mbtnSeq = parseInt(localStorage.getItem('tkmb_field_mbtn_seq')||'0');
 let mbtnList = JSON.parse(localStorage.getItem('tkmb_field_mbtn')||'[]');
+let populatingMTN = false;
 
 // ═══ INIT ═══
 (function init(){
@@ -613,6 +614,7 @@ function loadDacthu(qh){
 
 async function saveCheckinOnly(){
   if(!scanSel||!checkinQHRef) return;
+  if(!confirm('Xác nhận lưu check-in '+checkinQHRef+'?')) return;
 
   // Generate Code Trip
   tripSeq++; localStorage.setItem('tkmb_field_trip_seq',tripSeq);
@@ -1026,6 +1028,8 @@ function addMTNRow(){
 }
 
 function populateMTNList(){
+  if(populatingMTN) return;
+  populatingMTN=true;
   document.getElementById('mtnCards').innerHTML='';
   document.getElementById('mtnCount').textContent=mbtnList.length+' MB';
   if(!mbtnList.length){document.getElementById('mtnEmpty').style.display='block';document.getElementById('mtnList').style.display='none';return;}
@@ -1064,13 +1068,15 @@ function populateMTNList(){
       '</div>';
   }).join('');
   document.getElementById('mtnCount').textContent=mbtnList.length+' MB';
+  populatingMTN=false;
 }
 
 function updateMBTN(code){
   const m=mbtnList.find(x=>x.code===code);
   if(!m) return;
-  const newNote=prompt('📝 Cập nhật Ghi chú cho '+code+':',m.note||'');
+  const newNote=prompt('📝 Cập nhật Ghi chú cho '+code+':\n\nHiện tại: '+(m.note||'(trống)')+'\n\nNhập ghi chú mới:',m.note||'');
   if(newNote===null) return;
+  if(!confirm('Xác nhận cập nhật ghi chú cho '+code+'?')) return;
   m.note=newNote;
   m.updatedTs=new Date().toISOString();
   localStorage.setItem('tkmb_field_mbtn',JSON.stringify(mbtnList));
@@ -1093,9 +1099,10 @@ function failMBTN(code){
     if(!detail) return;
     reason='Khác: '+detail;
   }
-  const m=mbtnList.find(x=>x.code===code);
-  if(!m) return;
-  m.status='Fail'; m.failReason=reason; m.followUpTs=new Date().toISOString();
+  if(!confirm('❌ Xác nhận Fail cho '+code+'?\nLý do: '+reason)) return;
+  const m2=mbtnList.find(x=>x.code===code);
+  if(!m2) return;
+  m2.status='Fail'; m2.failReason=reason; m2.followUpTs=new Date().toISOString();
   localStorage.setItem('tkmb_field_mbtn',JSON.stringify(mbtnList));
   toast('❌ '+code+' → Fail: '+reason,'ok');
   populateMTNList();
