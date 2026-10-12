@@ -5,7 +5,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;600;700&display=swap" rel="stylesheet">
 <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
 <script src="https://cdn.sheetjs.com/xlsx-0.20.3/package/dist/xlsx.full.min.js"></script>
-<title>Rural Site Finding by HaoDT v1.33</title>
+<title>Rural Site Finding by HaoDT v1.34</title>
 <style>
 :root{--p:#7c3aed;--pl:#a78bfa;--bg:#f5f3ff;--card:#fff;--t:#1f2937;--m:#6b7280;--s:#16a34a;--w:#d97706;--d:#dc2626;--b:#e5e7eb;--r:12px;--sh:0 1px 3px rgba(0,0,0,.04)}
 *{box-sizing:border-box;margin:0;padding:0}
@@ -126,7 +126,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
  <div class="login-c">
   <div class="icon">🏗️</div>
   <h2>Rural Site Finding by HaoDT</h2>
-  <div class="sub">Scan QH · Check-in · Giới thiệu MB · v1.33</div>
+  <div class="sub">Scan QH · Check-in · Giới thiệu MB · v1.34</div>
   <input type="text" id="loginCode" placeholder="Nhập mã NV..." autocomplete="off">
   <input type="password" id="loginPass" placeholder="Mật khẩu (SĐT)">
   <div class="err" id="loginErr"></div>
@@ -138,7 +138,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 
 <!-- APP -->
 <div class="topbar" id="appWrap" style="display:none">
- <div><div class="t">Rural Site Finding by HaoDT v1.33</div><div class="u" id="userLabel">...</div></div>
+ <div><div class="t">Rural Site Finding by HaoDT v1.34</div><div class="u" id="userLabel">...</div></div>
  <button onclick="doLogout()">Thoát</button>
 </div>
 <div class="nav" id="appNav" style="display:none">
@@ -684,6 +684,7 @@ async function saveCheckinOnly(){
   const d = {
     action:'saveCheckin',
     qh: checkinQHRef,
+    qhDist: (scanSel&&scanGPS.lat)?Math.round(haversine(scanGPS.lat,scanGPS.lng,scanSel.lat,scanSel.lng)):'',
     codeTrip: codeTrip,
     ts: now.toISOString(),
     user: currentUser?.name||'',
@@ -1210,6 +1211,7 @@ function exportMBTN(){
         'Code Trip':c.codeTrip||'',
         'Ngày':ts,
         'Điểm QH':c.qh||'',
+        'KC tới QH (m)':c.qhDist||'',
         'Người check-in':c.user||'',
         'Số MBTN':c.mbtnCount||0,
         'Mã MBTN':c.mbtnCodes||'',
@@ -1219,7 +1221,7 @@ function exportMBTN(){
       };
     });
     const ws2=XLSX.utils.json_to_sheet(ciRows);
-    ws2['!cols']=[{wch:14},{wch:10},{wch:16},{wch:15},{wch:7},{wch:30},{wch:20},{wch:35},{wch:22}];
+    ws2['!cols']=[{wch:14},{wch:10},{wch:16},{wch:12},{wch:15},{wch:7},{wch:30},{wch:20},{wch:35},{wch:22}];
     XLSX.utils.book_append_sheet(wb,ws2,'Checkin');
   }
 
