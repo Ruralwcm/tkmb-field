@@ -607,10 +607,11 @@ async function saveCheckinOnly(){
     const n=card.querySelector('.mtnName')?.value?.trim()||'';
     const ownN=card.querySelector('.mtnOwnerName')?.value?.trim()||'';
     const ownP=card.querySelector('.mtnOwnerPhone')?.value?.trim()||'';
+    const addr=card.querySelector('.mtnAddr')?.value?.trim()||'';
     const mt=card.querySelector('.mtnMT')?.value||'';
     const dt=card.querySelector('.mtnDT')?.value||'';
     const gt=card.querySelector('.mtnGT')?.value||'';
-    if(!n&&!ownN&&!ownP&&!mt&&!dt&&!gt) return; // skip empty
+    if(!n&&!ownN&&!ownP&&!addr&&!mt&&!dt&&!gt) return; // skip empty
     mbtnSeq++; localStorage.setItem('tkmb_field_mbtn_seq',mbtnSeq);
     const codeMBTN='MBTN-'+String(now.getFullYear()).slice(2)+('0'+(now.getMonth()+1)).slice(-2)+now.getDate().toString().padStart(2,'0')+'-'+String(mbtnSeq).padStart(3,'0');
     mbtnCodes.push(codeMBTN);
@@ -618,7 +619,7 @@ async function saveCheckinOnly(){
       code:codeMBTN,
       trip:codeTrip,
       qh:checkinQHRef,
-      name:n,
+      name:n, addr:addr,
       ownerName:ownN, ownerPhone:ownP,
       mt:mt, dt:dt, gia:gt,
       status:'Tiềm năng', // Tiềm năng / Đạt / Chuyển duyệt / Chốt / Fail
@@ -954,6 +955,7 @@ function addMTNRow(){
     '<div class="fg" style="flex:1"><input type="text" class="mtnOwnerName" placeholder="Tên chủ nhà" style="font-size:11px;padding:5px 6px;border:1px solid #e5e7eb;border-radius:4px;width:100%"></div>'+
     '<div class="fg" style="flex:1"><input type="text" class="mtnOwnerPhone" placeholder="SĐT chủ nhà" style="font-size:11px;padding:5px 6px;border:1px solid #e5e7eb;border-radius:4px;width:100%"></div>'+
     '</div>'+
+    '<div class="fg" style="margin-bottom:4px"><input type="text" class="mtnAddr" placeholder="Địa chỉ (VD: Thôn Dục Tú, Đông Anh)" style="font-size:11px;padding:5px 6px;border:1px solid #e5e7eb;border-radius:4px;width:100%"></div>'+
     '<div style="display:flex;gap:6px">'+
     '<div class="fg" style="flex:0 0 55px"><input type="number" class="mtnMT" placeholder="MT" min="0" style="font-size:11px;padding:5px 4px;border:1px solid #e5e7eb;border-radius:4px;width:100%;text-align:center"></div>'+
     '<div class="fg" style="flex:0 0 70px"><input type="number" class="mtnDT" placeholder="DT(m²)" min="0" style="font-size:11px;padding:5px 4px;border:1px solid #e5e7eb;border-radius:4px;width:100%;text-align:center"></div>'+
@@ -986,6 +988,7 @@ function populateMTNList(){
       '<div style="display:flex;justify-content:space-between;align-items:flex-start">'+
       '<div style="flex:1"><div style="font-size:11px;font-weight:700;color:var(--t)">'+m.code+'</div>'+
       '<div style="font-size:10px;color:var(--m)">'+(m.name||'Chưa đặt tên')+'</div>'+
+      '<div style="font-size:9px;color:var(--m)">📍 '+(m.addr||'?')+'</div>'+
       '<div style="font-size:9px;color:var(--m)">👤 '+(m.ownerName||'?')+' · 📞 '+(m.ownerPhone||'?')+'</div>'+
       '<div style="font-size:9px;color:var(--m)">📏 MT:'+(m.mt||'?')+'m · DT:'+(m.dt||'?')+'m² · 💰 '+(m.gia||'?')+'tr</div>'+
       '<div style="font-size:9px;color:var(--m)">🧭 '+m.trip+' · 📍 '+m.qh+' · 📅 '+new Date(m.ts).toLocaleDateString('vi-VN')+'</div>'+
@@ -1017,7 +1020,7 @@ function convertMBTN(code){
   switchTab('tkmb');
   // Pre-fill from MBTN
   document.getElementById('mbMTNRef').value=code;
-  document.getElementById('mbAddr').value='';
+  document.getElementById('mbAddr').value=m.addr||'';
   document.getElementById('mbArea').value=m.dt||'';
   document.getElementById('mbFront').value=m.mt||'';
   document.getElementById('mbPrice').value=m.gia||'';
@@ -1047,6 +1050,7 @@ function onMTNSelect(){
   if(!code) return;
   const m=mbtnList.find(x=>x.code===code);
   if(!m) return;
+  document.getElementById('mbAddr').value=m.addr||'';
   document.getElementById('mbArea').value=m.dt||'';
   document.getElementById('mbFront').value=m.mt||'';
   document.getElementById('mbPrice').value=m.gia||'';
