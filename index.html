@@ -415,6 +415,12 @@ function showApp(){
   if(embed===1){
     document.getElementById('appWrap').style.display='none';
     document.getElementById('appNav').style.display='none';
+    document.getElementById('appMain').style.padding='0';
+    // Resize parent iframe
+    new ResizeObserver(()=>{
+      const h=Math.max(document.body.scrollHeight,document.documentElement.scrollHeight,document.getElementById('appMain').scrollHeight);
+      parent.postMessage({type:'tkmb-resize',height:h},'*');
+    }).observe(document.getElementById('appMain'));
   }else{
     document.getElementById('appWrap').style.display='flex';
     document.getElementById('appNav').style.display='flex';
