@@ -8,11 +8,11 @@
 <title>Rural Site Finding by HaoDT v1.38</title>
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=IBM+Plex+Sans+Condensed:wght@400;600;700&display=swap');
-:root{--p:#7c3aed;--pl:#a78bfa;--bg:#f5f3ff;--card:#fff;--t:#1f2937;--m:#6b7280;--s:#16a34a;--w:#d97706;--d:#dc2626;--b:#e5e7eb;--r:12px;--sh:0 1px 3px rgba(0,0,0,.04)}
+:root{--p:#1a3c6e;--pl:#1a3c6e;--bg:#e8f0fe;--card:#fff;--t:#1f2937;--m:#6b7280;--s:#1a3c6e;--w:#1a3c6e;--d:#dc2626;--b:#e5e7eb;--r:12px;--sh:0 1px 3px rgba(0,0,0,.04)}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9fb;color:var(--t);line-height:1.5;min-height:100vh}
 
-.topbar{background:linear-gradient(135deg,#4c1d95,#7c3aed);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
+.topbar{background:linear-gradient(135deg,#1a3c6e,#1a3c6e);color:#fff;padding:10px 14px;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100}
 .topbar .t{font-size:15px;font-weight:700}
 .topbar .u{font-size:11px;opacity:.85;margin-top:1px}
 .topbar button{background:rgba(255,255,255,.15);border:none;color:#fff;padding:4px 10px;border-radius:4px;font-size:11px;cursor:pointer}
@@ -26,8 +26,8 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 .page.active{display:block;animation:fadeIn .2s ease}
 @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
 
-.card{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--sh);border:1px solid #f0edf5}
-.card h3{font-size:14px;color:var(--p);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #f0edf5}
+.card{background:var(--card);border-radius:var(--r);padding:16px;margin-bottom:12px;box-shadow:var(--sh);border:1px solid #e8f0fe}
+.card h3{font-size:14px;color:var(--p);margin-bottom:12px;padding-bottom:8px;border-bottom:1px solid #e8f0fe}
 
 /* LOGIN */
 .login-ov{position:fixed;inset:0;background:rgba(0,0,0,.6);display:flex;align-items:center;justify-content:center;z-index:9999}
@@ -44,30 +44,30 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 
 /* SCAN */
 .scan-hero{text-align:center;padding:16px 0}
-.scan-btn{width:110px;height:110px;border-radius:50%;background:linear-gradient(145deg,#16a34a,#22c55e);color:white;border:none;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(22,163,74,.4);transition:transform .2s;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.scan-btn{width:110px;height:110px;border-radius:50%;background:linear-gradient(145deg,#1a3c6e,#22c55e);color:white;border:none;font-size:13px;font-weight:700;cursor:pointer;box-shadow:0 4px 16px rgba(22,163,74,.4);transition:transform .2s;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
 .scan-btn:active{transform:scale(.93)}
-.scan-btn.scanning{background:linear-gradient(145deg,#d97706,#f59e0b);animation:pulse 1.5s infinite}
+.scan-btn.scanning{background:linear-gradient(145deg,#1a3c6e,#1a3c6e);animation:pulse 1.5s infinite}
 @keyframes pulse{0%{box-shadow:0 0 0 0 rgba(217,119,6,.5)}70%{box-shadow:0 0 0 20px rgba(217,119,6,0)}100%{box-shadow:0 0 0 0 rgba(217,119,6,0)}}
 .gps-status{font-size:11px;color:var(--m);margin-top:8px}
 .gps-dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:#ccc;margin-right:4px}
 .gps-dot.ok{background:var(--s)}
 
-.qh-card{cursor:pointer;background:#fff;border-radius:8px;padding:10px 12px;margin-bottom:6px;border:1px solid #ede9fe;transition:transform .15s}
+.qh-card{cursor:pointer;background:#fff;border-radius:8px;padding:10px 12px;margin-bottom:6px;border:1px solid #e8f0fe;transition:transform .15s}
 .qh-card:active{transform:scale(.98)}
 .qh-code{font-weight:700;font-size:14px;color:var(--p)}
 .qh-addr{font-size:11px;color:var(--m);margin-top:1px}
 .qh-tags{display:flex;gap:5px;margin-top:4px;flex-wrap:wrap}
 .qh-tag{padding:1px 7px;border-radius:8px;font-size:9px;font-weight:600}
-.qh-tag.near{background:#dcfce7;color:#15803d}
-.qh-tag.gdv{background:#ede9fe;color:var(--p)}
+.qh-tag.near{background:#e8f0fe;color:#1a3c6e}
+.qh-tag.gdv{background:#e8f0fe;color:var(--p)}
 .no-result{text-align:center;padding:24px;color:var(--m)}
 .back-btn{background:var(--p);color:#fff;border:none;padding:8px 14px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;margin-bottom:10px;display:inline-flex;align-items:center;gap:4px}
 
 /* QHBS */
-.qhbs-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;background:linear-gradient(135deg,#7c3aed,#a78bfa);color:#fff;border:none;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(124,58,237,.3);transition:transform .15s;margin-top:12px}
+.qhbs-btn{display:inline-flex;align-items:center;gap:6px;padding:10px 18px;background:linear-gradient(135deg,#1a3c6e,#1a3c6e);color:#fff;border:none;border-radius:20px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 2px 8px rgba(124,58,237,.3);transition:transform .15s;margin-top:12px}
 .qhbs-btn:active{transform:scale(.95)}
-.qhbs-generated{background:#f0fdf4;border:1px solid #86efac;border-radius:8px;padding:10px 14px;margin-top:8px;text-align:center}
-.qhbs-generated .code{font-size:16px;font-weight:800;color:#15803d}
+.qhbs-generated{background:#e8f0fe;border:1px solid #86efac;border-radius:8px;padding:10px 14px;margin-top:8px;text-align:center}
+.qhbs-generated .code{font-size:16px;font-weight:800;color:#1a3c6e}
 .qhbs-generated .note{font-size:10px;color:#6b7280;margin-top:2px}
 
 /* CHECKIN BLOCKS */
@@ -76,7 +76,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 .history-item:last-child{border:none}
 .history-date{color:var(--m);font-size:10px}
 .history-badge{display:inline-block;padding:1px 6px;border-radius:6px;font-size:9px;font-weight:600;margin-left:4px}
-.history-badge.mb{background:#fef3c7;color:#92400e}
+.history-badge.mb{background:#fef9c3;color:#1a3c6e}
 .history-badge.nomb{background:#e0f2fe;color:#0369a1}
 .dacthu-box{background:#f9fafb;border-radius:6px;padding:8px 10px;margin-bottom:6px;font-size:11px}
 .dacthu-box .dt-title{font-weight:600;color:var(--p);margin-bottom:3px}
@@ -98,7 +98,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 .gr3{grid-template-columns:1fr 1fr 1fr}
 .gr6{grid-template-columns:repeat(3,1fr);align-items:start}
 .btn-p{width:100%;padding:12px;background:var(--s);color:#fff;border:none;border-radius:6px;font-size:14px;font-weight:700;cursor:pointer}
-.btn-p:active{background:#15803d}
+.btn-p:active{background:#1a3c6e}
 .btn-s{width:100%;padding:11px;background:var(--p);color:#fff;border:none;border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;margin-top:12px}
 .btn-o{width:100%;padding:11px;background:#fff;color:var(--p);border:1px solid var(--pl);border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
 .btn-w{width:100%;padding:11px;background:#fff;color:var(--m);border:1px solid var(--b);border-radius:6px;font-size:13px;font-weight:600;cursor:pointer;margin-top:8px}
@@ -265,7 +265,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    <h3 style="margin:0">🏢 MB Đang Tiếp Cận</h3>
    <div style="display:flex;gap:6px;align-items:center">
     <span style="font-size:11px;color:var(--m)" id="mtnCount"></span>
-    <button onclick="exportMBTN()" style="background:#16a34a;color:#fff;border:none;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap">📥 Export Excel</button>
+    <button onclick="exportMBTN()" style="background:#1a3c6e;color:#fff;border:none;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap">📥 Export Excel</button>
    </div>
   </div>
   <div id="mtnCards"></div>
@@ -278,7 +278,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
   <h3>📋 Giới thiệu Mặt Bằng</h3>
   <div style="font-size:10px;color:#dc2626;margin-bottom:8px">⚠️ Tất cả các trường đều bắt buộc</div>
 
-  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">🗺 Định vị Map</div>
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #e8f0fe">🗺 Định vị Map</div>
   <div class="map-box">
    <div style="font-size:24px;flex-shrink:0">📍</div>
    <div style="flex:1;min-width:0"><div class="fg"><label>Link Google Maps hoặc Tọa độ (lat, lng)</label><input type="text" id="mbMapLink" placeholder="VD: 21.0179, 105.9650" oninput="onMapInput()"></div></div>
@@ -289,10 +289,10 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    <div style="background:#fff;border-radius:8px;padding:8px 10px;text-align:center;flex:1" id="qhGDVBox" hidden><div style="font-size:8px;color:var(--m)">👤 GĐV</div><div style="font-weight:700;color:var(--p);font-size:11px" id="qhDetectedGDV">—</div></div>
   </div></div>
 
-  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">🏢 Chọn MB Đang Tiếp Cận</div>
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #e8f0fe">🏢 Chọn MB Đang Tiếp Cận</div>
   <div class="fg"><label>Chọn MB từ danh sách đang tiếp cận</label><select id="mbMTNRef" onchange="onMTNSelect()"><option value="">-- Không chọn (nhập mới) --</option></select></div>
 
-  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👥 GĐV → QLKV → Tỉnh → Huyện</div>
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #e8f0fe">👥 GĐV → QLKV → Tỉnh → Huyện</div>
   <div class="gr gr2">
    <div class="fg"><label>GĐV</label><select id="mbGDV" onchange="onGDVChange()"><option value="">-- Chọn GĐV --</option></select></div>
    <div class="fg"><label>QLKV</label><select id="mbQLKV" onchange="onQLKVChange()" disabled><option value="">-- Chọn QLKV --</option></select></div>
@@ -300,7 +300,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    <div class="fg"><label>Huyện/Quận</label><select id="mbHuyen" disabled><option value="">-- Chọn Huyện/Quận --</option></select></div>
   </div>
 
-  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">📍 Địa chỉ & Thông số</div>
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #e8f0fe">📍 Địa chỉ & Thông số</div>
   <div class="fg"><label>Địa chỉ cụ thể</label><input type="text" id="mbAddr" placeholder="VD: Thôn Dục Tú, xã Dục Tú, Đông Anh"></div>
   <div class="gr gr6">
    <div class="fg"><label>DT (m²)</label><input type="number" inputmode="decimal" id="mbArea" placeholder="120" min="10" step="0.5" oninput="validateNum(this)"><span class="hint" id="hintArea">DT phải >0 m²</span></div>
@@ -311,14 +311,14 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
    <div class="fg"><label>Thời hạn (Năm)</label><input type="text" id="mbDuration" placeholder="5"></div>
   </div>
 
-  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">📋 Pháp lý · Hiện trạng · Bàn giao</div>
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #e8f0fe">📋 Pháp lý · Hiện trạng · Bàn giao</div>
   <div class="gr gr3">
    <div class="fg"><label>Pháp lý</label><select id="mbLegal"><option value="">-- Chọn --</option><option>Sổ đỏ chính chủ</option><option>Sổ đỏ đồng sở hữu</option><option>Hợp đồng ủy quyền</option><option>Giấy tờ khác</option><option>Đang chờ xác minh</option></select></div>
    <div class="fg"><label>Hiện trạng</label><select id="mbCondition"><option value="">-- Chọn --</option><option>Nhà trống</option><option>Đang kinh doanh</option><option>Đất trống</option><option>Đang xây dựng</option><option>Cần sửa chữa</option></select></div>
    <div class="fg"><label>TG bàn giao</label><input type="date" id="mbHandover"></div>
   </div>
 
-  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #ede9fe">👤 Người GT & Chủ nhà</div>
+  <div style="font-weight:600;font-size:11px;color:var(--p);text-transform:uppercase;margin:12px 0 8px;padding-bottom:4px;border-bottom:2px solid #e8f0fe">👤 Người GT & Chủ nhà</div>
   <div class="gr" style="grid-template-columns:1fr 1fr">
    <div class="fg"><label>Người GT</label><input type="text" id="mbGTName" placeholder="Tên người GT"></div>
    <div class="fg"><label>MNV</label><input type="text" id="mbGTMNV" placeholder="Mã NV"></div>
@@ -1048,7 +1048,7 @@ function addMTNRow(){
   mtnCount++;
   const card=document.createElement('div');
   card.className='mtn-card';
-  card.style.cssText='background:#f8f6ff;border:1px solid #ede9fe;border-radius:8px;padding:8px 10px;margin-bottom:6px';
+  card.style.cssText='background:#f8f6ff;border:1px solid #e8f0fe;border-radius:8px;padding:8px 10px;margin-bottom:6px';
   card.innerHTML=
     '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">'+
     '<span style="font-size:10px;font-weight:700;color:var(--p)">🏢 MB #'+mtnCount+'</span>'+
@@ -1080,15 +1080,15 @@ function populateMTNList(){
   const statusOrder={'Đang tiếp cận':0,'Đạt':1,'Chuyển duyệt':2,'Chốt':3,'Fail':4};
   const sorted=[...mbtnList].sort((a,b)=>(statusOrder[a.status]||9)-(statusOrder[b.status]||9));
   
-  const colors={ 'Đang tiếp cận':'#7c3aed','Đạt':'#16a34a','Chuyển duyệt':'#d97706','Chốt':'#059669','Fail':'#dc2626' };
-  const bgColors={ 'Đang tiếp cận':'#f5f3ff','Đạt':'#f0fdf4','Chuyển duyệt':'#fffbeb','Chốt':'#ecfdf5','Fail':'#fef2f2' };
+  const colors={ 'Đang tiếp cận':'#1a3c6e','Đạt':'#1a3c6e','Chuyển duyệt':'#1a3c6e','Chốt':'#059669','Fail':'#dc2626' };
+  const bgColors={ 'Đang tiếp cận':'#e8f0fe','Đạt':'#e8f0fe','Chuyển duyệt':'#fffbeb','Chốt':'#ecfdf5','Fail':'#fef2f2' };
   
   document.getElementById('mtnCards').innerHTML=sorted.map(m=>{
     const isActive=m.status==='Đang tiếp cận'||m.status==='Đạt';
     const buttons=[];
     if(isActive){
       buttons.push('<button onclick="convertMBTN(\''+m.code+'\')" style="background:var(--p);color:#fff;border:none;padding:5px 12px;border-radius:4px;font-size:10px;cursor:pointer;margin-right:4px">📋 Giới thiệu MB</button>');
-      buttons.push('<button onclick="updateMBTN(\''+m.code+'\')" style="background:#d97706;color:#fff;border:none;padding:5px 12px;border-radius:4px;font-size:10px;cursor:pointer;margin-right:4px">✏️ Cập nhật</button>');
+      buttons.push('<button onclick="updateMBTN(\''+m.code+'\')" style="background:#1a3c6e;color:#fff;border:none;padding:5px 12px;border-radius:4px;font-size:10px;cursor:pointer;margin-right:4px">✏️ Cập nhật</button>');
       buttons.push('<button onclick="failMBTN(\''+m.code+'\')" style="background:#dc2626;color:#fff;border:none;padding:5px 12px;border-radius:4px;font-size:10px;cursor:pointer">❌ Fail</button>');
     }
     return '<div style="background:'+(bgColors[m.status]||'#fff')+';border-left:3px solid '+(colors[m.status]||'#aaa')+';border-radius:6px;padding:10px 12px;margin-bottom:8px">'+
@@ -1098,7 +1098,7 @@ function populateMTNList(){
       '<div style="font-size:9px;color:var(--m)">📍 '+(m.addr||'?')+'</div>'+
       '<div style="font-size:9px;color:var(--m)">👤 '+(m.ownerName||'?')+' · 📞 '+(m.ownerPhone||'?')+'</div>'+
       '<div style="font-size:9px;color:var(--m)">📏 MT:'+(m.mt||'?')+'m · DT:'+(m.dt||'?')+'m² · 💰 '+(m.gia||'?')+'tr</div>'+
-      (m.note?'<div style="font-size:9px;color:#d97706;margin-top:2px">📝 '+(m.note.length>50?m.note.slice(0,50)+'...':m.note)+'</div>':'')+
+      (m.note?'<div style="font-size:9px;color:#1a3c6e;margin-top:2px">📝 '+(m.note.length>50?m.note.slice(0,50)+'...':m.note)+'</div>':'')+
       '<div style="font-size:9px;color:var(--m)">🧭 '+m.trip+' · 📍 '+m.qh+' · 📅 '+new Date(m.ts).toLocaleDateString('vi-VN')+'</div>'+
       '</div>'+
       '<div><span style="display:inline-block;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:700;background:'+(colors[m.status]||'#aaa')+';color:#fff">'+m.status+'</span></div>'+
