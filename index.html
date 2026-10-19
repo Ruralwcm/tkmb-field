@@ -339,7 +339,7 @@ body{font-family:'Noto Sans','Segoe UI',Roboto,Arial,sans-serif;background:#f8f9
 const DB_SHEET = '1jac8uf8eeB57C-zZ85Lg_l-UwpPxOTPkcoQ2mywMZyw';
 const GAS_URL = 'https://script.google.com/macros/s/AKfycbz-BBkWkq8ye9K-ua-QDWWw2fBbBIXFx4ivvc6ViiBUwIzPizJhD2YT0OQy2o_C1GUl/exec';
 const QH_URL = 'qh_points.json';
-const SCAN_R = 200;
+const SCAN_R = parseInt(new URLSearchParams(location.search).get('radius')) || 200;
 
 // ═══ USERS ═══
 const USERS = [
